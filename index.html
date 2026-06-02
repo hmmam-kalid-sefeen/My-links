@@ -1,60 +1,83 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Links</title>
+    <title>روابط منتجاتي</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+            background-color: #f4f7f6;
             margin: 0;
-            background-color: #f9f9f9;
+            padding: 40px 20px;
         }
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 30px;
         }
         .links-container {
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            padding: 0 20px;
-            box-sizing: border-box;
+            gap: 20px;
         }
-        .link-card {
+        .product-card {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 15px;
             background: white;
-            color: #333;
+            border-radius: 12px;
+            padding: 15px;
             text-decoration: none;
-            font-weight: bold;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
-            border: 1px solid #e1e1e1;
+            color: #333;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #eef2f5;
         }
-        .link-card:hover {
-            transform: translateY(-2px);
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
         }
         .product-img {
-            width: 50px;
-            height: 50px;
+            width: 85px;
+            height: 85px;
             object-fit: cover;
-            border-radius: 4px;
-            background-color: #eee;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            margin-left: 15px; /* مسافة يسار الصورة لأن الاتجاه عربي */
+            flex-shrink: 0;
+        }
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            overflow: hidden;
         }
         .product-title {
-            flex-grow: 1;
+            font-size: 1.05rem;
+            font-weight: bold;
+            color: #222;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .product-desc {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .loading {
+            text-align: center;
             font-size: 1.1rem;
+            color: #777;
         }
     </style>
 </head>
@@ -62,48 +85,68 @@
 
     <h1>Welcome!</h1>
     
-    <div id="links" class="links-container">جاري تحميل المنتجات...</div>
+    <div id="links" class="links-container">
+        <div class="loading">جاري جلب المنتجات وتفاصيلها...</div>
+    </div>
 
     <script>
-        // 1. جلب قائمة الروابط من ملف products.json
+        // 1. جلب الروابط من ملف products.json
         fetch('products.json')
             .then(response => response.json())
             .then(async (urls) => {
                 const container = document.getElementById('links');
                 container.innerHTML = ''; 
                 
-                // 2. المرور على كل رابط وجلب معلوماته تلقائياً
+                // 2. المرور على الروابط وجلب معلوماتها ديناميكياً
                 for (const url of urls) {
                     try {
                         const res = await fetch(`/api/fetch-product?url=${encodeURIComponent(url)}`);
                         const product = await res.json();
                         
+                        // إنشاء بطاقة المنتج (Card)
                         const card = document.createElement('a');
                         card.href = product.url || url;
-                        card.className = 'link-card';
+                        card.className = 'product-card';
                         card.target = '_blank';
 
-                        if (product.image) {
-                            const img = document.createElement('img');
-                            img.src = product.image;
-                            img.className = 'product-img';
-                            img.alt = product.title;
-                            card.appendChild(img);
-                        }
+                        // الصورة الافتراضية في حال لم يجد الكود صورة للمنتج
+                        const defaultImg = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200"; 
+                        const img = document.createElement('img');
+                        img.src = product.image && product.image.startsWith('http') ? product.image : defaultImg;
+                        img.className = 'product-img';
+                        img.alt = product.title;
+                        card.appendChild(img);
 
+                        // وعاء النصوص (العنوان والوصف)
+                        const infoDiv = document.createElement('div');
+                        infoDiv.className = 'product-info';
+
+                        // العنوان
                         const titleSpan = document.createElement('span');
                         titleSpan.className = 'product-title';
-                        titleSpan.textContent = product.title || "منتج بدون عنوان";
-                        card.appendChild(titleSpan);
+                        titleSpan.textContent = product.title || "منتج متميز";
+                        infoDiv.appendChild(titleSpan);
 
+                        // الوصف (يستخلص اسم الموقع كإشارة ومظهر جمالي)
+                        const descSpan = document.createElement('span');
+                        descSpan.className = 'product-desc';
+                        try {
+                            const domain = new URL(url).hostname.replace('www.', '');
+                            descSpan.textContent = `اضغط لمشاهدة تفاصيل المنتج الكاملة على موقع ${domain}`;
+                        } catch {
+                            descSpan.textContent = "اضغط لزيارة رابط المنتج مباشرة ومعاينة التفاصيل.";
+                        }
+                        infoDiv.appendChild(descSpan);
+
+                        card.appendChild(infoDiv);
                         container.appendChild(card);
                     } catch (err) {
-                        console.error("خطأ في جلب معلومات الرابط:", url, err);
+                        console.error("خطأ في معالجة الرابط:", url, err);
                     }
                 }
             })
             .catch(error => {
-                document.getElementById('links').textContent = "فشل تحميل الروابط.";
+                document.getElementById('links').innerHTML = "<div class='loading'>فشل تحميل الروابط الحالية.</div>";
                 console.error('خطأ:', error);
             });
     </script>
