@@ -1,14 +1,5 @@
 [
-  {
-    "url": "https://www.amazon.com/dp/B0GGQVXSR3",
-    "title": "Zebra Baby Beautiful Stripes Book",
-    "image": "https://m.media-amazon.com/images/I/71uKpx8pLML._AC_UF1000,1000_QL80_.jpg",
-    "desc": "كتاب Zebra Baby لتعليم الأطفال المشاعر بطريقة تفاعلية وممتعة."
-  },
-  {
-    "url": "https://www.amazon.com/dp/B0XXXXXX",
-    "title": "اسم المنتج الثاني",
-    "image": "ضع هنا رابط صورة المنتج المباشر",
-    "desc": "اكتب هنا وصفاً مختصراً للمنتج الثاني يظهر تحت العنوان."
-  }
+  "https://9smart.buzz",
+  "https://example.com/your-product-1",
+  "https://example.com/your-product-2"
 ]
