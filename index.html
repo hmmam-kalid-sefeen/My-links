@@ -11,7 +11,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background-color: #f9f9f9;
         }
@@ -28,9 +28,10 @@
             padding: 0 20px;
             box-sizing: border-box;
         }
-        .link-btn {
-            display: block;
-            text-align: center;
+        .link-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
             padding: 15px;
             background: white;
             color: #333;
@@ -41,8 +42,19 @@
             transition: transform 0.2s;
             border: 1px solid #e1e1e1;
         }
-        .link-btn:hover {
+        .link-card:hover {
             transform: translateY(-2px);
+        }
+        .product-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+            background-color: #eee;
+        }
+        .product-title {
+            flex-grow: 1;
+            font-size: 1.1rem;
         }
     </style>
 </head>
@@ -50,28 +62,50 @@
 
     <h1>Welcome!</h1>
     
-    <div id="links" class="links-container"></div>
+    <div id="links" class="links-container">جاري تحميل المنتجات...</div>
 
     <script>
-        // جلب البيانات من ملف JSON
+        // 1. جلب قائمة الروابط من ملف products.json
         fetch('products.json')
             .then(response => response.json())
-            .then(data => {
+            .then(async (urls) => {
                 const container = document.getElementById('links');
-                container.innerHTML = ''; // تفريغ الوعاء
+                container.innerHTML = ''; 
                 
-                // المرور على كل منتج وإنشاء زر له
-                data.forEach(item => {
-                    const button = document.createElement('a');
-                    button.href = item.url;
-                    button.className = 'link-btn';
-                    button.textContent = item.title;
-                    button.target = '_blank'; // فتح الرابط في تبويب جديد
-                    
-                    container.appendChild(button);
-                });
+                // 2. المرور على كل رابط وجلب معلوماته تلقائياً
+                for (const url of urls) {
+                    try {
+                        const res = await fetch(`/api/fetch-product?url=${encodeURIComponent(url)}`);
+                        const product = await res.json();
+                        
+                        const card = document.createElement('a');
+                        card.href = product.url || url;
+                        card.className = 'link-card';
+                        card.target = '_blank';
+
+                        if (product.image) {
+                            const img = document.createElement('img');
+                            img.src = product.image;
+                            img.className = 'product-img';
+                            img.alt = product.title;
+                            card.appendChild(img);
+                        }
+
+                        const titleSpan = document.createElement('span');
+                        titleSpan.className = 'product-title';
+                        titleSpan.textContent = product.title || "منتج بدون عنوان";
+                        card.appendChild(titleSpan);
+
+                        container.appendChild(card);
+                    } catch (err) {
+                        console.error("خطأ في جلب معلومات الرابط:", url, err);
+                    }
+                }
             })
-            .catch(error => console.error('خطأ في جلب البيانات:', error));
+            .catch(error => {
+                document.getElementById('links').textContent = "فشل تحميل الروابط.";
+                console.error('خطأ:', error);
+            });
     </script>
 
 </body>
