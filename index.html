@@ -1,103 +1,12 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>روابط منتجاتي</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f4f7f6;
-            margin: 0;
-            padding: 40px 20px;
-        }
-        h1 {
-            font-size: 2.2rem;
-            color: #333;
-            margin-bottom: 30px;
-        }
-        .links-container {
-            width: 100%;
-            max-width: 550px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .product-card {
-            display: flex;
-            align-items: center;
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            text-decoration: none;
-            color: #333;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid #eef2f5;
-        }
-        .product-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-        }
-        .product-img {
-            width: 85px;
-            height: 85px;
-            object-fit: cover;
-            border-radius: 8px;
-            background-color: #f0f0f0;
-            margin-left: 15px; /* مسافة يسار الصورة لأن الاتجاه عربي */
-            flex-shrink: 0;
-        }
-        .product-info {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            overflow: hidden;
-        }
-        .product-title {
-            font-size: 1.05rem;
-            font-weight: bold;
-            color: #222;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .product-desc {
-            font-size: 0.85rem;
-            color: #666;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .loading {
-            text-align: center;
-            font-size: 1.1rem;
-            color: #777;
-        }
-    </style>
-</head>
-<body>
-
-    <h1>Welcome!</h1>
-    
-    <div id="links" class="links-container">
-        <div class="loading">جاري جلب المنتجات وتفاصيلها...</div>
-    </div>
-
-    <script>
-        // 1. جلب الروابط من ملف products.json
+<script>
+        // 1. جلب قائمة الروابط من ملف products.json
         fetch('products.json')
             .then(response => response.json())
             .then(async (urls) => {
                 const container = document.getElementById('links');
-                container.innerHTML = ''; 
+                container.innerHTML = ''; // تفريغ نص التحميل
                 
-                // 2. المرور على الروابط وجلب معلوماتها ديناميكياً
+                // 2. المرور على كل رابط وجلب معلوماته تلقائياً من الـ API
                 for (const url of urls) {
                     try {
                         const res = await fetch(`/api/fetch-product?url=${encodeURIComponent(url)}`);
@@ -109,7 +18,7 @@
                         card.className = 'product-card';
                         card.target = '_blank';
 
-                        // الصورة الافتراضية في حال لم يجد الكود صورة للمنتج
+                        // إضافة الصورة (أو صورة افتراضية إذا كانت فارغة)
                         const defaultImg = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200"; 
                         const img = document.createElement('img');
                         img.src = product.image && product.image.startsWith('http') ? product.image : defaultImg;
@@ -121,20 +30,27 @@
                         const infoDiv = document.createElement('div');
                         infoDiv.className = 'product-info';
 
-                        // العنوان
+                        // إضافة العنوان
                         const titleSpan = document.createElement('span');
                         titleSpan.className = 'product-title';
                         titleSpan.textContent = product.title || "منتج متميز";
                         infoDiv.appendChild(titleSpan);
 
-                        // الوصف (يستخلص اسم الموقع كإشارة ومظهر جمالي)
+                        // إضافة الوصف (يقرأ من product.desc الحقيقي الراجع من الـ API)
                         const descSpan = document.createElement('span');
                         descSpan.className = 'product-desc';
-                        try {
-                            const domain = new URL(url).hostname.replace('www.', '');
-                            descSpan.textContent = `اضغط لمشاهدة تفاصيل المنتج الكاملة على موقع ${domain}`;
-                        } catch {
-                            descSpan.textContent = "اضغط لزيارة رابط المنتج مباشرة ومعاينة التفاصيل.";
+                        
+                        if (product.desc && product.desc.trim() !== '') {
+                            // إذا الـ API نجح في جلب وصف حقيقي من الموقع، نعرضه هنا
+                            descSpan.textContent = product.desc;
+                        } else {
+                            // وصف احتياطي ذكي في حال لم يجد الموقع وصفاً نصياً
+                            try {
+                                const domain = new URL(url).hostname.replace('www.', '');
+                                descSpan.textContent = `اضغط لمشاهدة تفاصيل المنتج الكاملة مباشرة على موقع ${domain}.`;
+                            } catch {
+                                descSpan.textContent = "اضغط لزيارة رابط المنتج ومعاينة التفاصيل الكاملة.";
+                            }
                         }
                         infoDiv.appendChild(descSpan);
 
@@ -150,6 +66,3 @@
                 console.error('خطأ:', error);
             });
     </script>
-
-</body>
-</html>
