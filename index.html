@@ -1,23 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Links</title>
     <style>
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; text-align: center; background-color: #f4f4f9; padding: 20px; }
-        .container { max-width: 450px; margin: auto; }
-        h1 { color: #333; }
-        .link-button { display: block; background: white; padding: 18px; margin: 12px 0; border-radius: 12px; text-decoration: none; color: #333; font-weight: 600; border: 1px solid #ddd; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .link-button:hover { background: #0070f3; color: white; transform: translateY(-2px); }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .links-container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .link-btn {
+            display: block;
+            text-align: center;
+            padding: 15px;
+            background: white;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            border: 1px solid #e1e1e1;
+        }
+        .link-btn:hover {
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome!</h1>
-        <a href="رابط_منتجك_1" class="link-button">Baby Products Store</a>
-        <a href="رابط_منتجك_2" class="link-button">Unique Mother's Day Gifts</a>
-        <a href="رابط_موقعك" class="link-button">Visit My Official Website</a>
-    </div>
+
+    <h1>Welcome!</h1>
+    
+    <div id="links" class="links-container"></div>
+
+    <script>
+        // جلب البيانات من ملف JSON
+        fetch('products.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('links');
+                container.innerHTML = ''; // تفريغ الوعاء
+                
+                // المرور على كل منتج وإنشاء زر له
+                data.forEach(item => {
+                    const button = document.createElement('a');
+                    button.href = item.url;
+                    button.className = 'link-btn';
+                    button.textContent = item.title;
+                    button.target = '_blank'; // فتح الرابط في تبويب جديد
+                    
+                    container.appendChild(button);
+                });
+            })
+            .catch(error => console.error('خطأ في جلب البيانات:', error));
+    </script>
+
 </body>
 </html>
