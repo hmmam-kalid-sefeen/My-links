@@ -1,5 +1,49 @@
-[
-  "https://9smart.buzz",
-  "https://www.amazon.com/Zebra-Beautiful-Stripes-Emotional-Learning/dp/B0GQGVXSR3/ref=sr_1_2_sspa?crid=7NC7EXVSWHDM&dib=eyJ2IjoiMSJ9.qyH1fR0kv_eRIrLtwtk8tR-QoZWaFXxbCmriEOs-_gSGR5khz5NIdLE3cHejJL_Rpi5rCNgdy_gBNK4sqYEUvWOyjOn4l-p0PdtmcggaQyKRciZDiSoqkHXC50BrKhIrINWTzbkfLjvPfm44JUH7T6ZWaN1m33kJF0unImExil_KHS3R6xNCPM-h0wAHZAErzqmLk5t_Ds4048AZU5InSHVHCCxcvDeA2ci9Zpi-C_g.wSKzgyk9-zmCjBSnI2oNdK-NUel5LhO1beCGh66H8z0&dib_tag=se&keywords=toddler&qid=1780374430&sprefix=toddle%2Caps%2C296&sr=8-2-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1",
-  "https://example.com/your-product-2"
-]
+export default async function handler(req, res) {
+  // السماح للموقع بطلب البيانات (تجنب مشكلة CORS)
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
+
+  // التأكد من أن المستخدم أرسل رابطاً في الطلب
+  const { url } = req.query;
+  if (!url) {
+    return res.status(400).json({ error: 'الرجاء تزويد رابط المنتج (url)' });
+  }
+
+  try {
+    // جلب محتوى صفحة المنتج
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('فشل في جلب الصفحة');
+    }
+
+    const html = await response.text();
+
+    // استخراج عنوان الصفحة (Title) باستخدام التعبيرات النمطية (Regex)
+    const titleMatch = html.match(/<title>([^<]*)<\/title>/i);
+    let title = titleMatch ? titleMatch[1].trim() : 'منتج بدون عنوان';
+
+    // محاولة استخراج صورة المنتج من وسوم Open Graph (og:image) المشهورة
+    const imageMatch = html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']*)["']/i) || 
+                       html.match(/<meta[^>]*content=["']([^"']*)["'][^>]*property=["']og:image["']/i);
+    let image = imageMatch ? imageMatch[1] : '';
+
+    // إذا لم يجد og:title، نستخدم العنوان العادي الذي وجدناه فوق
+    const ogTitleMatch = html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']*)["']/i);
+    if (ogTitleMatch) title = ogTitleMatch[1].trim();
+
+    // إرسال البيانات المستخرجة إلى موقعك
+    return res.status(200).json({
+      title: title,
+      image: image,
+      url: url
+    });
+
+  } catch (error) {
+    return res.status(500).json({ error: 'حدث خطأ أثناء جلب معلومات المنتج', details: error.message });
+  }
+}
