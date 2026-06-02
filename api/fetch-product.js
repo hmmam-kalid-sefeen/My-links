@@ -1,67 +1,50 @@
 import https from 'https';
 
 export default function handler(req, res) {
-  // السماح بالوصول وتجنب قيود CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET');
 
   const { url } = req.query;
-  if (!url) {
-    return res.status(400).json({ error: 'الرجاء تزويد رابط المنتج' });
-  }
+  if (!url) return res.status(400).json({ error: 'الرجاء تزويد الرابط' });
 
-  // استخدام مكتبة https الأساسية لضمان التوافق التام على السيرفر
-  https.get(url, {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
-    }
-  }, (response) => {
+  // استخدام بروكشي مجاني مفتوح لفك حظر المواقع الكبرى وتخطي الحماية لقراءة الـ HTML
+  const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+
+  https.get(proxyUrl, (response) => {
     let data = '';
-
-    // تجميع نص الصفحة (HTML)
-    response.on('data', (chunk) => {
-      data += chunk;
-    });
-
+    response.on('data', chunk => data += chunk);
     response.on('end', () => {
-      // 1. استخراج عنوان الصفحة
-      const titleMatch = data.match(/<title>([^<]*)<\/title>/i);
-      let title = titleMatch ? titleMatch[1].trim() : '';
+      try {
+        const json = JSON.parse(data);
+        const html = json.contents; // محتوى الصفحة الحقيقي بعد فك الحظر
 
-      // 2. محاولة استخراج العنوان من og:title إذا توفر
-      const ogTitleMatch = data.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']*)["']/i);
-      if (ogTitleMatch) title = ogTitleMatch[1].trim();
+        // 1. استخراج العنوان
+        const titleMatch = html.match(/<title>([^<]*)<\/title>/i);
+        let title = titleMatch ? titleMatch[1].trim() : "منتج متميز";
+        const ogTitleMatch = html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']*)["']/i);
+        if (ogTitleMatch) title = ogTitleMatch[1].trim();
 
-      // 3. استخراج صورة المنتج من og:image
-      const imageMatch = data.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']*)["']/i) ||
-                         data.match(/<meta[^>]*content=["']([^"']*)["'][^>]*property=["']og:image["']/i);
-      let image = imageMatch ? imageMatch[1] : '';
+        // 2. استخراج الصورة الحقيقية للمنتج
+        const imageMatch = html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']*)["']/i) ||
+                           html.match(/<meta[^>]*content=["']([^"']*)["'][^>]*property=["']og:image["']/i) ||
+                           html.match(/<img[^>]*id=["']landingImage["'][^>]*src=["']([^"']*)["']/i); // مخصص لأمازون
+        let image = imageMatch ? imageMatch[1] : '';
 
-      // إذا فشل في جلب اسم معين، نضع اسم النطاق كعنوان احتياطي
-      if (!title) {
-        try {
-          title = new URL(url).hostname;
-        } catch {
-          title = "رابط مخصص";
-        }
+        // 3. استخراج الوصف الحقيقي للمنتج
+        const descMatch = html.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']*)["']/i) ||
+                          html.match(/<meta[^>]*property=["']og:description["'][^>]*content=["']([^"']*)["']/i);
+        let desc = descMatch ? descMatch[1].trim() : '';
+
+        return res.status(200).json({
+          title: title.replace('Amazon.com: ', ''),
+          image: image,
+          desc: desc
+        });
+      } catch (e) {
+        return res.status(200).json({ title: "رابط منتج", image: "", desc: "" });
       }
-
-      return res.status(200).json({
-        title: title,
-        image: image,
-        url: url
-      });
     });
-
-  }).on('error', (err) => {
-    // في حال حدوث أي خطأ أو حظر من الموقع (مثل حماية أمازون القوية)
-    let fallbackTitle = "رابط مخصص";
-    try { fallbackTitle = new URL(url).hostname; } catch {}
-    
-    return res.status(200).json({
-      title: fallbackTitle,
-      image: '',
-      url: url
-    });
+  }).on('error', () => {
+    return res.status(200).json({ title: "رابط منتج", image: "", desc: "" });
   });
 }
