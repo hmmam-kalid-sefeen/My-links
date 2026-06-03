@@ -1,4 +1,5 @@
-import products from '../products.json'; // استيراد بيانات المنتجات
+import products from '../../products.json'; 
+
 
 export default function ProductPage({ product }) {
   if (!product) return <h1>المنتج غير موجود</h1>;
