@@ -4,10 +4,13 @@ import products from '../products.json';
 export default function Home() {
   return (
     <div style={{ textAlign: 'center', padding: '20px' }}>
-      {/* سنضيف اللوجو هنا لاحقاً */}
+      {/* عرض الشعار من مجلد public */}
+      <img src="/logo.png" alt="My Store Logo" style={{ width: '150px', marginBottom: '20px' }} />
+      
       <h1>Welcome to Our Store</h1>
       <p>Discover our range of professional equipment.</p>
       
+      {/* بقية كود عرض المنتجات */}
       <div>
         {products.map(product => (
           <div key={product.slug} style={{ margin: '10px' }}>
