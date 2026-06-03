@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div style={{ textAlign: 'center', padding: '20px' }}>
       {/* عرض الشعار من مجلد public */}
-      <img src="/logo.png" alt="My Store Logo" style={{ width: '150px', marginBottom: '20px' }} />
+      <img src="/IMG_1437.jpeg" alt="My Store Logo" style={{ width: '150px', marginBottom: '20px' }} />
       
       <h1>Welcome to Our Store</h1>
       <p>Discover our range of professional equipment.</p>
