@@ -3,15 +3,20 @@ import products from '../products.json';
 
 export default function Home() {
   return (
-    <div>
-      <h1>مرحباً بك في متجري</h1>
-      {products.map(product => (
-        <div key={product.slug}>
-          <Link href={`/product/${product.slug}`}>
-            <a>{product.name}</a>
-          </Link>
-        </div>
-      ))}
+    <div style={{ textAlign: 'center', padding: '20px' }}>
+      {/* سنضيف اللوجو هنا لاحقاً */}
+      <h1>Welcome to Our Store</h1>
+      <p>Discover our range of professional equipment.</p>
+      
+      <div>
+        {products.map(product => (
+          <div key={product.slug} style={{ margin: '10px' }}>
+            <Link href={`/product/${product.slug}`}>
+              {product.name}
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
