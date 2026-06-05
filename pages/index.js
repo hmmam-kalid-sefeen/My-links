@@ -5,23 +5,33 @@ import links from '../link.json';
 
 export default function Home() {
   return (
-    <div style={{ textAlign: 'center', padding: '20px' }}>
-      {/* عرض الشعار من مجلد public */}
-      <img src="/Logo.PNG" alt="My Store Logo" style={{ width: '150px', marginBottom: '20px' }} />
-      
-      <h1>Welcome to Our Store</h1>
-      <p>Discover our range of professional equipment.</p>
-      
-      {/* بقية كود عرض المنتجات */}
-      <div>
-        {products.map(product => (
-          <div key={product.slug} style={{ margin: '10px' }}>
-            <Link href={`/product/${product.slug}`}>
-              {product.name}
-            </Link>
-          </div>
-        ))}
-      </div>
+  <div style={{ textAlign: 'center', padding: '20px' }}>
+    {/* جزء الشعار */}
+    <img src="/Logo.PNG" alt="My Store Logo" style={{ width: '150px', borderRadius: '50%' }} />
+    <h1>Welcome to Our Store</h1>
+    
+    {/* عرض المنتجات */}
+    <div>
+      {products.map(product => (
+        <div key={product.slug}>
+          <Link href={`/product/${product.slug}`}>
+            {product.name}
+          </Link>
+        </div>
+      ))}
     </div>
-  );
-}
+
+    {/* هنا يمكنك إضافة قسم الروابط */}
+    <div style={{ marginTop: '40px' }}>
+      <h2>مواقع مفيدة</h2>
+      {links.map(link => (
+        <div key={link.url} style={{ marginBottom: '15px' }}>
+          <a href={link.url} target="_blank" rel="noopener noreferrer">
+            {link.title}
+          </a>
+          <p>{link.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+);
