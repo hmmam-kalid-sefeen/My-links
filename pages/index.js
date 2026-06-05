@@ -7,7 +7,7 @@ export default function Home() {
   return (
   <div style={{ textAlign: 'center', padding: '20px' }}>
     {/* جزء الشعار */}
-    <img src="/Logo.PNG" alt="My Store Logo" style={{ width: '150px', borderRadius: '50%' }} />
+    <img src="/Logo.png" alt="My Store Logo" style={{ width: '150px', borderRadius: '50%' }} />
     <h1>9smart</h1>
     
     {/* عرض المنتجات */}
