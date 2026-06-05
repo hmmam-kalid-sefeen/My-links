@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import products from '../products.json';
+import links from '../link.json';
+
 
 export default function Home() {
   return (
