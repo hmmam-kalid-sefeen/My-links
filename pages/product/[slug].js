@@ -2,7 +2,7 @@ import products from '../../products.json';
 
 
 export default function ProductPage({ product }) {
-  if (!product) return <h1>المنتج غير موجود</h1>;
+  if (!product) return <h1> product not found</h1>;
 
   return (
     <div style={{ padding: '20px', maxWidth: '600px', margin: 'auto' }}>
@@ -10,7 +10,7 @@ export default function ProductPage({ product }) {
       <img src={product.image} alt={product.name} style={{ width: '100%' }} />
       <p>{product.description}</p>
       <a href={product.affiliateLink} style={{ display: 'block', background: 'blue', color: 'white', padding: '10px', textAlign: 'center' }}>
-        شراء المنتج
+        Buy Here
       </a>
     </div>
   );
