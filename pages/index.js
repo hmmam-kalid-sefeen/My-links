@@ -20,8 +20,9 @@ export default function Home() {
             {product.name}
           </Link>
         </div>
-                     </div>   
-      ))}
+
+      )                     </div>   
+      )}
 
 
     {/* هنا يمكنك إضافة قسم الروابط */}
