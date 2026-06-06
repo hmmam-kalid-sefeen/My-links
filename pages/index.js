@@ -1,3 +1,5 @@
+import styles from './index.module.css';
+
 import Link from 'next/link';
 import products from '../products.json';
 import links from '../link.json';
