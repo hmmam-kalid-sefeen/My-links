@@ -14,7 +14,6 @@ export default function Home() {
       />
 
       <h1 className={styles.title}>Welcome to Our Store</h1>
-
       {/* المنتجات */}
       <div className={styles.products}>
         {products.map((product) => (
