@@ -35,4 +35,6 @@ export default function Home() {
       <p>{link.description}</p>
     </div>
   ))}
-</div>
+</div>  )
+}
+
