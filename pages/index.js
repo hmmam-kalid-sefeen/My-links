@@ -24,16 +24,15 @@ export default function Home() {
     </div>
 
     {/* هنا يمكنك إضافة قسم الروابط */}
-    <div style={{ marginTop: '40px' }}>
-      <h2>مواقع مفيدة</h2>
-      {links.map(link => (
-        <div key={link.url} style={{ marginBottom: '15px' }}>
-          <a href={link.url} target="_blank" rel="noopener noreferrer">
-            {link.title}
-          </a>
-          <p>{link.description}</p>
-        </div>
-      ))}
+    // استبدل السطر القديم بهذا:
+<div className={styles.linksSection}>
+  <h2>مواقع مفيدة</h2>
+  {links.map(link => (
+    <div key={link.url}>
+      <a href={link.url} target="_blank" rel="noopener noreferrer">
+        {link.title}
+      </a>
+      <p>{link.description}</p>
     </div>
-  </div>
-);}
+  ))}
+</div>
