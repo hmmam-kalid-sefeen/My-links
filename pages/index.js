@@ -14,16 +14,3 @@ export default function Home() {
         />
         <h1>9smart</h1>
       </div>
-
-      {/* عرض المنتجات */}
-      <div>
-        {products.map(product => (
-          <div key={product.slug}>
-            <Link href={`/product/${product.slug}`}>
-              {product.name}
-            </Link>
-          </div>
-        );}
-      </div>
-
-);}
