@@ -6,11 +6,9 @@ import links from '../link.json';
 export default function Home() {
   return (
     <div style={{ textAlign: 'center', padding: '20px' }}>
-      {/* جزء الشعار */}
       <img src="/Logo.png" alt="My Store Logo" style={{ width: '150px', borderRadius: '50%' }} />
       <h1>9smart</h1>
-      
-      {/* عرض المنتجات */}
+
       <div>
         {products.map((product) => (
           <div key={product.slug}>
@@ -21,12 +19,11 @@ export default function Home() {
         ))}
       </div>
 
-      {/* قسم الروابط */}
       <div className={styles.linksSection}>
         <h2>مواقع مفيدة</h2>
         {links.map((link) => (
-          <div key={link.url} className={styles.linkItem}>
-            <a href={link.url} target="_blank" rel="noopener noreferrer" className={styles.linkTitle}>
+          <div key={link.url}>
+            <a href={link.url} target="_blank" rel="noopener noreferrer">
               {link.title}
             </a>
             <p>{link.description}</p>
