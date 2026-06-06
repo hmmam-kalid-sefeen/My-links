@@ -7,7 +7,7 @@ export default function Home() {
     <div style={{ textAlign: 'center', padding: '20px' }}>
       {/* جزء الشعار */}
       <img
-        src="/Logo.PNG"
+        src="/Logo.png"
         alt="My Store Logo"
         style={{ width: '150px', borderRadius: '50%' }}
       />
