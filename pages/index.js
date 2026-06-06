@@ -11,7 +11,7 @@ export default function Home() {
     {/* جزء الشعار */}
     <img src="/Logo.png" alt="My Store Logo" style={{ width: '150px', borderRadius: '50%' }} />
     <h1>9smart</h1>
-    
+     </div>
     {/* عرض المنتجات */}
     <div>
       {products.map(product => (
@@ -20,8 +20,9 @@ export default function Home() {
             {product.name}
           </Link>
         </div>
+                     </div>   
       ))}
-    </div>
+
 
     {/* هنا يمكنك إضافة قسم الروابط */}
 
@@ -34,6 +35,7 @@ export default function Home() {
       </a>
       <p>{link.description}</p>
     </div>
-</div>  )
-}
+) }
+  </div>  
+
 
