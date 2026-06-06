@@ -26,23 +26,3 @@ export default function Home() {
         ))}
       </div>
 
-      {/* قسم الروابط */}
-      <div className={styles.linksSection}>
-        <h2>مواقع مفيدة</h2>
-
-        {links.map(link => (
-          <div key={link.url}>
-            <a
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {link.title}
-            </a>
-            <p>{link.description}</p>
-          </div>
-        ))}
-      </div>
-    </>
-  );
-}
