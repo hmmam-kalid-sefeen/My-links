@@ -21,8 +21,9 @@ export default function Home() {
           </Link>
         </div>
 
-      )                     </div>   
-      )}
+      )                   
+      </div>   
+
 
 
     {/* هنا يمكنك إضافة قسم الروابط */}
@@ -36,7 +37,9 @@ export default function Home() {
       </a>
       <p>{link.description}</p>
     </div>
+     </div>  
 ) }
-  </div>  
+) }
+
 
 
