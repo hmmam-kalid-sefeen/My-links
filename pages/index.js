@@ -5,13 +5,20 @@ import links from '../link.json';
 
 export default function Home() {
   return (
-    <div style={{ textAlign: 'center', padding: '20px' }}>
-      <img src="/Logo.png" alt="My Store Logo" style={{ width: '150px', borderRadius: '50%' }} />
-      <h1>9smart</h1>
+    <div className={styles.container}>
+      {/* الشعار */}
+      <img
+        src="/Logo.PNG"
+        alt="My Store Logo"
+        className={styles.logo}
+      />
 
-      <div>
+      <h1 className={styles.title}>Welcome to Our Store</h1>
+
+      {/* المنتجات */}
+      <div className={styles.products}>
         {products.map((product) => (
-          <div key={product.slug}>
+          <div key={product.slug} className={styles.product}>
             <Link href={`/product/${product.slug}`}>
               {product.name}
             </Link>
@@ -19,13 +26,20 @@ export default function Home() {
         ))}
       </div>
 
+      {/* الروابط */}
       <div className={styles.linksSection}>
         <h2>مواقع مفيدة</h2>
+
         {links.map((link) => (
-          <div key={link.url}>
-            <a href={link.url} target="_blank" rel="noopener noreferrer">
+          <div key={link.url} className={styles.linkItem}>
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {link.title}
             </a>
+
             <p>{link.description}</p>
           </div>
         ))}
