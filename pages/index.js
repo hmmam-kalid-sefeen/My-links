@@ -3,6 +3,17 @@ import Link from 'next/link';
 import products from '../products.json';
 import links from '../link.json';
 
+type Product = {
+  slug: string;
+  name: string;
+};
+
+type LinkItem = {
+  url: string;
+  title: string;
+  description: string;
+};
+
 export default function Home() {
   return (
     <div className={styles.container}>
@@ -17,7 +28,7 @@ export default function Home() {
 
       {/* المنتجات */}
       <div className={styles.products}>
-        {products.map((product) => (
+        {(products as Product[]).map((product) => (
           <div key={product.slug} className={styles.product}>
             <Link href={`/product/${product.slug}`}>
               {product.name}
@@ -30,7 +41,7 @@ export default function Home() {
       <div className={styles.linksSection}>
         <h2>مواقع مفيدة</h2>
 
-        {links.map((link) => (
+        {(links as LinkItem[]).map((link) => (
           <div key={link.url} className={styles.linkItem}>
             <a
               href={link.url}
@@ -39,7 +50,6 @@ export default function Home() {
             >
               {link.title}
             </a>
-
             <p>{link.description}</p>
           </div>
         ))}
