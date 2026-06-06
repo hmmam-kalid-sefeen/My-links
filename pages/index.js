@@ -1,4 +1,4 @@
-import styles from 'index.module.css';
+import styles from './index.module.css';
 
 import Link from 'next/link';
 import products from '../products.json';
