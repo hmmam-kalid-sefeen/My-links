@@ -24,7 +24,7 @@ export default function Home() {
     </div>
 
     {/* هنا يمكنك إضافة قسم الروابط */}
-    // استبدل السطر القديم بهذا:
+
 <div className={styles.linksSection}>
   <h2>مواقع مفيدة</h2>
   {links.map(link => (
