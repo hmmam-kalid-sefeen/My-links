@@ -8,7 +8,7 @@ export default function Home() {
     <div className={styles.container}>
       {/* الشعار */}
       <img
-        src="/Logo.png"
+        src="/logo.PNG"
         alt="My Store Logo"
         className={styles.logo}
       />
