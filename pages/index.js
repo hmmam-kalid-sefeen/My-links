@@ -3,40 +3,35 @@ import path from 'path';
 import Link from 'next/link';
 import styles from './home.module.css'; 
 
-export default function Home({ posts }) {
-  // هذا الكود يجب أن يكون قبل الـ return مباشرة
-  const categories = [...new Set(posts.map(p => p.category))];
 
+      
+
+const categories = [
+  { name: 'Tech Gadgets', icon: '💻', slug: 'tech' },
+  { name: 'Software Tools', icon: '⚙️', slug: 'software' },
+  { name: 'Digital Marketing', icon: '📈', slug: 'marketing' },
+  { name: 'Web Development', icon: '🌐', slug: 'web' }
+];
+
+export default function Home() {
   return (
     <div className={styles.container}>
-      <img src="/logo.PNG" alt="Logo" className={styles.logo} />
-      <h1>Welcome to 9smart</h1>
-      
-      {categories.map(cat => (
-        <section key={cat} className={styles.categorySection}>
-          <h2>{cat}</h2>
-          {posts.filter(p => p.category === cat).map(post => (
-         <Link href={`/blog/${post.slug}`}>
-  <a style={{ display: 'block', margin: '10px 0', textDecoration: 'none', color: '#0070f3' }}>
-    <h3>{post.title}</h3>
-  </a>
-</Link>
+      <header className={styles.header}>
+        <img src="/logo.PNG" alt="9smart logo" width="120" />
+        <h1>Welcome to 9smart</h1>
+        <p>Your ultimate guide to tech, tools, and digital success in 2026.</p>
+      </header>
 
-          ))}
-        </section>
-      ))}
+      <div className={styles.grid}>
+        {categories.map(cat => (
+          <Link key={cat.slug} href={`/category/${cat.slug}`}>
+            <div className={styles.card}>
+              <span className={styles.icon}>{cat.icon}</span>
+              <h3>{cat.name}</h3>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
-}
-
-export async function getStaticProps() {
-  const postsDirectory = path.join(process.cwd(), 'posts');
-  const filenames = fs.readdirSync(postsDirectory);
-  const posts = filenames.map(filename => {
-    const filePath = path.join(postsDirectory, filename);
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    return JSON.parse(fileContents);
-  });
-
-  return { props: { posts } };
 }
