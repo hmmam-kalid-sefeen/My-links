@@ -1,32 +1,26 @@
 import Link from 'next/link';
-import styles from './home.module.css'; 
 
-const categories = [
-  { name: 'Tech Gadgets', icon: '💻', slug: 'tech' },
-  { name: 'Software Tools', icon: '⚙️', slug: 'software' },
-  { name: 'Digital Marketing', icon: '📈', slug: 'marketing' },
-  { name: 'Web Development', icon: '🌐', slug: 'web' }
-];
+export default function Home({ posts }) {
+  // تعريف المتغيرات هنا (خارج الـ return)
+  const categories = ['Tech Gadgets', 'Software Tools', 'Digital Marketing', 'Web Development'];
 
-export default function Home() {
   return (
-    <div className={styles.container}>
-      <header className={styles.header}>
-        <img src="/logo.PNG" alt="9smart logo" width="120" />
-        <h1>Welcome to 9smart</h1>
-        <p>Your ultimate guide to tech, tools, and digital success in 2026.</p>
-      </header>
-
-      <div className={styles.grid}>
+    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
+      <h1>Welcome to 9smart</h1>
+      
+      {/* عرض التصنيفات */}
+      <div style={{ display: 'grid', gap: '10px' }}>
         {categories.map(cat => (
-          <Link key={cat.slug} href={`/category/${cat.slug}`}>
-            <div className={styles.card}>
-              <span className={styles.icon}>{cat.icon}</span>
-              <h3>{cat.name}</h3>
-            </div>
-          </Link>
+          <div key={cat} style={{ padding: '10px', border: '1px solid #ccc' }}>
+            <h3>{cat}</h3>
+          </div>
         ))}
       </div>
     </div>
   );
+}
+
+// دالة جلب البيانات (تترك كما هي)
+export async function getStaticProps() {
+  return { props: { posts: [] } };
 }
