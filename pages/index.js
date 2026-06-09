@@ -16,9 +16,12 @@ export default function Home({ posts }) {
         <section key={cat} className={styles.categorySection}>
           <h2>{cat}</h2>
           {posts.filter(p => p.category === cat).map(post => (
-            <Link key={post.slug} href={`/blog/${post.slug}`} className={styles.linkItem}>
-              <h3>{post.title}</h3>
-            </Link>
+         <Link href={`/blog/${post.slug}`}>
+  <a style={{ display: 'block', margin: '10px 0', textDecoration: 'none', color: '#0070f3' }}>
+    <h3>{post.title}</h3>
+  </a>
+</Link>
+
           ))}
         </section>
       ))}
