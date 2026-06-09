@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
-import styles from './styles/home.module.css'; 
+import styles from './home.module.css'; 
 
 export default function Home({ posts }) {
   // هذا الكود يجب أن يكون قبل الـ return مباشرة
