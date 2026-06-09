@@ -9,7 +9,7 @@ export default function Home({ posts }) {
 
   return (
     <div className={styles.container}>
-      <img src="/logo.png" alt="Logo" className={styles.logo} />
+      <img src="/logo.PNG" alt="Logo" className={styles.logo} />
       <h1>Welcome to 9smart</h1>
       
       {categories.map(cat => (
