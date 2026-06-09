@@ -1,47 +1,37 @@
-import styles from './home.module.css';
+import fs from 'fs';
+import path from 'path';
 import Link from 'next/link';
-import products from '../products.json';
-import links from '../link.json';
 
-export default function Home() {
+export default function Home({ posts }) {
+  // تجميع المقالات حسب التصنيف
+  const categories = [...new Set(posts.map(p => p.category))];
+
   return (
-    <div className={styles.container}>
-      {/* الشعار */}
-      <img
-        src="/logo.PNG"
-        alt="My Store Logo"
-        className={styles.logo}
-      />
-
-      <h1 className={styles.title}>Welcome to Our Store</h1>
-      {/* المنتجات */}
-      <div className={styles.products}>
-        {products.map((product) => (
-          <div key={product.slug} className={styles.product}>
-            <Link href={`/product/${product.slug}`}>
-              {product.name}
+    <div>
+      <h1>Welcome to 9smart</h1>
+      {categories.map(cat => (
+        <section key={cat}>
+          <h2>{cat}</h2>
+          {posts.filter(p => p.category === cat).map(post => (
+            <Link key={post.slug} href={`/blog/${post.slug}`}>
+              <div className="post-card">
+                <h3>{post.title}</h3>
+              </div>
             </Link>
-          </div>
-        ))}
-      </div>
-
-      {/* الروابط */}
-      <div className={styles.linksSection}>
-        <h2>مواقع مفيدة</h2>
-
-        {links.map((link) => (
-          <div key={link.url} className={styles.linkItem}>
-            <a
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {link.title}
-            </a>
-            <p>{link.description}</p>
-          </div>
-        ))}
-      </div>
+          ))}
+        </section>
+      ))}
     </div>
   );
+}
+
+export async function getStaticProps() {
+  const postsDirectory = path.join(process.cwd(), 'posts');
+  const filenames = fs.readdirSync(postsDirectory);
+  const posts = filenames.map(filename => {
+    const filePath = path.join(postsDirectory, filename);
+    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  });
+
+  return { props: { posts } };
 }
