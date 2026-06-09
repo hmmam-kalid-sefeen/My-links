@@ -1,3 +1,19 @@
+import styles from '../styles/home.module.css'; // تأكد من مسار ملف الـ CSS الصحيح
+import Link from 'next/link';
+
+export default function Home({ posts }) {
+  return (
+    <div className={styles.container}>
+      {/* استعادة اللوجو */}
+      <img src="/logo.png" alt="Logo" className={styles.logo} />
+      <h1>Welcome to 9smart</h1>
+      
+      {/* هنا يأتي كود التصنيفات والمقالات الذي أرسلته لك سابقاً */}
+      ...
+    </div>
+  );
+}
+
 import fs from 'fs';
 import path from 'path';
 import Link from 'next/link';
