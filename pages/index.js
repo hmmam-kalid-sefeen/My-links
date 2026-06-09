@@ -1,8 +1,6 @@
 import Link from 'next/link';
 import styles from './home.module.css'; 
 
-
-
 const categories = [
   { name: 'Tech Gadgets', icon: '💻', slug: 'tech' },
   { name: 'Software Tools', icon: '⚙️', slug: 'software' },
