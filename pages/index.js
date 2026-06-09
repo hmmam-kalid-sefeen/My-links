@@ -9,10 +9,8 @@ export default function Home({ posts }) {
       <h1>Welcome to 9smart</h1>
       
       {/* هنا يأتي كود التصنيفات والمقالات الذي أرسلته لك سابقاً */}
-      ...
-    </div>
-  );
-}
+    
+    
 
 import fs from 'fs';
 import path from 'path';
@@ -50,4 +48,7 @@ export async function getStaticProps() {
   });
 
   return { props: { posts } };
+}
+</div>
+  );
 }
