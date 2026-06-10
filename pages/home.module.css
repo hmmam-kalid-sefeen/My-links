@@ -1,13 +1,40 @@
-.container { max-width: 900px; margin: auto; padding: 20px; text-align: center; }
-.header { margin-bottom: 40px; }
-.grid { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
-  gap: 20px; 
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  font-family: "Segoe UI", Arial, sans-serif;
+  line-height: 1.7;
 }
-.card { 
-  border: 1px solid #eee; border-radius: 15px; padding: 30px; 
-  cursor: pointer; transition: 0.3s; background: #f9f9f9; 
+
+.container h1 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-size: 2rem;
 }
-.card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-.icon { font-size: 40px; display: block; margin-bottom: 10px; }
+
+.container h2 {
+  color: #34495e;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.container p {
+  margin-bottom: 15px;
+}
+
+.container img {
+  max-width: 100%;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.container ul {
+  padding-left: 25px;
+  margin-bottom: 15px;
+}
+
+.container li {
+  margin-bottom: 8px;
+}
