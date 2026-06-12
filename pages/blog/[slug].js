@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import ReactMarkdown from 'react-markdown';
-import styles from './home.module.css';
+import styles from '../home.module.css';
 
 export default function PostPage({ post }) {
   return (
