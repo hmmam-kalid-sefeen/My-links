@@ -47,3 +47,15 @@ body {
   background: #0f172a;
   color: #fff;
 }
+footer {
+  background: #0f172a;
+  color: #94a3b8;
+  text-align: center;
+  padding: 40px;
+  margin-top: 50px;
+}
+.social {
+  margin-top: 15px;
+  word-spacing: 15px;
+}
+
