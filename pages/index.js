@@ -22,3 +22,15 @@ export default function Home({ posts }) {
     </div>
   );
 }
+// أضف هذا في أسفل ملف index.js لجلب المقالات
+export async function getStaticProps() {
+  // كود جلب الملفات من مجلد posts
+  // تأكد أن هذا الكود لا يعيد 'undefined'
+  return {
+    props: {
+      posts: [] // تأكد أنك تمرر المصفوفة هنا
+    }
+  }
+}
+
+
