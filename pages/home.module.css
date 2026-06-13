@@ -1,35 +1,62 @@
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 40px 20px;
-  font-family: 'Segoe UI', sans-serif;
+.hero{
+  background: linear-gradient(135deg,#2563eb,#06b6d4);
+  color:white;
+  text-align:center;
+  padding:120px 20px;
+  
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin-top: 30px;
+.card{
+  background:#fff;
+  border-radius:20px;
+  padding:40px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  transition:.3s;
 }
 
-.card {
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 16px;
-  padding: 30px;
-  text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+.card:hover{
+  transform:translateY(-10px);
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
 }
+.categories{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
+  max-width:1200px;
+  margin:auto;
+}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 12px 20px rgba(0,0,0,0.1);
-  border-color: #0070f3;
+body{
+  font-family:'Poppins',sans-serif;
 }
+<div class="stats">
+  <div>
+    <h2>500+</h2>
+    <p>Tech Reviews</p>
+  </div>
 
-.icon {
-  font-size: 3rem;
-  margin-bottom: 15px;
-  display: block;
+  <div>
+    <h2>50K+</h2>
+    <p>Monthly Readers</p>
+  </div>
+
+  <div>
+    <h2>100+</h2>
+    <p>Software Guides</p>
+  </div>
+</div>
+.dark{
+  background:#0f172a;
+  color:#fff;
 }
+<footer>
+  <div class="container">
+    <h3>9smart</h3>
+    <p>Your trusted source for technology.</p>
+    <div class="social">
+      Facebook • X • LinkedIn • YouTube
+    </div>
+  </div>
+</footer>
+
