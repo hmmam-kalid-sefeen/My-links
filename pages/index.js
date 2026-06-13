@@ -1,42 +1,24 @@
-import fs from 'fs';
-import path from 'path';
-import Navbar from '../components/navbar';
-import Hero from '../components/hero';
-import CategoryCard from '../components/categorycard';
-import ArticleCard from '../components/articlecard';
-import Footer from '../components/footer';
+import styles from '../styles/home.module.css';
 
-export default function Home({ posts = [] }) { // أضفنا = [] لحماية الموقع من الانهيار إذا كانت البيانات فارغة
+export default function Home({ posts }) {
   return (
-    <>
-      <Navbar />
-      <Hero />
-      <div className="categories-grid">
-         <CategoryCard title="Top Gadgets" icon="💻" />
-         <CategoryCard title="Software" icon="⚙️" />
+    <div className={styles.container}>
+      {/* قسم الـ Hero */}
+      <section className={styles.hero}>
+        <h1>Discover the Best Tech Tools & Software</h1>
+        <button>Explore Now</button>
+      </section>
+
+      {/* قسم المقالات (سيعرض ملفات الـ JSON الموجودة في مجلد posts) */}
+      <div className={styles.grid}>
+        {posts.map((post) => (
+          <div key={post.slug} className={styles.card}>
+            <h3>{post.title}</h3>
+            <p>{post.excerpt}</p>
+            <a href={`/blog/${post.slug}`}>Read More</a>
+          </div>
+        ))}
       </div>
-      <div className="articles-grid">
-         {posts.map(post => <ArticleCard key={post.slug} {...post} />)}
-      </div>
-      <Footer />
-    </>
+    </div>
   );
-}
-
-// دالة جلب البيانات من مجلد posts
-export async function getStaticProps() {
-  const postsDirectory = path.join(process.cwd(), 'posts');
-  const filenames = fs.readdirSync(postsDirectory);
-
-  const posts = filenames.map(filename => {
-    const filePath = path.join(postsDirectory, filename);
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    return JSON.parse(fileContents);
-  });
-
-  return {
-    props: {
-      posts,
-    },
-  };
 }
