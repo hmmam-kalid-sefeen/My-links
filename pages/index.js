@@ -1,27 +1,22 @@
-import Link from 'next/link';
-import styles from './home.module.css'; // تأكد من المسار الصحيح
+import Navbar from '../components/Navbar';
+import Hero from '../components/Hero';
+import CategoryCard from '../components/CategoryCard';
+import ArticleCard from '../components/ArticleCard';
+import Footer from '../components/Footer';
 
-export default function Home() {
+export default function Home({ posts }) {
   return (
-    <div className={styles.container}>
-      <header className={styles.hero}>
-        <img src="/logo.PNG" alt="Logo" width="100" />
-        <h1>Welcome to 9smart</h1>
-        <p>Your ultimate guide to tech, tools, and digital success in 2026.</p>
-      </header>
-
-      <div className={styles.categories}>
-        <Link href="/category/tech">
-          <div className={styles.card}>
-            <h3>Tech Gadgets</h3>
-          </div>
-        </Link>
-        <Link href="/category/software">
-          <div className={styles.card}>
-            <h3>Software Tools</h3>
-          </div>
-        </Link>
+    <>
+      <Navbar />
+      <Hero />
+      <div className="categories-grid">
+         <CategoryCard title="Top Gadgets" icon="💻" />
+         <CategoryCard title="Software" icon="⚙️" />
       </div>
-    </div>
+      <div className="articles-grid">
+         {posts.map(post => <ArticleCard key={post.slug} {...post} />)}
+      </div>
+      <Footer />
+    </>
   );
 }
