@@ -1,36 +1,67 @@
+import Navbar from '../components/navbar';
+import Hero from '../components/hero';
+import CategoryCard from '../components/categorycard';
+import ArticleCard from '../components/articlecard';
+import Footer from '../components/footer';
 import styles from './home.module.css';
 
-export default function Home({ posts }) {
+export default function Home({ posts = [] }) {
   return (
-    <div className={styles.container}>
-      {/* قسم الـ Hero */}
-      <section className={styles.hero}>
-        <h1>Discover the Best Tech Tools & Software</h1>
-        <button>Explore Now</button>
-      </section>
+    <>
+      <Navbar />
+      
+      <main className={styles.container}>
+        {/* قسم الـ Hero */}
+        <Hero />
 
-      {/* قسم المقالات (سيعرض ملفات الـ JSON الموجودة في مجلد posts) */}
-      <div className={styles.grid}>
-        {posts.map((post) => (
-          <div key={post.slug} className={styles.card}>
-            <h3>{post.title}</h3>
-            <p>{post.excerpt}</p>
-            <a href={`/blog/${post.slug}`}>Read More</a>
+        {/* قسم الفئات */}
+        <section>
+          <h2 style={{ textAlign: 'center', margin: '40px 0' }}>Featured Categories</h2>
+          <div className={styles.categoriesGrid}>
+             <CategoryCard title="Top Gadgets" icon="💻" />
+             <CategoryCard title="Essential Software" icon="⚙️" />
           </div>
-        ))}
-      </div>
-    </div>
+        </section>
+
+        {/* قسم المقالات */}
+        <section>
+          <h2 style={{ textAlign: 'center', margin: '40px 0' }}>Latest Articles</h2>
+          <div className={styles.articlesGrid}>
+             {posts.length > 0 ? (
+               posts.map(post => <ArticleCard key={post.slug} {...post} />)
+             ) : (
+               <p style={{ textAlign: 'center' }}>No articles found yet.</p>
+             )}
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </>
   );
 }
-// أضف هذا في أسفل ملف index.js لجلب المقالات
+
+// دالة جلب البيانات (تأكد أن مجلد posts موجود في المسار الرئيسي)
+import fs from 'fs';
+import path from 'path';
+
 export async function getStaticProps() {
-  // كود جلب الملفات من مجلد posts
-  // تأكد أن هذا الكود لا يعيد 'undefined'
-  return {
-    props: {
-      posts: [] // تأكد أنك تمرر المصفوفة هنا
-    }
+  try {
+    const postsDirectory = path.join(process.cwd(), 'posts');
+    const filenames = fs.readdirSync(postsDirectory);
+
+    const posts = filenames.map(filename => {
+      const filePath = path.join(postsDirectory, filename);
+      const fileContents = fs.readFileSync(filePath, 'utf8');
+      return JSON.parse(fileContents);
+    });
+
+    return {
+      props: { posts },
+    };
+  } catch (error) {
+    return {
+      props: { posts: [] },
+    };
   }
 }
-
-
