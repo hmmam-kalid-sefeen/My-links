@@ -1,39 +1,39 @@
 import Link from 'next/link';
 import styles from './home.module.css';
-
 export default function Home() {
-  const categories = [
-    { name: 'Tech Gadgets', icon: '💻', slug: 'tech' },
-    { name: 'Software Tools', icon: '⚙️', slug: 'software' },
-    { name: 'Digital Marketing', icon: '📈', slug: 'marketing' },
-    { name: 'Web Development', icon: '🌐', slug: 'web' }
-  ];
-
   return (
-    <div className={styles.container}>
-    
- <header className={styles.header}>
-  <img 
-    src="/logo.PNG" 
-    alt="9smart logo" 
-    width="150" 
-    style={{ display: 'block', margin: '0 auto 20px' }} 
-  />
-  <h1>Welcome to 9smart</h1>
-  <p>Your ultimate guide to tech, tools, and digital success in 2026.</p>
-</header>
+    <div>
+      {/* قسم الـ Hero */}
+      <section className="hero">
+        <h1>9smart</h1>
+        <p>Your trusted source for technology and digital success.</p>
+      </section>
 
+      {/* قسم الإحصائيات */}
+      <section className="stats">
+        <div>
+          <h2>500+</h2>
+          <p>Tech Reviews</p>
+        </div>
+        <div>
+          <h2>50K+</h2>
+          <p>Monthly Readers</p>
+        </div>
+        <div>
+          <h2>100+</h2>
+          <p>Software Guides</p>
+        </div>
+      </section>
 
-      <div className={styles.grid}>
-        {categories.map((cat) => (
-          <Link key={cat.slug} href={`/category/${cat.slug}`}>
-            <div className={styles.card}>
-              <span className={styles.icon}>{cat.icon}</span>
-              <h3>{cat.name}</h3>
-            </div>
-          </Link>
-        ))}
+      {/* قسم الفئات */}
+      <div className="categories">
+        <div className="card"><h3>Tech Gadgets</h3></div>
+        <div className="card"><h3>Software Tools</h3></div>
+        <div className="card"><h3>Digital Marketing</h3></div>
       </div>
     </div>
   );
 }
+
+
+  
