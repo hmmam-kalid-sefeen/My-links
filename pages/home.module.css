@@ -1,61 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f8fafc;
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
 }
 
-/* تنسيق الـ Hero */
 .hero {
   background: linear-gradient(135deg, #2563eb, #06b6d4);
   color: white;
   text-align: center;
-  padding: 120px 20px;
+  padding: 100px 20px;
+  border-radius: 20px;
+  margin-bottom: 30px;
 }
 
-/* تنسيق الشبكة (Grid) */
 .categories {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 0 20px;
 }
 
-/* تنسيق البطاقات */
 .card {
   background: #fff;
   border-radius: 20px;
   padding: 40px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
   transition: 0.3s;
+  text-align: center;
 }
 
 .card:hover {
   transform: translateY(-10px);
   box-shadow: 0 20px 40px rgba(0,0,0,0.15);
 }
-
-/* تنسيق الـ Stats */
-.stats {
-  display: flex;
-  justify-content: space-around;
-  padding: 50px 20px;
-  background: #0f172a;
-  color: #fff;
-}
-footer {
-  background: #0f172a;
-  color: #94a3b8;
-  text-align: center;
-  padding: 40px;
-  margin-top: 50px;
-}
-.social {
-  margin-top: 15px;
-  word-spacing: 15px;
-}
-
