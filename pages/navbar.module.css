@@ -3,8 +3,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 50px;
-  background-color: #1589FF; /* اللون الأبيض */
-  border-bottom: 1px solid #e2e8f0; /* إضافة حد سفلي خفيف جداً لإبرازها */
+  background: linear-gradient(135deg, #1e3a8a, #06b6d4); /* نفس تدرج الـ Hero */
+  color: white; /* تغيير لون النصوص لتظهر فوق الخلفية الزرقاء */
+}
+
+/* لا تنسَ تغيير لون النصوص في الروابط أيضاً */
+.links a {
+  color: white;
 }
 
 .links {
