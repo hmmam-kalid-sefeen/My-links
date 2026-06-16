@@ -28,11 +28,11 @@ export default function Home({ posts = [] }) {
 <div className={styles.categoriesGrid}>
   <CategoryCard 
     title="Top Gadgets" 
-    image="/gadget.jpg" 
+    image="/Gadget.jpg" 
   />
   <CategoryCard 
     title="Essential Software" 
-    image="/software.jpg" 
+    image="/Software.jpg" 
   />
 </div>
 
