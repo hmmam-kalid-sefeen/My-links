@@ -22,18 +22,20 @@ export default function Home({ posts = [] }) {
              <CategoryCard title="Essential Software" icon="⚙️" />
           </div>
         </section>
+{/* قسم المقالات (Latest Articles) */}
+<section>
+  <h2 style={{ textAlign: 'center', marginTop: '60px' }}>Latest Articles</h2>
+  <div className={styles.grid}>
+    {posts.map(post => (
+      <div key={post.slug} className={styles.card}>
+        {/* هنا نضع مكون المقال */}
+        <ArticleCard {...post} />
+      </div>
+    ))}
+  </div>
+</section>
 
-        {/* قسم المقالات */}
-        <section>
-          <h2 style={{ textAlign: 'center', margin: '40px 0' }}>Latest Articles</h2>
-          <div className={styles.articlesGrid}>
-             {posts.length > 0 ? (
-               posts.map(post => <ArticleCard key={post.slug} {...post} />)
-             ) : (
-               <p style={{ textAlign: 'center' }}>No articles found yet.</p>
-             )}
-          </div>
-        </section>
+    
       </main>
 
       <Footer />
