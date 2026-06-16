@@ -8,47 +8,39 @@ import styles from './home.module.css';
 export default function Home({ posts = [] }) {
   return (
     <>
-      // داخل ملف index.js
-<div style={{ 
-  background: 'linear-gradient(135deg, #1e3a8a, #06b6d4)', // لون التدرج الأزرق
-  borderBottomLeftRadius: '50px', // لجعل الزوايا دائرية (Curvy) كما طلبت
-  borderBottomRightRadius: '50px',
-  paddingBottom: '20px' // مساحة بسيطة في الأسفل قبل الانتقال للقسم التالي
-}}>
-  <Navbar />
-  <Hero />
-</div>
+      {/* القسم الأزرق العلوي */}
+      <div style={{ 
+        background: 'linear-gradient(135deg, #1e3a8a, #06b6d4)',
+        borderBottomLeftRadius: '50px',
+        borderBottomRightRadius: '50px',
+        paddingBottom: '20px'
+      }}>
+        <Navbar />
+        <Hero />
+      </div>
 
-{/* هنا تبدأ بقية أقسام الموقع (الفئات والمقالات) بخلفية بيضاء عادية */}
-<main className={styles.container}>
-  <section>
-    <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Featured Categories</h2>
-    {/* ... باقي الكود ... */}
-  </section>
-</main>
-
+      {/* المحتوى الرئيسي */}
+      <main className={styles.container}>
+        
         {/* قسم الفئات */}
         <section>
-          <h2 style={{ textAlign: 'center', margin: '40px 0' }}>Featured Categories</h2>
+          <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Featured Categories</h2>
           <div className={styles.categoriesGrid}>
-             <CategoryCard title="Top Gadgets" icon="💻" />
-             <CategoryCard title="Essential Software" icon="⚙️" />
+             <CategoryCard title="Top Gadgets" />
+             <CategoryCard title="Essential Software" />
           </div>
         </section>
-{/* قسم المقالات (Latest Articles) */}
-<section>
-  <h2 style={{ textAlign: 'center', marginTop: '60px' }}>Latest Articles</h2>
-  <div className={styles.grid}>
-    {posts.map(post => (
-      <div key={post.slug} className={styles.card}>
-        {/* هنا نضع مكون المقال */}
-        <ArticleCard {...post} />
-      </div>
-    ))}
-  </div>
-</section>
 
-    
+        {/* قسم المقالات */}
+        <section>
+          <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
+          <div className={styles.grid}>
+            {posts.map(post => (
+              <ArticleCard key={post.slug} {...post} />
+            ))}
+          </div>
+        </section>
+
       </main>
 
       <Footer />
