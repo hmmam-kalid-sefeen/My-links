@@ -10,3 +10,8 @@ footer {
   text-align: center;
   padding: 40px;
 }
+/* هذا يجعل أي بطاقة (card) في الموقع ذات زوايا دائرية ناعمة */
+.card, .hero {
+  border-radius: 25px !important; 
+}
+
