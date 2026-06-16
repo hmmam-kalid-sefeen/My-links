@@ -25,10 +25,18 @@ export default function Home({ posts = [] }) {
         {/* قسم الفئات */}
         <section>
           <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Featured Categories</h2>
-          <div className={styles.categoriesGrid}>
-             <CategoryCard title="Top Gadgets" />
-             <CategoryCard title="Essential Software" />
-          </div>
+<div className={styles.categoriesGrid}>
+  <CategoryCard 
+    title="Top Gadgets" 
+    image="/gadget.jpg" 
+  />
+  <CategoryCard 
+    title="Essential Software" 
+    image="/software.jpg" 
+  />
+</div>
+
+        
         </section>
 
         {/* قسم المقالات */}
