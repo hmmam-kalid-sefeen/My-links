@@ -3,10 +3,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 50px;
-  background: white;
-  /* إضافة زوايا دائرية للترويسة نفسها إذا أردت */
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  background-color: #ffffff; /* اللون الأبيض */
+  border-bottom: 1px solid #e2e8f0; /* إضافة حد سفلي خفيف جداً لإبرازها */
 }
 
 .links {
