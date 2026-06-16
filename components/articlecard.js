@@ -5,9 +5,7 @@ export default function ArticleCard({ title, excerpt, slug, image }) {
     <div className="card">
       {/* عرض الصورة بشكل متجاوب */}
       {image && (
-        <img 
-          src={image} 
-          alt={title} 
+<img src={image || '/default-placeholder.jpg'} alt={title} 
           style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '15px' }} 
         />
       )}
