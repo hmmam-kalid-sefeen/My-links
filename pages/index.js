@@ -8,11 +8,24 @@ import styles from './home.module.css';
 export default function Home({ posts = [] }) {
   return (
     <>
-      <Navbar />
-      
-      <main className={styles.container}>
-        {/* قسم الـ Hero */}
-        <Hero />
+      // داخل ملف index.js
+<div style={{ 
+  background: 'linear-gradient(135deg, #1e3a8a, #06b6d4)', // لون التدرج الأزرق
+  borderBottomLeftRadius: '50px', // لجعل الزوايا دائرية (Curvy) كما طلبت
+  borderBottomRightRadius: '50px',
+  paddingBottom: '20px' // مساحة بسيطة في الأسفل قبل الانتقال للقسم التالي
+}}>
+  <Navbar />
+  <Hero />
+</div>
+
+{/* هنا تبدأ بقية أقسام الموقع (الفئات والمقالات) بخلفية بيضاء عادية */}
+<main className={styles.container}>
+  <section>
+    <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Featured Categories</h2>
+    {/* ... باقي الكود ... */}
+  </section>
+</main>
 
         {/* قسم الفئات */}
         <section>
