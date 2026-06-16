@@ -7,12 +7,13 @@ export default function Navbar() {
       <div className={styles.logo}>9smart</div>
       
       <div className={styles.links}>
-        <Link href="#">Features ▾</Link>
-        <Link href="#">About ▾</Link>
+        {/* حذفنا الأسهم ▾ من هنا */}
+        <Link href="#">Features</Link> 
+        <Link href="#">About</Link>
         <Link href="/blog">Blog</Link>
       </div>
 
-      <button className={styles.btn}>Get Started</button>
+      {/* الزر تم حذفه أو إخفاؤه بـ CSS */}
     </nav>
   );
 }
