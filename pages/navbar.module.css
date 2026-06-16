@@ -1,20 +1,17 @@
 .navbar {
   display: flex;
-  justify-content: space-between; /* هذا ما يوزع العناصر (شعار - روابط - زر) */
+  justify-content: space-between;
   align-items: center;
   padding: 20px 50px;
   background: white;
-}
-
-.logo {
-  font-weight: 700;
-  font-size: 24px;
-  color: #0f172a;
+  /* إضافة زوايا دائرية للترويسة نفسها إذا أردت */
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .links {
   display: flex;
-  gap: 30px; /* مسافة بين الروابط */
+  gap: 30px;
   font-weight: 500;
 }
 
@@ -23,12 +20,7 @@
   color: #475569;
 }
 
+/* نقوم بإخفاء زر Get Started تماماً */
 .btn {
-  background-color: #3b82f6; /* لون أزرق جذاب */
-  color: white;
-  padding: 10px 25px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
+  display: none; 
 }
