@@ -1,25 +1,19 @@
 import Link from 'next/link';
 
-export default function ArticleCard({ title, excerpt, slug }) {
+export default function ArticleCard({ title, excerpt, slug, image }) {
   return (
-    <div style={{
-      background: '#fff',
-      borderRadius: '20px',
-      padding: '20px',
-      boxShadow: '0 10px 25px rgba(0,0,0,0.05)',
-      transition: '0.3s',
-      border: '1px solid #f1f5f9',
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
-      <div style={{ height: '150px', background: '#e2e8f0', borderRadius: '15px', marginBottom: '15px' }}>
-        {/* هنا ستضع صورة المقال لاحقاً */}
-      </div>
-      <h3 style={{ fontSize: '18px', color: '#0f172a', marginBottom: '10px' }}>{title}</h3>
-      <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '20px', flexGrow: 1 }}>{excerpt}</p>
-      <Link href={`/blog/${slug}`} style={{ color: '#3b82f6', fontWeight: 'bold' }}>
-        Read More →
-      </Link>
+    <div className="card">
+      {/* عرض الصورة بشكل متجاوب */}
+      {image && (
+        <img 
+          src={image} 
+          alt={title} 
+          style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '15px' }} 
+        />
+      )}
+      <h3>{title}</h3>
+      <p>{excerpt}</p>
+      <a href={`/blog/${slug}`}>Read More →</a>
     </div>
   );
 }
