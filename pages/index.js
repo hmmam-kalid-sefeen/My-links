@@ -9,15 +9,16 @@ export default function Home({ posts = [] }) {
   return (
     <>
       {/* القسم الأزرق العلوي */}
-      <div style={{ 
-        background: 'linear-gradient(135deg, #1e3a8a, #06b6d4)',
-        borderBottomLeftRadius: '50px',
-        borderBottomRightRadius: '50px',
-        paddingBottom: '20px'
-      }}>
-        <Navbar />
-        <Hero />
-      </div>
+ <div style={{ 
+  // تدرج كحلي احترافي (Navy Gradient)
+  background: 'linear-gradient(135deg, #0f172a, #1e3a8a)', 
+  borderBottomLeftRadius: '50px',
+  borderBottomRightRadius: '50px',
+  paddingBottom: '20px'
+}}>
+  <Navbar />
+  <Hero />
+</div>
 
       {/* المحتوى الرئيسي */}
       <main className={styles.container}>
