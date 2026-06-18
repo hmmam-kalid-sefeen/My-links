@@ -7,7 +7,7 @@ export default function Navbar() {
       {/* استبدلنا النص هنا بالصورة */}
       <Link href="/">
         <img 
-          src="/logo.PNG" 
+          src="/Logo.png" 
           alt="9smart Logo" 
           style={{ height: '40px', cursor: 'pointer' }} 
         />
