@@ -1,8 +1,6 @@
 import Link from 'next/link';
 import styles from '../pages/navbar.module.css';
 
-import Link from 'next/link';
-
 export default function Navbar() {
   return (
     <nav className="nav-container">
