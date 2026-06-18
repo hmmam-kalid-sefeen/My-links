@@ -33,4 +33,14 @@
   text-decoration: none;
   font-weight: bold;
 }
+.nav-container {
+  position: relative; /* أو absolute حسب تصميمك */
+  z-index: 100;        /* هذا يجعلها تظهر دائماً في المقدمة */
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  color: white;        /* تأكد أن اللون أبيض ليظهر فوق الأزرق */
+}
+
 
