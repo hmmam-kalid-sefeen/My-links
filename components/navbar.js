@@ -13,7 +13,7 @@ export default function Navbar() {
         />
       </Link>
 
-      <Link href="/contact" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}Contact</Link>
+      <Link href="/contact" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}Contact Us</Link>
       <Link href="/about" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>About</Link>
       <Link href="/blog" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>Blog</Link>
     </nav>
