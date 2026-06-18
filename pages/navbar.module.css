@@ -1,46 +1,29 @@
-.navbar {
+/* التنسيق الأساسي للحاوية */
+.nav-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 20px 50px;
-  background: linear-gradient(135deg, #1e3a8a, #06b6d4); /* نفس تدرج الـ Hero */
-  color: white; /* تغيير لون النصوص لتظهر فوق الخلفية الزرقاء */
-}
-
-/* لا تنسَ تغيير لون النصوص في الروابط أيضاً */
-.links a {
-  color: white;
-}
-
-.links {
-  display: flex;
   gap: 30px;
-  font-weight: 500;
+  padding: 20px;
+  background: transparent; /* اجعلها شفافة لتأخذ لون الخلفية الزرقاء للـ Hero */
+  z-index: 100;
 }
 
-.links a {
+/* تنسيق الروابط لتكون بيضاء وواضحة */
+.nav-container a {
+  color: #ffffff !important; 
   text-decoration: none;
-  color: #475569;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: opacity 0.3s;
 }
 
-/* نقوم بإخفاء زر Get Started تماماً */
+/* تأثير بسيط عند المرور بالماوس */
+.nav-container a:hover {
+  opacity: 0.8;
+}
+
+/* تأكد من إخفاء الزر إذا كنت لا تريده */
 .btn {
   display: none; 
 }
-/* مثال للتنسيق */
-.navLink {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-}
-.nav-container {
-  position: relative; /* أو absolute حسب تصميمك */
-  z-index: 100;        /* هذا يجعلها تظهر دائماً في المقدمة */
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px;
-  color: white;        /* تأكد أن اللون أبيض ليظهر فوق الأزرق */
-}
-
-
