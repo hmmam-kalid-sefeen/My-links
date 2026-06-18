@@ -9,7 +9,7 @@ export default function Navbar() {
         <img 
           src="/Logo.png" 
           alt="9smart Logo" 
-          style={{ height: '40px', cursor: 'pointer' }} 
+          style={{ height: '90px', cursor: 'pointer' }} 
         />
       </Link>
 
