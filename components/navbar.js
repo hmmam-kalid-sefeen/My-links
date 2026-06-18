@@ -4,7 +4,7 @@ export default function Navbar() {
   return (
     <nav style={{ display: 'flex', justifyContent: 'center', gap: '30px', padding: '20px' }}>
       <Link href="/">
-        <img src="/Logo.png" alt="Logo" style={{ height: '40px' }} />
+        <img src="/Logo.png" alt="Logo" style={{ height: '100px' }} />
       </Link>
       <Link href="/contact" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>Contact Us</Link>
       <Link href="/about" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>About</Link>
