@@ -28,11 +28,11 @@ export default function Home({ posts = [] }) {
 <div className={styles.categoriesGrid}>
   <CategoryCard 
     title="Top Gadgets" 
-    image="/gadget.jpg" // تأكد أن الصورة بهذا الاسم في مجلد public
+    image="/Gadget.jpg" // تأكد أن الصورة بهذا الاسم في مجلد public
   />
   <CategoryCard 
     title="Essential Software" 
-    image="/software.jpg" 
+    image="/Software.jpg" 
   />
 </div>
 
