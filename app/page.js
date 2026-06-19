@@ -34,7 +34,7 @@ export default async function Home() {
         paddingBottom: '30px'
       }}>
         {/* ملاحظة: بما أنك تستخدم layout.js، قد لا تحتاج Navbar هنا */}
-        <Navbar />
+
         <div style={{ marginTop: '-20px' }}>
            <Hero />
         </div>
@@ -58,7 +58,7 @@ export default async function Home() {
           </div>
         </section>
       </main>
-      <Footer />
+
     </>
   );
 }
