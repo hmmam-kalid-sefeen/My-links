@@ -1,4 +1,4 @@
-import Navbar from './components/navbar'; // تأكد من المسار الصحيح لملف القائمة
+import Navbar from '../components/navbar'; // تأكد من المسار الصحيح لملف القائمة
 
 export default function RootLayout({ children }) {
   return (
