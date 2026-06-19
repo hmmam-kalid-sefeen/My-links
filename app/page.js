@@ -1,9 +1,9 @@
-import Navbar from '../components/navbar';
-import Hero from '../components/hero';
-import CategoryCard from '../components/categorycard';
-import ArticleCard from '../components/articlecard';
-import Footer from '../components/footer';
-import styles from './home.module.css';
+import Navbar from '../../components/navbar';
+import Hero from '../../components/hero';
+import CategoryCard from '../../components/categorycard';
+import ArticleCard from '../../components/articlecard';
+import Footer from '../../components/footer';
+import styles from '../../components/home.module.css';
 
 export default function Home({ posts = [] }) {
   return (
