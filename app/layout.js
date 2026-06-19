@@ -1,7 +1,5 @@
 // app/layout.js
-import Navbar from '../../components/navbar';
-import Footer'../../components/footer';
-
+../components
 export default function RootLayout({ children }) {
   return (
     <html lang="ar" dir="rtl">
