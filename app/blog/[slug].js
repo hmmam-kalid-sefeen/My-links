@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import ReactMarkdown from 'react-markdown';
-import styles from '../bage.module.css'; // استخدم الملف الموجود عندك
+import styles from '../../components/bage.module.css'; // استخدم الملف الموجود عندك
 
 export default function PostPage({ post }) {
   return (
