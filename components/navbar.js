@@ -13,7 +13,7 @@ export default function Navbar() {
   top: '0',
   left: '0',
   width: '100%',
-  backgroundColor: '#ffffff', // هنا اللون الأبيض
+  backgroundColor: '#1659ff', // هنا اللون الأبيض
   zIndex: '1000',
   boxShadow: '0 2px 5px rgba(0,0,0,0.1)' // إضافة ظل بسيط ليظهر الشريط
 }}>
