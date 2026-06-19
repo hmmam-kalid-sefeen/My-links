@@ -9,16 +9,18 @@ export default function Home({ posts = [] }) {
   return (
     <>
       {/* القسم الأزرق العلوي */}
- <div style={{ 
-  // تدرج كحلي احترافي (Navy Gradient)
-  background: 'linear-gradient(135deg, #0f172a, #1e3a8a)', 
+ 
+<div style={{ 
+  background: 'linear-gradient(135deg, #0f172a, #1e3a8a)',
   borderBottomLeftRadius: '30px',
   borderBottomRightRadius: '30px',
-  paddingBottom: '20px',
-    paddingTop: '10px' 
+  paddingTop: '10px',      // مساحة صغيرة جداً من الأعلى
+  paddingBottom: '30px'    // قلل هذه القيمة لتضييق المنطقة
 }}>
   <Navbar />
-  <Hero />
+  <div style={{ marginTop: '-20px' }}> {/* هذا يرفع الـ Hero قليلاً للأعلى */}
+     <Hero />
+  </div>
 </div>
 
       {/* المحتوى الرئيسي */}
