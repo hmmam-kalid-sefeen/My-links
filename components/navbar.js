@@ -21,7 +21,7 @@ export default function Navbar() {
         About
       </Link>
       
-      <Link href="/home" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>
+      <Link href="/" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>
         Home
       </Link>
     </nav>
