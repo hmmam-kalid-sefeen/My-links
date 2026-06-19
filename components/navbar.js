@@ -10,7 +10,7 @@ export default function Navbar() {
       padding: '10px 20px' 
     }}>
       <Link href="/">
-        <img src="/Logo.png" alt="Logo" style={{ height: '40px', cursor: 'pointer' }} />
+        <img src="/Logo.png" alt="Logo" style={{ height: '90px', cursor: 'pointer' }} />
       </Link>
       
       <Link href="/contact" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>
