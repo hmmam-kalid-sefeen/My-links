@@ -1,6 +1,6 @@
 // app/layout.js
-import Navbar from '../components/navbar';
-import Footer from '../components/footer';
+import Navbar from '../../components/navbar';
+import Footer'../../components/footer';
 
 export default function RootLayout({ children }) {
   return (
