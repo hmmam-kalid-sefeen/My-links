@@ -12,9 +12,10 @@ export default function Home({ posts = [] }) {
  <div style={{ 
   // تدرج كحلي احترافي (Navy Gradient)
   background: 'linear-gradient(135deg, #0f172a, #1e3a8a)', 
-  borderBottomLeftRadius: '50px',
-  borderBottomRightRadius: '50px',
-  paddingBottom: '20px'
+  borderBottomLeftRadius: '30px',
+  borderBottomRightRadius: '30px',
+  paddingBottom: '20px',
+    paddingTop: '10px' 
 }}>
   <Navbar />
   <Hero />
