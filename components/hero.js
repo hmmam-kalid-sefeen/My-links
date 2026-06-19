@@ -5,8 +5,8 @@ export default function Hero() {
       color: 'white', 
       padding: '100px 20px', 
       textAlign: 'center',
-      borderBottomLeftRadius: '50px',
-      borderBottomRightRadius: '50px'
+      borderBottomLeftRadius: '30px',
+      borderBottomRightRadius: '30px'
     }}>
       <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>Discover the Best Tech Tools & Software</h1>
       <button style={{ padding: '15px 40px', borderRadius: '30px', border: 'none', background: 'white', color: '#06b6d4', fontWeight: 'bold' }}>
