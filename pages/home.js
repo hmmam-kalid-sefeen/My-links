@@ -6,8 +6,10 @@ export default function Blog() {
     <>
       <Navbar />
       <main style={{ padding: '80px 20px', textAlign: 'center' }}>
-        <h1>Our Blog</h1>
-        <p>Stay tuned! Our articles are coming soon.</p>
+ <Link href="/">
+  الرئيسية
+</Link>
+ articles are coming soon.</p>
       </main>
       <Footer />
     </>
