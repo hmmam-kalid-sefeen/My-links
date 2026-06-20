@@ -4,22 +4,19 @@ export default function Navbar() {
   return (
     <nav style={{ 
       display: 'flex', 
-      justifyContent: 'space-between', // هذه هي الخاصية المسؤولة عن توزيع العناصر على الطرفين
+      justifyContent: 'space-between', 
       alignItems: 'center', 
-      padding: '15px 30px', // قمنا بزيادة الـ padding الجانبي قليلاً ليأخذ اللوجو مساحته
-      color: '#1359E7E'
+      padding: '15px 30px',
+      background: 'linear-gradient(135deg, #0f172a, #1e3a8a)', // أضفنا الخلفية هنا لضمان وجود اللون
+      color: '#ffffff'
     }}>
-      
-      {/* اللوجو في اليسار */}
       <Link href="/">
-        <img src="/Logo.png" alt="Logo" style={{ height: '40px', cursor: 'pointer' }} />
+        <img src="/Logo.png" alt="Logo" style={{ height: '40px' }} />
       </Link>
-
-      {/* الروابط في اليمين */}
       <div style={{ display: 'flex', gap: '20px' }}>
-        <Link href="/" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>Home</Link>
-        <Link href="/about" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>About</Link>
-        <Link href="/contact" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>Contact Us</Link>
+        <Link href="/" style={{ color: '#ffffff', textDecoration: 'none' }}>Home</Link>
+        <Link href="/about" style={{ color: '#ffffff', textDecoration: 'none' }}>About</Link>
+        <Link href="/contact" style={{ color: '#ffffff', textDecoration: 'none' }}>Contact Us</Link>
       </div>
     </nav>
   );
