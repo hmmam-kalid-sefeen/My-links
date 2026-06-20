@@ -1,3 +1,4 @@
+import Link from 'next/link';
 <nav style={{ 
   display: 'flex', 
   justifyContent: 'space-between', // سيبعد اللوجو عن الروابط لأقصى حد
