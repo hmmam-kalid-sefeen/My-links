@@ -1,7 +1,7 @@
 import Hero from '../comps/hero';
 import CategoryCard from '../comps/categorycard';
 import ArticleCard from '../comps/articlecard';
-import styles from '../comps/home.module.css';
+import styles from './home.module.css';
 import fs from 'fs';
 import path from 'path';
 
