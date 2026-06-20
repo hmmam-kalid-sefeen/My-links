@@ -33,7 +33,7 @@ export default function Navbar() {
     {/* الروابط في اليمين */}
       <div style={{ display: 'flex', gap: '20px' }}>
         <Link href="/" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>Home</Link>
-        <Link href="/about" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>About</Link>
+        <Link href="../app/about" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>About</Link>
         <Link href="/contact" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>Contact Us</Link>
   </div>
          </div> 
