@@ -20,7 +20,7 @@ export default function Navbar() {
       src="/Logo.png" 
       alt="Logo" 
       style={{ 
-        height: '55px', // يمكنك تكبير هذا الرقم كما تشاء
+        height: '75px', // يمكنك تكبير هذا الرقم كما تشاء
         width: 'auto',  // [مهم] للحفاظ على تناسب أبعاد الصورة
         display: 'block' // لمنع وجود مسافات إضافية تحت الصورة
       }} 
