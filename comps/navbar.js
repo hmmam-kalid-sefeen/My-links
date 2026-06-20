@@ -7,7 +7,7 @@ export default function Navbar() {
       justifyContent: 'space-between', // هذه هي الخاصية المسؤولة عن توزيع العناصر على الطرفين
       alignItems: 'center', 
       padding: '15px 30px', // قمنا بزيادة الـ padding الجانبي قليلاً ليأخذ اللوجو مساحته
-      color: '#ffffff'
+      color: '#1359E7E'
     }}>
       
       {/* اللوجو في اليسار */}
