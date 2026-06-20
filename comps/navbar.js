@@ -1,3 +1,7 @@
+import Link from 'next/link';
+
+export default function Navbar() {
+  return (
 <nav style={{ 
   display: 'flex', 
   justifyContent: 'space-between', 
@@ -28,3 +32,5 @@
      {/* ... روابطك ... */}
   </div>
 </nav>
+);
+}
