@@ -6,8 +6,6 @@ import styles from '@/components/home.module.css';
 import fs from 'fs';
 import path from 'path';
 
-
-
 export default async function Home() {
   let posts = [];
   try {
