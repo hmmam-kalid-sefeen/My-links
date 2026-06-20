@@ -2,7 +2,7 @@
 import Hero from '@/components/hero'; 
 import CategoryCard from '@/components/categorycard';
 import ArticleCard from '@/components/articlecard';
-import styles from '@/components/home.module.css';
+import styles from '@/components/xxx.module.css';
 import fs from 'fs';
 import path from 'path';
 
