@@ -4,18 +4,20 @@ export default function Navbar() {
   return (
     <nav style={{ 
       display: 'flex', 
-      justifyContent: 'space-between', 
+      justifyContent: 'space-between', // اللوجو في أقصى اليسار والروابط في أقصى اليمين
       alignItems: 'center', 
       padding: '15px 30px', 
-      background: 'linear-gradient(135deg, #0f172a, #1e3a8a)',
-      color: '#ffffff'
+      background: 'linear-gradient(135deg, #0f172a, #1e3a8a)', // اللون الكحلي
+      color: '#ffffff',
+      width: '100%',
+      boxSizing: 'border-box'
     }}>
-      {/* اللوجو في اليسار */}
+      {/* اللوجو */}
       <Link href="/">
-        <img src="/Logo.png" alt="Logo" style={{ height: '40px', cursor: 'pointer' }} />
+        <img src="/Logo.png" alt="Logo" style={{ height: '40px' }} />
       </Link>
 
-      {/* الروابط في اليمين */}
+      {/* الروابط */}
       <div style={{ display: 'flex', gap: '20px' }}>
         <Link href="/" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>Home</Link>
         <Link href="/about" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: 'bold' }}>About</Link>
