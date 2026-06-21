@@ -1,14 +1,11 @@
-// ملف comps/hero.js الجديد بعد التعديل
-
 export default function Hero() {
   return (
     <div style={{ 
       textAlign: 'center', 
-      padding: '40px 20px',  // زيادة الـ padding ليعطي مساحة للعنوان
-      color: 'white' // تأكد من أن لون النص أبيض
+      padding: '40px 20px'
     }}>
-      {/* العنوان فقط */}
-      <h1 style={{ margin: '0' }}>
+      {/* فرض اللون الأبيض هنا مباشرة داخل الـ h1 */}
+      <h1 style={{ margin: '0', color: '#ffffff' }}>
         Discover the Best Tech Tools & Software
       </h1>
     </div>
