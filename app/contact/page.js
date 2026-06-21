@@ -1,18 +1,14 @@
-// app/contact/page.js
 export default function ContactPage() {
   return (
-    <div style={{ maxWidth: '600px', margin: '50px auto', padding: '20px' }}>
-      <h1>اتصل بنا</h1>
-      <form action="/api/contact" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        <input type="text" name="name" placeholder="الاسم" required style={inputStyle} />
-        <input type="email" name="email" placeholder="البريد الإلكتروني" required style={inputStyle} />
-        <textarea name="message" placeholder="رسالتك" rows="5" required style={inputStyle}></textarea>
-        <button type="submit" style={buttonStyle}>إرسال</button>
+    <div style={{ maxWidth: '500px', margin: '50px auto', padding: '20px' }}>
+      <h1>Contact Us</h1>
+      {/* ضع الرابط الذي نسخته هنا بدلاً من الرابط الوهمي */}
+      <form action="https://formspree.io/f/mzdkjjyk" method="POST" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+        <input type="text" name="name" placeholder="Your Name" required style={{ padding: '10px' }} />
+        <input type="email" name="email" placeholder="Your Email" required style={{ padding: '10px' }} />
+        <textarea name="message" placeholder="Your Message" rows="5" required style={{ padding: '10px' }}></textarea>
+        <button type="submit" style={{ padding: '10px', background: '#1e3a8a', color: 'white', border: 'none', cursor: 'pointer' }}>Send</button>
       </form>
     </div>
   );
 }
-
-// تنسيقات بسيطة
-const inputStyle = { padding: '10px', fontSize: '16px', borderRadius: '5px', border: '1px solid #ccc' };
-const buttonStyle = { padding: '10px', background: '#1e3a8a', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' };
