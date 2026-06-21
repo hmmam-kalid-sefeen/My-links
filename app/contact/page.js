@@ -2,7 +2,7 @@ export default function ContactPage() {
   return (
     <div style={{ maxWidth: '600px', margin: '50px auto', padding: '20px' }}>
       <h1>Contact Us</h1>
-      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <form action="https://formspree.io/f/mzdkjjyk" method="POST">
         <input type="text" name="name" placeholder="Your Name" required style={inputStyle} />
         <input type="email" name="email" placeholder="Your Email" required style={inputStyle} />
         <textarea name="message" placeholder="Your Message" rows="5" required style={inputStyle}></textarea>
