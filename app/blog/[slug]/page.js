@@ -1,33 +1,21 @@
 import fs from 'fs';
 import path from 'path';
-import ReactMarkdown from 'react-markdown';
-import styles from '../comps/home.module.css'; // استخدم الملف الموجود عندك
 
-export default function PostPage({ post }) {
+export default async function PostPage({ params }) {
+  // جلب الـ slug من الرابط
+  const { slug } = await params;
+  
+  // قراءة ملف المقال
+  const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
+  const fileContents = fs.readFileSync(filePath, 'utf8');
+  const post = JSON.parse(fileContents);
+
   return (
-    <div className={styles.container}>
+    <main style={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
       <h1>{post.title}</h1>
-      <ReactMarkdown>{post.content}</ReactMarkdown>
-    </div>
+      <div style={{ marginTop: '20px' }}>
+        {post.content}
+      </div>
+    </main>
   );
-}
-
-export async function getStaticPaths() {
-  const postsDir = path.join(process.cwd(), 'posts');
-  const filenames = fs.readdirSync(postsDir);
-
-  const paths = filenames.map(filename => ({
-    params: { slug: filename.replace('.json', '') }
-  }));
-
-  return { paths, fallback: false };
-}
-
-export async function getStaticProps({ params }) {
-  const postsDir = path.join(process.cwd(), 'posts');
-  const filePath = path.join(postsDir, `${params.slug}.json`);
-  const fileContent = fs.readFileSync(filePath, 'utf-8');
-  const post = JSON.parse(fileContent);
-
-  return { props: { post } };
 }
