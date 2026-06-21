@@ -1,17 +1,13 @@
-export default function Hero() {
-  return (
-    <section style={{ 
-      background: 'linear-gradient(135deg, #1e3a8a, #06b6d4)', 
-      color: 'white', 
-      padding: '100px 20px', 
-      textAlign: 'center',
-      borderBottomLeftRadius: '30px',
-      borderBottomRightRadius: '30px'
-    }}>
-      <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>Discover the Best Tech Tools & Software</h1>
-      <button style={{ padding: '15px 40px', borderRadius: '30px', border: 'none', background: 'white', color: '#06b6d4', fontWeight: 'bold' }}>
-        Explore Now
-      </button>
-    </section>
-  );
-}
+import Link from 'next/link';
+
+// داخل دالة الـ return للـ Hero
+<Link href="#categories" style={{ 
+    padding: '10px 30px', 
+    backgroundColor: 'white', 
+    borderRadius: '20px', 
+    color: '#1e3a8a', 
+    textDecoration: 'none', 
+    fontWeight: 'bold' 
+}}>
+  Explore Now
+</Link>
