@@ -3,7 +3,7 @@
 export default function About() {
   return (
     <>
-      <Navbar />
+      
       
       <main style={{ 
         padding: '80px 20px', 
@@ -34,7 +34,7 @@ export default function About() {
         </ul>
       </main>
 
-      <Footer />
+    
     </>
   );
 }
