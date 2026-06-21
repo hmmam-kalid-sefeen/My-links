@@ -1,18 +1,28 @@
 import Link from 'next/link';
 
-export default function CategoryCard({ title }) {
+export default function CategoryCard({ title, image }) {
+  // نقوم بإنشاء رابط بناءً على العنوان، مثلاً /top-gadgets
+  const linkPath = `/${title.toLowerCase().replace(' ', '-')}`;
+
   return (
-    // ربط الرابط بالمسار الذي تريده، مثلاً /category/top-gadgets
-    <Link href={`/category/${title.toLowerCase().replace(' ', '-')}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+    <Link href={linkPath} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div style={{ 
-        textAlign: 'center',        // هذا يوسّط النص
-        padding: '20px', 
-        border: '1px solid #ddd', 
-        borderRadius: '10px',
-        cursor: 'pointer'           // يغير شكل الماوس عند النقر
+        textAlign: 'center', 
+        padding: '15px', 
+        border: '1px solid #e5e7eb', 
+        borderRadius: '15px',
+        cursor: 'pointer',
+        transition: 'transform 0.2s' // إضافة تأثير حركة بسيط عند المرور بالماوس
       }}>
-        {/* أضف صورتك هنا إذا كانت موجودة */}
-        <h3>{title}</h3>
+        {/* التأكد من عرض الصورة */}
+        <img 
+          src={image} 
+          alt={title} 
+          style={{ width: '100%', borderRadius: '10px', height: 'auto' }} 
+        />
+        
+        {/* العنوان أصبح في المنتصف تلقائياً بسبب textAlign: 'center' في الحاوية */}
+        <h3 style={{ marginTop: '15px', marginBottom: '5px' }}>{title}</h3>
       </div>
     </Link>
   );
