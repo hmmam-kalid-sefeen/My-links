@@ -24,3 +24,7 @@ footer {
   border-radius: 25px !important; 
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
