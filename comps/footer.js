@@ -5,7 +5,7 @@ export default function Footer() {
         <a href="/privacy" style={{ margin: '0 10px' }}>Privacy Policy</a> | 
         <a href="/terms" style={{ margin: '0 10px' }}>Terms of Service</a>
       </div>
-      <div style={{ fontSize: '20px' }}>🐦 👔 🌐</div>
+      
     </footer>
   );
 }
