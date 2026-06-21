@@ -20,7 +20,7 @@ export default function EssentialSoftwarePage() {
       {filteredPosts.length > 0 ? (
         filteredPosts.map(post => <ArticleCard key={post.slug} {...post} />)
       ) : (
-        <p>لا توجد مقالات في هذا التصنيف حالياً.</p>
+        <p>coming soon.</p>
       )}
     </main>
   );
