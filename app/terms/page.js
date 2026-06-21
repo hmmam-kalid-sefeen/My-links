@@ -1,5 +1,4 @@
-import Navbar from '../../comps/navbar';
-import Footer from '../../comps/footer';
+
 
 export default function Terms() {
   return (
