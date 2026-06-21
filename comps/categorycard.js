@@ -1,25 +1,19 @@
-export default function CategoryCard({ title, image }) {
+import Link from 'next/link';
+
+export default function CategoryCard({ title }) {
   return (
-    <div className="card" style={{ 
-      padding: '0', 
-      border: 'none', 
-      borderRadius: '15px', 
-      overflow: 'hidden', 
-      boxShadow: '0 4px 12px rgba(0,0,0,0.1)' 
-    }}>
-      {/* التعديل هنا: نتحقق من وجود image قبل العرض */}
-      {image ? (
-        <img 
-          src={image} 
-          alt={title} 
-          style={{ width: '100%', height: '150px', objectFit: 'cover' }} 
-        />
-      ) : (
-        <div style={{ width: '100%', height: '150px', background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <span>No Image</span>
-        </div>
-      )}
-      <h3 style={{ padding: '15px', margin: '0' }}>{title}</h3>
-    </div>
+    // ربط الرابط بالمسار الذي تريده، مثلاً /category/top-gadgets
+    <Link href={`/category/${title.toLowerCase().replace(' ', '-')}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <div style={{ 
+        textAlign: 'center',        // هذا يوسّط النص
+        padding: '20px', 
+        border: '1px solid #ddd', 
+        borderRadius: '10px',
+        cursor: 'pointer'           // يغير شكل الماوس عند النقر
+      }}>
+        {/* أضف صورتك هنا إذا كانت موجودة */}
+        <h3>{title}</h3>
+      </div>
+    </Link>
   );
 }
