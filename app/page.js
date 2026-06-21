@@ -21,17 +21,21 @@ export default async function Home() {
 
   return (
     <main className={styles.container}>
-      <div style={{ 
-        background: 'linear-gradient(135deg, #0f172a, #1e3a8a)',
-        borderBottomLeftRadius: '30px',
-        borderBottomRightRadius: '30px',
-        paddingTop: '10px',
-        paddingBottom: '30px'
-      }}>
-        <div style={{ marginTop: '-20px' }}>
-           <Hero />
-        </div>
-      </div>
+ 
+    <div style={{ 
+  background: 'linear-gradient(135deg, #0f172a, #1e3a8a)',
+  borderBottomLeftRadius: '50px', // التحكم في الزاوية اليسرى السفلية
+  borderBottomRightRadius: '50px', // التحكم في الزاوية اليمنى السفلية
+  borderTopLeftRadius: '50px',     // أضفنا زاوية علوية يسار
+  borderTopRightRadius: '50px',    // أضفنا زاوية علوية يمين
+  padding: '40px 10px',            // تحسين المسافات الداخلية
+  marginBottom: '40px'             // ترك مسافة بين الهيرو وباقي الصفحة
+}}>
+  <div style={{ marginTop: '-20px' }}>
+     <Hero />
+  </div>
+</div>
+
 
       <section>
         <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Featured Categories</h2>
