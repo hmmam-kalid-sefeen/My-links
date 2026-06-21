@@ -3,10 +3,7 @@ import path from 'path';
 import ReactMarkdown from 'react-markdown';
 
 export default async function PostPage({ params }) {
-  // الحصول على الـ slug من الرابط
   const { slug } = await params;
-  
-  // قراءة ملف الـ JSON الخاص بالمقالة
   const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
   
   try {
@@ -15,11 +12,27 @@ export default async function PostPage({ params }) {
 
     return (
       <main style={{ padding: '20px', maxWidth: '800px', margin: 'auto', lineHeight: '1.6' }}>
+        {/* العنوان الرئيسي */}
         <h1 style={{ fontSize: '2.5rem', marginBottom: '10px' }}>{post.title}</h1>
+        
+        {/* عرض الصورة إذا كانت موجودة في ملف الـ JSON */}
+        {post.image && (
+          <img 
+            src={post.image} 
+            alt={post.title} 
+            style={{ 
+              width: '100%', 
+              height: 'auto', 
+              borderRadius: '8px', 
+              marginBottom: '20px',
+              display: 'block' 
+            }} 
+          />
+        )}
+
         <p style={{ color: '#0070f3', fontWeight: 'bold' }}>Category: {post.category}</p>
         
         <div style={{ marginTop: '30px' }}>
-          {/* تحويل الماركدون إلى HTML */}
           <ReactMarkdown 
             components={{
               h1: ({node, ...props}) => <h1 style={{ fontSize: '2rem', marginTop: '20px' }} {...props} />,
