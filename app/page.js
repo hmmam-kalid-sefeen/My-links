@@ -3,7 +3,7 @@ import CategoryCard from '../comps/categorycard';
 import styles from './home.module.css';
 import fs from 'fs';
 import path from 'path';
-import Link from 'next/link'; // تأكد من إضافة هذا السطر
+import Link from 'next/link';
 
 export default async function Home() {
   let posts = [];
@@ -21,14 +21,15 @@ export default async function Home() {
 
   return (
     <main className={styles.container}>
+      {/* قسم الهيرو بتنسيق متدرج انسيابي بدون زر */}
       <div style={{ 
-        background: 'linear-gradient(135deg, #0f172a, #1e3a8a)',
-        borderBottomLeftRadius: '50px',
-        borderBottomRightRadius: '50px',
-        borderTopLeftRadius: '50px',
-        borderTopRightRadius: '50px',
-        padding: '40px 10px',
-        marginBottom: '40px'
+        background: 'linear-gradient(180deg, #1e3a8a 0%, #3b82f6 100%)',
+        borderRadius: '40px',
+        padding: '60px 20px',
+        textAlign: 'center',
+        color: 'white',
+        marginBottom: '40px',
+        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
       }}>
         <div style={{ marginTop: '-20px' }}>
            <Hero />
@@ -46,7 +47,7 @@ export default async function Home() {
       <section>
         <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
         
-        {/* استخدمنا المتغير الصحيح posts بدلاً من latestPosts */}
+        {/* قائمة المقالات بتنسيق القائمة المصغرة */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px' }}>
           {posts.map((post) => (
             <Link href={`/blog/${post.slug}`} key={post.slug} style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -56,7 +57,8 @@ export default async function Home() {
                 gap: '15px', 
                 padding: '10px', 
                 border: '1px solid #e5e7eb', 
-                borderRadius: '12px' 
+                borderRadius: '12px',
+                backgroundColor: 'white' // إضافة خلفية بيضاء لجمالية القائمة
               }}>
                 <img 
                   src={post.image} 
