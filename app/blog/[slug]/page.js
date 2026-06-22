@@ -1,37 +1,38 @@
 import fs from 'fs';
 import path from 'path';
-import ReactMarkdown from 'react-markdown'; // 1. استيراد المكتبة
 
 export default async function BlogPost({ params }) {
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
-
-  if (!slug) return <h1>رابط المقالة غير صحيح</h1>;
-
-  const postsDirectory = path.join(process.cwd(), 'posts');
-  const filePath = path.join(postsDirectory, `${slug}.json`);
+  const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
 
   if (!fs.existsSync(filePath)) {
-    return <main><h1>المقالة غير موجودة</h1></main>;
+    return <main style={{ padding: '20px' }}><h1>المقالة غير موجودة</h1></main>;
   }
 
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const data = JSON.parse(fileContents);
   const meta = data.article_metadata || data;
+  
+  // استخراج المحتوى (سواء كان في description أو في الهيكلية)
+  const content = meta.description || data.article_structure?.introduction?.narrative || "لا يوجد محتوى.";
 
   return (
     <main style={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
-      <h1>{meta.title}</h1>
+      <h1 style={{ marginBottom: '20px' }}>{meta.title}</h1>
       
       {meta.image && (
-        <img src={meta.image} alt={meta.title} style={{ width: '100%', borderRadius: '12px' }} />
+        <img src={meta.image} alt={meta.title} style={{ width: '100%', borderRadius: '12px', marginBottom: '20px' }} />
       )}
       
-      {/* 2. استخدام ReactMarkdown بدلاً من p العادية */}
-      <div style={{ marginTop: '20px', fontSize: '1.1rem', lineHeight: '1.8' }}>
-        <ReactMarkdown>
-          {meta.content || "محتوى المقالة غير متوفر."}
-        </ReactMarkdown>
+      {/* التعديل هنا: استخدام whiteSpace: 'pre-line' سيجعل المتصفح يحترم فواصل الأسطر */}
+      <div style={{ 
+        fontSize: '1.2rem', 
+        lineHeight: '1.8', 
+        color: '#333',
+        whiteSpace: 'pre-line' 
+      }}>
+        {content}
       </div>
     </main>
   );
