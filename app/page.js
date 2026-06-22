@@ -1,39 +1,80 @@
+import Hero from '../comps/hero';
+import CategoryCard from '../comps/categorycard';
+import styles from './home.module.css';
 import fs from 'fs';
 import path from 'path';
+import Link from 'next/link';
 
-export default async function BlogPost({ params }) {
-  // الحصول على الـ slug من الرابط
-  const { slug } = await params;
-  
-  // تحديد المسار الصحيح
+export default async function Home() {
   const postsDirectory = path.join(process.cwd(), 'posts');
-  const filePath = path.join(postsDirectory, `${slug}.json`);
-
-  // فحص وجود الملف قبل محاولة قراءته
-  if (!fs.existsSync(filePath)) {
-    return (
-      <main style={{ padding: '20px', textAlign: 'center' }}>
-        <h1>المقالة غير موجودة</h1>
-        <p>نعتذر، لم نتمكن من العثور على الملف في المسار: {filePath}</p>
-      </main>
-    );
-  }
-
-  // قراءة الملف
-  const fileContents = fs.readFileSync(filePath, 'utf8');
-  const data = JSON.parse(fileContents);
-  const meta = data.article_metadata || data;
+  const filenames = fs.readdirSync(postsDirectory);
+  
+  const posts = filenames.map(filename => {
+    const filePath = path.join(postsDirectory, filename);
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const data = JSON.parse(fileContents);
+    
+    // الحل: استخراج البيانات سواء كانت داخل article_metadata أو مباشرة
+    const meta = data.article_metadata || data;
+    
+    return {
+      title: meta.title || "عنوان المقالة",
+      image: meta.image || "/default-image.jpg", // صورة افتراضية في حال عدم وجودها
+      slug: meta.slug || filename.replace('.json', ''),
+    };
+  });
 
   return (
-    <main style={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
-      <h1>{meta.title || "عنوان المقال"}</h1>
-      {/* عرض الصورة فقط إذا كانت موجودة، وإلا لا تعرض شيئاً لتجنب المربع الفارغ */}
-      {meta.image && (
-        <img src={meta.image} alt={meta.title} style={{ width: '100%', borderRadius: '12px' }} />
-      )}
-      <div style={{ marginTop: '20px' }}>
-        <p>{meta.description || "محتوى المقال قيد التحديث."}</p>
+    <main className={styles.container}>
+      {/* قسم الـ Hero بتنسيق التدرج اللوني */}
+      <div style={{ 
+        background: 'linear-gradient(180deg, #1e3a8a 0%, #3b82f6 100%)',
+        borderRadius: '40px',
+        padding: '60px 20px',
+        textAlign: 'center',
+        color: 'white',
+        marginBottom: '40px',
+        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+      }}>
+        <div style={{ marginTop: '-20px' }}>
+           <Hero />
+        </div>
       </div>
+
+      <section>
+        <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Featured Categories</h2>
+        <div className={styles.categoriesGrid}>
+          <CategoryCard title="Top Gadgets" image="/Gadget.jpg" />
+          <CategoryCard title="Essential Software" image="/Software.jpg" />
+        </div>
+      </section>
+
+      <section>
+        <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px' }}>
+          {posts.map((post) => (
+            <Link href={`/blog/${post.slug}`} key={post.slug} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '15px', 
+                padding: '10px', 
+                border: '1px solid #e5e7eb', 
+                borderRadius: '12px',
+                backgroundColor: 'white'
+              }}>
+                <img 
+                  src={post.image} 
+                  alt={post.title} 
+                  style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }} 
+                  onError={(e) => { e.target.src = "/default-image.jpg" }} // في حال فشل تحميل الصورة
+                />
+                <h3 style={{ fontSize: '1rem', margin: 0 }}>{post.title}</h3>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }
