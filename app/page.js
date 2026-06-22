@@ -2,41 +2,37 @@ import fs from 'fs';
 import path from 'path';
 
 export default async function BlogPost({ params }) {
+  // الحصول على الـ slug من الرابط
   const { slug } = await params;
-  const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
+  
+  // تحديد المسار الصحيح
+  const postsDirectory = path.join(process.cwd(), 'posts');
+  const filePath = path.join(postsDirectory, `${slug}.json`);
 
+  // فحص وجود الملف قبل محاولة قراءته
   if (!fs.existsSync(filePath)) {
-    return <main style={{ padding: '20px' }}><h1>المقالة غير موجودة</h1></main>;
+    return (
+      <main style={{ padding: '20px', textAlign: 'center' }}>
+        <h1>المقالة غير موجودة</h1>
+        <p>نعتذر، لم نتمكن من العثور على الملف في المسار: {filePath}</p>
+      </main>
+    );
   }
 
+  // قراءة الملف
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const data = JSON.parse(fileContents);
-  const meta = data.article_metadata || {};
+  const meta = data.article_metadata || data;
 
   return (
-    <main style={{ padding: '20px', maxWidth: '800px', margin: 'auto', lineHeight: '1.8' }}>
-      {/* 1. عرض العنوان */}
-      <h1>{meta.title}</h1>
-      
-      {/* 2. عرض صورة ثابتة (بما أن ملفك لا يحتوي على رابط صورة) */}
-      {/* يمكنك تغيير الرابط لصورة من مجلد public/images/ */}
-      <img 
-        src="/default-image.jpg" 
-        alt={meta.title} 
-        style={{ width: '100%', borderRadius: '12px', marginBottom: '20px' }} 
-      />
-      
-      {/* 3. عرض المحتوى من الهيكلية المعقدة */}
-      <div style={{ fontSize: '1.1rem' }}>
-        <h2>المقدمة</h2>
-        <p>{data.article_structure?.introduction?.hook}</p>
-        
-        <h2>أهم الأجهزة المقترحة</h2>
-        {data.article_structure?.key_sections?.find(s => s.heading.includes("Top 5"))?.subsections?.map((item, index) => (
-          <div key={index} style={{ marginBottom: '15px' }}>
-            <strong>{item.product}:</strong> {item.focus}
-          </div>
-        ))}
+    <main style={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
+      <h1>{meta.title || "عنوان المقال"}</h1>
+      {/* عرض الصورة فقط إذا كانت موجودة، وإلا لا تعرض شيئاً لتجنب المربع الفارغ */}
+      {meta.image && (
+        <img src={meta.image} alt={meta.title} style={{ width: '100%', borderRadius: '12px' }} />
+      )}
+      <div style={{ marginTop: '20px' }}>
+        <p>{meta.description || "محتوى المقال قيد التحديث."}</p>
       </div>
     </main>
   );
