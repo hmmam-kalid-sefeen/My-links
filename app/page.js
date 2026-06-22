@@ -6,22 +6,27 @@ import path from 'path';
 import Link from 'next/link';
 
 export default async function Home() {
-  let posts = [];
-  try {
-    const postsDirectory = path.join(process.cwd(), 'posts');
-    const filenames = fs.readdirSync(postsDirectory);
-    posts = filenames.map(filename => {
-      const filePath = path.join(postsDirectory, filename);
-      const fileContents = fs.readFileSync(filePath, 'utf8');
-      return JSON.parse(fileContents);
-    });
-  } catch (error) {
-    console.error("Error loading posts:", error);
-  }
+  const postsDirectory = path.join(process.cwd(), 'posts');
+  const filenames = fs.readdirSync(postsDirectory);
+  
+  const posts = filenames.map(filename => {
+    const filePath = path.join(postsDirectory, filename);
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const data = JSON.parse(fileContents);
+    
+    // الحل: استخراج البيانات سواء كانت داخل article_metadata أو مباشرة
+    const meta = data.article_metadata || data;
+    
+    return {
+      title: meta.title || "عنوان المقالة",
+      image: meta.image || "/default-image.jpg", // صورة افتراضية في حال عدم وجودها
+      slug: meta.slug || filename.replace('.json', ''),
+    };
+  });
 
   return (
     <main className={styles.container}>
-      {/* قسم الهيرو بتنسيق متدرج انسيابي بدون زر */}
+      {/* قسم الـ Hero بتنسيق التدرج اللوني */}
       <div style={{ 
         background: 'linear-gradient(180deg, #1e3a8a 0%, #3b82f6 100%)',
         borderRadius: '40px',
@@ -46,8 +51,6 @@ export default async function Home() {
 
       <section>
         <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
-        
-        {/* قائمة المقالات بتنسيق القائمة المصغرة */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px' }}>
           {posts.map((post) => (
             <Link href={`/blog/${post.slug}`} key={post.slug} style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -58,17 +61,13 @@ export default async function Home() {
                 padding: '10px', 
                 border: '1px solid #e5e7eb', 
                 borderRadius: '12px',
-                backgroundColor: 'white' // إضافة خلفية بيضاء لجمالية القائمة
+                backgroundColor: 'white'
               }}>
                 <img 
                   src={post.image} 
                   alt={post.title} 
-                  style={{ 
-                    width: '80px', 
-                    height: '80px', 
-                    objectFit: 'cover', 
-                    borderRadius: '8px' 
-                  }} 
+                  style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }} 
+                  onError={(e) => { e.target.src = "/default-image.jpg" }} // في حال فشل تحميل الصورة
                 />
                 <h3 style={{ fontSize: '1rem', margin: 0 }}>{post.title}</h3>
               </div>
