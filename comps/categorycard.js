@@ -1,7 +1,9 @@
 import Link from 'next/link';
 
 export default function CategoryCard({ title, image }) {
-  const linkPath = `/${title.toLowerCase().replace(' ', '-')}`;
+  // في CategoryCard.js
+const linkPath = `/category/${title.toLowerCase().replace(' ', '-')}`;
+
   
   return (
     <Link href={linkPath} style={{ textDecoration: 'none', color: 'inherit' }}>
