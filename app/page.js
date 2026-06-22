@@ -1,65 +1,43 @@
 import fs from 'fs';
 import path from 'path';
-import Link from 'next/link';
-import Hero from '../comps/hero';
-import CategoryCard from '../comps/categorycard';
-import styles from './home.module.css';
 
-export default async function Home() {
-  const postsDirectory = path.join(process.cwd(), 'posts');
-  let posts = [];
+export default async function BlogPost({ params }) {
+  const { slug } = await params;
+  const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
 
-  try {
-    const filenames = fs.readdirSync(postsDirectory);
-    posts = filenames.map(filename => {
-      const filePath = path.join(postsDirectory, filename);
-      const fileContents = fs.readFileSync(filePath, 'utf8');
-      const data = JSON.parse(fileContents);
-      
-      // استخراج البيانات بمرونة (سواء من article_metadata أو المستوى الأول)
-      const meta = data.article_metadata || data;
-      
-      return {
-        title: meta.title || "عنوان المقالة",
-        image: meta.image || "/default-image.jpg", // صورة افتراضية
-        slug: meta.slug || filename.replace('.json', ''),
-      };
-    });
-  } catch (error) {
-    console.error("Error reading posts:", error);
+  if (!fs.existsSync(filePath)) {
+    return <main style={{ padding: '20px' }}><h1>المقالة غير موجودة</h1></main>;
   }
 
+  const fileContents = fs.readFileSync(filePath, 'utf8');
+  const data = JSON.parse(fileContents);
+  const meta = data.article_metadata || {};
+
   return (
-    <main className={styles.container}>
-      <div style={{ background: 'linear-gradient(180deg, #1e3a8a 0%, #3b82f6 100%)', borderRadius: '40px', padding: '60px 20px', textAlign: 'center', color: 'white', marginBottom: '40px' }}>
-        <Hero />
+    <main style={{ padding: '20px', maxWidth: '800px', margin: 'auto', lineHeight: '1.8' }}>
+      {/* 1. عرض العنوان */}
+      <h1>{meta.title}</h1>
+      
+      {/* 2. عرض صورة ثابتة (بما أن ملفك لا يحتوي على رابط صورة) */}
+      {/* يمكنك تغيير الرابط لصورة من مجلد public/images/ */}
+      <img 
+        src="/default-image.jpg" 
+        alt={meta.title} 
+        style={{ width: '100%', borderRadius: '12px', marginBottom: '20px' }} 
+      />
+      
+      {/* 3. عرض المحتوى من الهيكلية المعقدة */}
+      <div style={{ fontSize: '1.1rem' }}>
+        <h2>المقدمة</h2>
+        <p>{data.article_structure?.introduction?.hook}</p>
+        
+        <h2>أهم الأجهزة المقترحة</h2>
+        {data.article_structure?.key_sections?.find(s => s.heading.includes("Top 5"))?.subsections?.map((item, index) => (
+          <div key={index} style={{ marginBottom: '15px' }}>
+            <strong>{item.product}:</strong> {item.focus}
+          </div>
+        ))}
       </div>
-
-      <section>
-        <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Featured Categories</h2>
-        <div className={styles.categoriesGrid}>
-          <CategoryCard title="Top Gadgets" image="/Gadget.jpg" />
-          <CategoryCard title="Essential Software" image="/Software.jpg" />
-        </div>
-      </section>
-
-      <section>
-        <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '20px' }}>
-          {posts.map((post) => (
-            <Link href={`/blog/${post.slug}`} key={post.slug} style={{ textDecoration: 'none', color: 'inherit' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '10px', border: '1px solid #e5e7eb', borderRadius: '12px', backgroundColor: 'white' }}>
-                <img 
-                  src={post.image} 
-                  alt={post.title} 
-                  style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }} 
-                />
-                <h3 style={{ fontSize: '1rem', margin: 0, color: 'black' }}>{post.title}</h3>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
     </main>
   );
 }
