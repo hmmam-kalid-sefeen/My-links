@@ -1,53 +1,45 @@
 import fs from 'fs';
 import path from 'path';
-import ReactMarkdown from 'react-markdown';
 
-export default async function PostPage({ params }) {
+export default async function BlogPost({ params }) {
+  // استخدام await لأن params في Next.js تكون Promise
   const { slug } = await params;
   const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
-  
-  try {
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const post = JSON.parse(fileContents);
 
+  // 1. التحقق من وجود الملف
+  if (!fs.existsSync(filePath)) {
     return (
-      <main style={{ padding: '20px', maxWidth: '800px', margin: 'auto', lineHeight: '1.6' }}>
-        {/* العنوان الرئيسي */}
-        <h1 style={{ fontSize: '2.5rem', marginBottom: '10px' }}>{post.title}</h1>
-        
-        {/* عرض الصورة إذا كانت موجودة في ملف الـ JSON */}
-        {post.image && (
-          <img 
-            src={post.image} 
-            alt={post.title} 
-            style={{ 
-              width: '100%', 
-              height: 'auto', 
-              borderRadius: '8px', 
-              marginBottom: '20px',
-              display: 'block' 
-            }} 
-          />
-        )}
-
-        <p style={{ color: '#0070f3', fontWeight: 'bold' }}>Category: {post.category}</p>
-        
-        <div style={{ marginTop: '30px' }}>
-          <ReactMarkdown 
-            components={{
-              h1: ({node, ...props}) => <h1 style={{ fontSize: '2rem', marginTop: '20px' }} {...props} />,
-              h2: ({node, ...props}) => <h2 style={{ fontSize: '1.75rem', marginTop: '20px' }} {...props} />,
-              h3: ({node, ...props}) => <h3 style={{ fontSize: '1.5rem', marginTop: '15px' }} {...props} />,
-              ul: ({node, ...props}) => <ul style={{ listStyleType: 'disc', paddingLeft: '20px' }} {...props} />,
-              ol: ({node, ...props}) => <ol style={{ listStyleType: 'decimal', paddingLeft: '20px' }} {...props} />,
-            }}
-          >
-            {post.content}
-          </ReactMarkdown>
-        </div>
+      <main style={{ padding: '40px', textAlign: 'center' }}>
+        <h1>المقالة غير موجودة</h1>
+        <p>عذراً، الرابط الذي تحاول الوصول إليه لا يحتوي على ملف JSON مطابق.</p>
       </main>
     );
-  } catch (error) {
-    return <h1 style={{ textAlign: 'center', marginTop: '50px' }}>404 - Article Not Found</h1>;
   }
+
+  // 2. قراءة وتحليل البيانات
+  const fileContents = fs.readFileSync(filePath, 'utf8');
+  const data = JSON.parse(fileContents);
+  
+  // الاستخراج الذكي: إذا وجدت article_metadata استخدمها، وإلا استخدم البيانات مباشرة
+  const meta = data.article_metadata || data;
+
+  return (
+    <main style={{ padding: '20px', maxWidth: '800px', margin: 'auto', lineHeight: '1.8' }}>
+      {/* العنوان */}
+      <h1 style={{ marginBottom: '20px' }}>{meta.title || "عنوان المقالة"}</h1>
+      
+      {/* الصورة */}
+      <img 
+        src={meta.image || "/default-image.jpg"} 
+        alt={meta.title} 
+        style={{ width: '100%', borderRadius: '12px', marginBottom: '20px' }} 
+      />
+      
+      {/* المحتوى */}
+      <div style={{ fontSize: '1.1rem' }}>
+        {/* هنا سيظهر الوصف إذا كان موجوداً، يمكنك توسيع هذا الجزء لاحقاً */}
+        <p>{meta.description || "هذا المحتوى يتم تحديثه قريباً."}</p>
+      </div>
+    </main>
+  );
 }
