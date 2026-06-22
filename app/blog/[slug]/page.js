@@ -1,31 +1,38 @@
 import fs from 'fs';
 import path from 'path';
-// استدعاء ملف التنسيقات (تأكد من مساره الصحيح في مشروعك)
-import styles from './blog.module.css'; 
+import ReactMarkdown from 'react-markdown'; // استيراد المكتبة
 
 export default async function BlogPost({ params }) {
   const { slug } = await params;
   const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
 
   if (!fs.existsSync(filePath)) {
-    return <main style={{ padding: '20px' }}><h1>عذراً، المقالة غير موجودة.</h1></main>;
+    return <main style={{ padding: '20px' }}><h1>المقالة غير موجودة</h1></main>;
   }
 
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const data = JSON.parse(fileContents);
   
-  const title = data.article_metadata?.title || "عنوان المقال";
-  // دمج النصوص لضمان ظهورها
+  const meta = data.article_metadata || {};
+  
+  // نقوم بدمج المحتوى وتحويله لنص Markdown
   const content = data.article_structure?.introduction?.narrative || 
-                  data.article_structure?.key_sections?.map(s => `${s.heading}\n\n${s.content}`).join("\n\n") ||
-                  "المحتوى غير متوفر.";
+                  data.article_structure?.key_sections?.map(s => `## ${s.heading}\n\n${s.content}`).join("\n\n") ||
+                  "";
 
   return (
-    // استخدام كلاس الـ styles هنا لضمان تطبيق التنسيقات
-    <main className={styles.container}>
-      <h1 className={styles.title}>{title}</h1>
-      <div className={styles.content}>
-        {content}
+    <main style={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
+      <h1>{meta.title}</h1>
+      
+      {meta.image && (
+        <img src={meta.image} alt={meta.title} style={{ width: '100%', borderRadius: '12px', marginBottom: '20px' }} />
+      )}
+      
+      {/* هنا السحر: react-markdown ستحول النص لفقرات وعناوين تلقائياً */}
+      <div className="prose"> 
+        <ReactMarkdown>
+          {content}
+        </ReactMarkdown>
       </div>
     </main>
   );
