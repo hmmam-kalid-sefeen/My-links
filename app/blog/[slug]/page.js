@@ -1,38 +1,43 @@
 import fs from 'fs';
 import path from 'path';
-import ReactMarkdown from 'react-markdown'; // استيراد المكتبة
 
 export default async function BlogPost({ params }) {
+  // الحصول على الـ slug من الرابط
   const { slug } = await params;
-  const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
+  
+  // 1. تحديد مجلد المقالات بشكل صحيح
+  const postsDirectory = path.join(process.cwd(), 'posts');
+  
+  // 2. البحث عن الملف: إما أن يكون هو نفسه الـ slug، أو نحاول إيجاده في المجلد
+  const filePath = path.join(postsDirectory, `${slug}.json`);
 
+  // 3. التحقق من وجود الملف
   if (!fs.existsSync(filePath)) {
-    return <main style={{ padding: '20px' }}><h1>المقالة غير موجودة</h1></main>;
+    // محاولة تصحيحية: عرض الملفات الموجودة في المجلد لتشخيص المشكلة
+    const existingFiles = fs.readdirSync(postsDirectory);
+    return (
+      <main style={{ padding: '20px', textAlign: 'center' }}>
+        <h1>المقالة غير موجودة</h1>
+        <p>الرابط الذي تحاول الوصول إليه هو: <strong>{slug}</strong></p>
+        <p>لم نجد ملفاً بهذا الاسم في المسار: <code>{filePath}</code></p>
+        <p>الملفات الموجودة فعلياً في مجلد posts هي: {existingFiles.join(', ')}</p>
+      </main>
+    );
   }
 
+  // قراءة وعرض المحتوى
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const data = JSON.parse(fileContents);
-  
-  const meta = data.article_metadata || {};
-  
-  // نقوم بدمج المحتوى وتحويله لنص Markdown
-  const content = data.article_structure?.introduction?.narrative || 
-                  data.article_structure?.key_sections?.map(s => `## ${s.heading}\n\n${s.content}`).join("\n\n") ||
-                  "";
+  const meta = data.article_metadata || data;
 
   return (
     <main style={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
       <h1>{meta.title}</h1>
-      
       {meta.image && (
-        <img src={meta.image} alt={meta.title} style={{ width: '100%', borderRadius: '12px', marginBottom: '20px' }} />
+        <img src={meta.image} alt={meta.title} style={{ width: '100%', borderRadius: '12px' }} />
       )}
-      
-      {/* هنا السحر: react-markdown ستحول النص لفقرات وعناوين تلقائياً */}
-      <div className="prose"> 
-        <ReactMarkdown>
-          {content}
-        </ReactMarkdown>
+      <div style={{ marginTop: '20px' }}>
+        <p>{meta.description || "لا يوجد محتوى لعرضه."}</p>
       </div>
     </main>
   );
