@@ -16,14 +16,16 @@ export default async function BlogPost({ params }) {
   const data = JSON.parse(fileContents);
   const meta = data.article_metadata || data;
   
-  // اختيار المحتوى (البحث في عدة حقول لضمان عدم ظهوره فارغاً)
+  // اختيار المحتوى
   const content = data.description || data.content || "المحتوى غير متوفر.";
 
-  // 4. تحويل رموز Markdown إلى HTML يدويًا لضمان التنسيق بدون مكتبات خارجية
+  // 4. تحويل رموز Markdown إلى HTML يدويًا
   const formattedContent = content
     .replace(/^### (.*$)/gim, '<h3 style="margin-top:20px; font-weight:bold;">$1</h3>')
     .replace(/^## (.*$)/gim, '<h2 style="margin-top:25px; font-weight:bold;">$1</h2>')
     .replace(/\*\*(.*)\*\*/gim, '<strong style="font-weight:bold;">$1</strong>')
+    // إضافة الروابط مع خصائص الحماية للأفلييت
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2" style="color:#2563eb; text-decoration:underline;" target="_blank" rel="nofollow">$1</a>')
     .replace(/\n/g, '<br />');
 
   return (
@@ -47,11 +49,17 @@ export default async function BlogPost({ params }) {
         />
       )}
       
-      {/* عرض المحتوى المنسق */}
+      {/* المحتوى المنسق */}
       <div 
         style={{ fontSize: '1.2rem' }}
         dangerouslySetInnerHTML={{ __html: formattedContent }} 
       />
+
+      {/* ملاحظة إفصاح الأفلييت (اختياري لكن مفضل) */}
+      <hr style={{ margin: '40px 0', borderColor: '#eee' }} />
+      <p style={{ fontSize: '0.9rem', color: '#777', textAlign: 'center' }}>
+        ملاحظة: يحتوي هذا المقال على روابط ترويجية قد نحصل من خلالها على عمولة عند الشراء.
+      </p>
     </article>
   );
 }
