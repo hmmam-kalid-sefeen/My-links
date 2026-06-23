@@ -2,42 +2,45 @@ import fs from 'fs';
 import path from 'path';
 
 export default async function BlogPost({ params }) {
-  // الحصول على الـ slug من الرابط
   const { slug } = await params;
   
-  // 1. تحديد مجلد المقالات بشكل صحيح
-  const postsDirectory = path.join(process.cwd(), 'posts');
-  
-  // 2. البحث عن الملف: إما أن يكون هو نفسه الـ slug، أو نحاول إيجاده في المجلد
-  const filePath = path.join(postsDirectory, `${slug}.json`);
+  // 1. تحديد مسار الملف
+  const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
 
-  // 3. التحقق من وجود الملف
   if (!fs.existsSync(filePath)) {
-    // محاولة تصحيحية: عرض الملفات الموجودة في المجلد لتشخيص المشكلة
-    const existingFiles = fs.readdirSync(postsDirectory);
-    return (
-      <main style={{ padding: '20px', textAlign: 'center' }}>
-        <h1>المقالة غير موجودة</h1>
-        <p>الرابط الذي تحاول الوصول إليه هو: <strong>{slug}</strong></p>
-        <p>لم نجد ملفاً بهذا الاسم في المسار: <code>{filePath}</code></p>
-        <p>الملفات الموجودة فعلياً في مجلد posts هي: {existingFiles.join(', ')}</p>
-      </main>
-    );
+    return <main style={{ padding: '20px' }}><h1>المقالة غير موجودة</h1></main>;
   }
 
-  // قراءة وعرض المحتوى
+  // 2. قراءة وتحليل البيانات
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const data = JSON.parse(fileContents);
-  const meta = data.article_metadata || data;
+
+  // 3. طريقة استخراج النص الأكثر مرونة (حاولنا البحث في عدة أماكن داخل ملف الـ JSON)
+  const meta = data.article_metadata || {};
+  
+  // حاول استخراج المحتوى من عدة احتمالات لهيكل ملف الـ JSON الخاص بك
+  const content = data.description || 
+                  data.content || 
+                  data.article_structure?.introduction?.narrative || 
+                  "نعتذر، لم نجد نصاً داخل ملف الـ JSON. يرجى التأكد من هيكلة الملف.";
 
   return (
     <main style={{ padding: '20px', maxWidth: '800px', margin: 'auto' }}>
-      <h1>{meta.title}</h1>
+      <h1>{meta.title || "عنوان المقال"}</h1>
+      
       {meta.image && (
-        <img src={meta.image} alt={meta.title} style={{ width: '100%', borderRadius: '12px' }} />
+        <img src={meta.image} alt={meta.title} style={{ width: '100%', borderRadius: '12px', marginBottom: '20px' }} />
       )}
-      <div style={{ marginTop: '20px' }}>
-        <p>{meta.description || "لا يوجد محتوى لعرضه."}</p>
+      
+      <div style={{ fontSize: '1.2rem', lineHeight: '1.8', color: '#333' }}>
+        {/* نضع النص هنا */}
+        {content}
+      </div>
+
+      {/* للتصحيح فقط: هذا الجزء سيظهر لك هيكل البيانات المجلوب فعلياً في أسفل الصفحة */}
+      <div style={{ marginTop: '50px', padding: '10px', background: '#f0f0f0' }}>
+        <h3>بيانات التصحيح (للتحقق):</h3>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
       </div>
     </main>
   );
