@@ -50,10 +50,13 @@ export default async function BlogPost({ params }) {
         dangerouslySetInnerHTML={{ __html: formattedContent }} 
       />
 
+       {/* Affiliate Disclosure in English */}
       <hr style={{ margin: '40px 0', borderColor: '#eee' }} />
-      <p style={{ fontSize: '0.9rem', color: '#777', textAlign: 'center' }}>
-        ملاحظة: يحتوي هذا المقال على روابط ترويجية قد نحصل من خلالها على عمولة عند الشراء.
+      <p style={{ fontSize: '0.85rem', color: '#777', textAlign: 'center', fontStyle: 'italic' }}>
+        Disclosure: This article may contains affiliate links. We may earn a commission from qualifying purchases at no extra cost to you. 
+        Read our full <a href="/terms" style={{ color: '#2563eb', textDecoration: 'underline' }}>Terms of Service</a> for more details.
       </p>
+
     </article>
   );
 }
