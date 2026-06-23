@@ -28,7 +28,7 @@ export default function TermsOfService() {
 
       <section>
         <h2>4. Contact</h2>
-        <p>If you have any questions regarding these terms, please feel free to [contact](/contact)⁠us through our contact page.</p>
+        <p>If you have any questions regarding these terms, please feel free to contactus through our contact page.</p>
       </section>
     </article>
   );
