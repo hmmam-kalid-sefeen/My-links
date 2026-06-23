@@ -1,42 +1,41 @@
 import fs from 'fs';
 import path from 'path';
-import ReactMarkdown from 'react-markdown';
 
 export default async function BlogPost({ params }) {
   const { slug } = await params;
   const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
 
   if (!fs.existsSync(filePath)) {
-    return <main style={{ padding: '20px' }}><h1>المقالة غير موجودة</h1></main>;
+    return <h1 style={{ textAlign: 'center', marginTop: '50px' }}>المقالة غير موجودة</h1>;
   }
 
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const data = JSON.parse(fileContents);
-  
-  // دمج المحتوى ليكون جاهزاً للتحويل (Markdown)
-  const content = data.description || 
-                  data.content || 
-                  data.article_structure?.introduction?.narrative || 
-                  "لا يوجد محتوى.";
+  const meta = data.article_metadata || data;
+  const content = data.description || data.content || "المحتوى قيد التحديث.";
 
   return (
-    <main style={{ padding: '20px', maxWidth: '800px', margin: 'auto', lineHeight: '1.6' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '30px' }}>{data.article_metadata?.title || "عنوان المقال"}</h1>
+    <article style={{ 
+      maxWidth: '800px', 
+      margin: '0 auto', 
+      padding: '20px', 
+      fontFamily: 'sans-serif', 
+      lineHeight: '1.6', 
+      color: '#333' 
+    }}>
+      <h1 style={{ fontSize: '2.5rem', marginBottom: '20px' }}>{meta.title}</h1>
       
-      {data.article_metadata?.image && (
+      {meta.image && (
         <img 
-          src={data.article_metadata.image} 
-          alt="صورة المقال" 
-          style={{ width: '100%', borderRadius: '15px', marginBottom: '30px' }} 
+          src={meta.image} 
+          alt={meta.title} 
+          style={{ width: '100%', borderRadius: '15px', marginBottom: '20px' }} 
         />
       )}
       
-      {/* هنا يتم تحويل الرموز مثل ### إلى عناوين حقيقية تلقائياً */}
-      <div className="markdown-content">
-        <ReactMarkdown>
-          {content}
-        </ReactMarkdown>
+      <div style={{ fontSize: '1.2rem', whiteSpace: 'pre-line' }}>
+        {content}
       </div>
-    </main>
+    </article>
   );
 }
