@@ -1,25 +1,9 @@
-{
-  "article": {
-    "title": "AI Can Identify Threats, But It Can't Own Security Decisions",
-    "category": "Cybersecurity",
-        "slug": "Security-Decisions",
-    "content": {
-      "introduction": "In today's tech-driven world, many believe artificial intelligence is the ultimate hero for security challenges. However, while AI is brilliant at predicting threats, it lacks the accountability required for critical security decisions.",
-      "sections": [
-        {
-          "heading": "The Problem with Probabilistic Security",
-          "text": "Most security tools rely on probabilistic models, which identify likelihoods rather than certainties. While effective for triage and investigation, these models often fall short when the goal is to make a definitive 'allow' or 'block' decision on executable code."
-        },
-        {
-          "heading": "The Necessity of Explainable Security",
-          "text": "As software becomes more autonomous, security decisions must be explainable, repeatable, and auditable. Security teams need to understand why an action was taken, especially for compliance and incident reviews, something probabilistic models struggle to provide."
-        },
-        {
-          "heading": "Moving from Detection to Prevention",
-          "text": "The operational core of 'Zero Trust for Code' is evaluating what software is capable of doing before it runs. By analyzing behavioral intent rather than just identifying potential malice, organizations can enforce consistent, policy-driven controls."
-        }
-      ],
-      "conclusion": "The future of security is not a choice between AI and deterministic controls, but a combination of intelligent analysis and enforceable policy. AI excels at processing large datasets, but the final authority on execution must remain with deterministic, policy-driven controls to ensure accountability."
-    }
-  }
+
+    {
+  "title": "AI Can Identify Threats, But It Can't Own Security Decisions",
+  "category": "Cybersecurity",
+  "slug": "ai-security-decisions",
+  "image": "/ai-security.png",
+  "excerpt": "AI excels at identifying patterns and predicting threats, but when it comes to security enforcement, human accountability and policy-driven decisions remain non-negotiable.",
+  "content": "In today's fast-paced tech landscape, many believe that artificial intelligence is the ultimate hero for our security challenges. But have you ever stopped to wonder: if AI is smart enough to detect a vulnerability, can we truly trust it to decide when to shut down an entire system? The reality might surprise you: AI is brilliant at predicting threats, but it lacks the accountability required to own the final security decision.\n\n## The Problem with Probabilistic Security\nMost modern security tools rely on what we call \"probabilistic security.\" They operate on likelihoods—telling you that a file is \"probably\" malicious or that a behavior is \"likely\" suspicious. While this approach is fantastic for triage and helping analysts sift through noisy data, it hits a wall when you need to make a definitive \"allow\" or \"block\" decision on executable code.\n\nIn a world where developers rely on automation and AI-generated components moving at machine speed, we no longer have the luxury of waiting for human judgment to catch up to every probabilistic score. We need more stability than a simple percentage-based guess.\n\n## The Necessity of Explainable Security\nAs software becomes more autonomous, our security decisions must be explainable, repeatable, and auditable. If your system blocks a critical software update, you need to be able to justify why. If the AI took that action based on complex, opaque variables, you can't defend that decision in a compliance review.\n\nSecurity teams need to know:\n* **Why** an artifact was blocked or allowed.\n* **Whether** that same artifact would produce the same result tomorrow.\n* **How** to defend that decision during an incident review.\n\n## Moving from Detection to Prevention: Zero Trust for Code\nInstead of asking whether something is \"likely\" malicious, we should shift toward behavioral intent analysis. This is the heart of the \"Zero Trust for Code\" approach. We focus on what a piece of software is actually capable of doing—such as accessing sensitive data, modifying system states, or communicating externally.\n\nBy evaluating these behaviors before execution against defined policies, organizations can transition from reactive detection to proactive prevention. You aren't just flagging an alert after the damage is done; you are acting as a gatekeeper for execution itself.\n\n## Final Thoughts: The Human Element\nThe future of cybersecurity isn't about choosing between AI and deterministic controls; it’s about the synergy between them. AI is an incredible tool for processing large datasets and accelerating investigations, but it shouldn't be the final authority on what runs in your production environment.\n\nAt the end of the day, security is a policy-driven discipline. AI can provide the insights, but the accountability for the decisions that keep your environment safe belongs to the humans behind the policy. Welcome to the era of intelligent, yet accountable, security."
 }
