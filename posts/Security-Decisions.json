@@ -1,0 +1,25 @@
+{
+  "article": {
+    "title": "AI Can Identify Threats, But It Can't Own Security Decisions",
+    "category": "Cybersecurity",
+        "slug": "Security-Decisions",
+    "content": {
+      "introduction": "In today's tech-driven world, many believe artificial intelligence is the ultimate hero for security challenges. However, while AI is brilliant at predicting threats, it lacks the accountability required for critical security decisions.",
+      "sections": [
+        {
+          "heading": "The Problem with Probabilistic Security",
+          "text": "Most security tools rely on probabilistic models, which identify likelihoods rather than certainties. While effective for triage and investigation, these models often fall short when the goal is to make a definitive 'allow' or 'block' decision on executable code."
+        },
+        {
+          "heading": "The Necessity of Explainable Security",
+          "text": "As software becomes more autonomous, security decisions must be explainable, repeatable, and auditable. Security teams need to understand why an action was taken, especially for compliance and incident reviews, something probabilistic models struggle to provide."
+        },
+        {
+          "heading": "Moving from Detection to Prevention",
+          "text": "The operational core of 'Zero Trust for Code' is evaluating what software is capable of doing before it runs. By analyzing behavioral intent rather than just identifying potential malice, organizations can enforce consistent, policy-driven controls."
+        }
+      ],
+      "conclusion": "The future of security is not a choice between AI and deterministic controls, but a combination of intelligent analysis and enforceable policy. AI excels at processing large datasets, but the final authority on execution must remain with deterministic, policy-driven controls to ensure accountability."
+    }
+  }
+}
