@@ -10,24 +10,28 @@ export default async function Home() {
   let posts = [];
 
   try {
-    const filenames = fs.readdirSync(postsDirectory).filter(f => f.endsWith('.json'));
-    posts = filenames.map(filename => {
-      const filePath = path.join(postsDirectory, filename);
-      const fileContents = fs.readFileSync(filePath, 'utf8');
-      const data = JSON.parse(fileContents);
-      const meta = data?.article_metadata || data || {};
-      
-      return {
-        title: meta?.title || "عنوان المقالة",
-        image: meta?.image || "/default-image.jpg",
-        slug: meta?.slug || filename.replace('.json', ''),
-      };
-    });
+    // التأكد من وجود المجلد قبل القراءة
+    if (fs.existsSync(postsDirectory)) {
+      const filenames = fs.readdirSync(postsDirectory).filter(f => f.endsWith('.json'));
+      posts = filenames.map(filename => {
+        const filePath = path.join(postsDirectory, filename);
+        const fileContents = fs.readFileSync(filePath, 'utf8');
+        const data = JSON.parse(fileContents);
+        const meta = data?.article_metadata || data || {};
+        
+        return {
+          title: meta?.title || "Untitled",
+          image: meta?.image || "/default-image.jpg",
+          slug: meta?.slug || filename.replace('.json', ''),
+        };
+      });
+    }
   } catch (error) {
     console.error("Error reading posts:", error);
   }
 
-  const latestPosts = posts.slice(0, 3);
+  // حماية إضافية: التأكد من أن posts مصفوفة قبل استخدام slice
+  const latestPosts = Array.isArray(posts) ? posts.slice(0, 3) : [];
 
   return (
     <main className={styles.container}>
