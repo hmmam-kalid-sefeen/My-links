@@ -53,12 +53,17 @@ export default async function Home() {
       </section>
 
 
-
-{/* قسم المقالات الأخيرة - نمرر آخر ثلاث مقالات فقط للمكون */}
+{/* قسم المقالات الأخيرة - ترتيب المقالات حسب التاريخ ثم عرض آخر 3 فقط */}
 <section>
   <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
-  <PostList posts={posts.slice(0, 3)} />
+  <PostList 
+    posts={posts
+      .sort((a, b) => new Date(b.date) - new Date(a.date)) // ترتيب تنازلي حسب التاريخ
+      .slice(0, 3) // أخذ أول 3 بعد الترتيب
+    } 
+  />
 </section>
+
 
 
     </main>
