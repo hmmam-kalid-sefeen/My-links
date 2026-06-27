@@ -3,7 +3,7 @@ import path from 'path';
 import Hero from '../comps/hero';
 import CategoryCard from '../comps/categorycard';
 import styles from './home.module.css';
-import PostList from '../comps/PostList'; // تأكد أن المكون موجود في هذا المسار
+import PostList from '../comps/PostList'; 
 
 export default async function Home() {
   const postsDirectory = path.join(process.cwd(), 'posts');
@@ -16,18 +16,20 @@ export default async function Home() {
       const fileContents = fs.readFileSync(filePath, 'utf8');
       const data = JSON.parse(fileContents);
       
-      // استخراج البيانات بمرونة (سواء من article_metadata أو المستوى الأول)
       const meta = data.article_metadata || data;
       
       return {
         title: meta.title || "عنوان المقالة",
-        image: meta.image || "/default-image.jpg", // صورة افتراضية
+        image: meta.image || "/default-image.jpg",
         slug: meta.slug || filename.replace('.json', ''),
       };
     });
   } catch (error) {
     console.error("Error reading posts:", error);
   }
+
+  // نقوم بقص المقالات هنا (أول 3 فقط)
+  const latestPosts = posts.slice(0, 3);
 
   return (
     <main className={styles.container}>
@@ -52,13 +54,15 @@ export default async function Home() {
         </div>
       </section>
 
-
-      {/* التعديل هنا باستخدام slice(0, 3) */}
-{articles.slice(0, 3).map((article) => (
-  <div key={article.slug} className="article-card">
-    {/* محتوى المقالة */}
-  </div>
-))}
+      {/* قسم أحدث المقالات - تم استخدام latestPosts المحدودة بـ 3 */}
+      <section style={{ marginTop: '40px' }}>
+        <h2 style={{ textAlign: 'center' }}>Latest Articles</h2>
+        <div className={styles.postsGrid}>
+          {latestPosts.map((post) => (
+             <PostList key={post.slug} post={post} />
+          ))}
+        </div>
+      </section>
 
     </main>
   );
