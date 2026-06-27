@@ -51,18 +51,19 @@ export default async function Home() {
           <CategoryCard title="Essential Software" image="/Software.jpg" />
         </div>
       </section>
-
-
-{/* قسم المقالات الأخيرة - ترتيب المقالات حسب التاريخ ثم عرض آخر 3 فقط */}
+        
 <section>
   <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
   <PostList 
     posts={posts
-      .sort((a, b) => new Date(b.date) - new Date(a.date)) // ترتيب تنازلي حسب التاريخ
-      .slice(0, 3) // أخذ أول 3 بعد الترتيب
+      .sort((a, b) => new Date(b.date) - new Date(a.date)) // الترتيب حسب الأحدث
+      .slice(0, 3) // أخذ آخر 3 فقط
     } 
   />
 </section>
+
+
+
 
 
 
