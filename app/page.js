@@ -3,41 +3,47 @@ import path from 'path';
 import Hero from '../comps/hero';
 import CategoryCard from '../comps/categorycard';
 import styles from './home.module.css';
-import PostList from '../comps/PostList';
+import PostList from '../comps/PostList'; // تأكد أن المكون موجود في هذا المسار
 
 export default async function Home() {
   const postsDirectory = path.join(process.cwd(), 'posts');
   let posts = [];
 
   try {
-    // التأكد من وجود المجلد قبل القراءة
-    if (fs.existsSync(postsDirectory)) {
-      const filenames = fs.readdirSync(postsDirectory).filter(f => f.endsWith('.json'));
-      posts = filenames.map(filename => {
-        const filePath = path.join(postsDirectory, filename);
-        const fileContents = fs.readFileSync(filePath, 'utf8');
-        const data = JSON.parse(fileContents);
-        const meta = data?.article_metadata || data || {};
-        
-        return {
-          title: meta?.title || "Untitled",
-          image: meta?.image || "/default-image.jpg",
-          slug: meta?.slug || filename.replace('.json', ''),
-        };
-      });
-    }
+    const filenames = fs.readdirSync(postsDirectory);
+    posts = filenames.map(filename => {
+      const filePath = path.join(postsDirectory, filename);
+      const fileContents = fs.readFileSync(filePath, 'utf8');
+      const data = JSON.parse(fileContents);
+      
+      // استخراج البيانات بمرونة (سواء من article_metadata أو المستوى الأول)
+      const meta = data.article_metadata || data;
+      
+      return {
+        title: meta.title || "عنوان المقالة",
+        image: meta.image || "/default-image.jpg", // صورة افتراضية
+        slug: meta.slug || filename.replace('.json', ''),
+      };
+    });
   } catch (error) {
     console.error("Error reading posts:", error);
   }
 
-  // حماية إضافية: التأكد من أن posts مصفوفة قبل استخدام slice
-  const latestPosts = Array.isArray(posts) ? posts.slice(0, 3) : [];
-
   return (
     <main className={styles.container}>
-      <div style={{ background: 'linear-gradient(180deg, #1e3a8a 0%, #3b82f6 100%)', borderRadius: '40px', padding: '60px 20px', textAlign: 'center', color: 'white', marginBottom: '40px' }}>
+      {/* قسم الهيرو */}
+      <div style={{ 
+        background: 'linear-gradient(180deg, #1e3a8a 0%, #3b82f6 100%)',
+        borderRadius: '40px',
+        padding: '60px 20px',
+        textAlign: 'center',
+        color: 'white',
+        marginBottom: '40px'
+      }}>
         <Hero />
       </div>
+
+      {/* قسم التصنيفات */}
       <section>
         <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Featured Categories</h2>
         <div className={styles.categoriesGrid}>
@@ -45,14 +51,14 @@ export default async function Home() {
           <CategoryCard title="Essential Software" image="/Software.jpg" />
         </div>
       </section>
-      <section style={{ marginTop: '40px' }}>
-        <h2 style={{ textAlign: 'center' }}>Latest Articles</h2>
-        <div className={styles.postsGrid}>
-          {latestPosts.map((post) => (
-             <PostList key={post.slug} post={post} />
-          ))}
-        </div>
+
+{/* قسم المقالات الأخيرة - نستخدم المكون المنفصل هنا */}
+
+<section>
+        <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
+        <PostList posts={posts} />
       </section>
+
     </main>
   );
 }
