@@ -52,11 +52,14 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* قسم المقالات الأخيرة - نستخدم المكون المنفصل هنا */}
-      <section>
-        <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
-        <PostList posts={posts} />
-      </section>
+
+      {/* التعديل هنا باستخدام slice(0, 3) */}
+{articles.slice(0, 3).map((article) => (
+  <div key={article.slug} className="article-card">
+    {/* محتوى المقالة */}
+  </div>
+))}
+
     </main>
   );
 }
