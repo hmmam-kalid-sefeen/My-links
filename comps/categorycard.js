@@ -20,7 +20,7 @@ export default function CategoryCard({ title, image }) {
           alt={title} 
           style={{ 
             width: '100%', 
-            height: '200px', 
+            height: 'auto', 
             borderRadius: '10px', 
             objectFit: 'cover' // هذا هو السطر الذي يوحد مقياس الصور ويمنع تشوهها
           }} 
