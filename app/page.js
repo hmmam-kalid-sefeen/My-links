@@ -52,12 +52,14 @@ export default async function Home() {
         </div>
       </section>
 
-{/* قسم المقالات الأخيرة - نستخدم المكون المنفصل هنا */}
 
+
+{/* قسم المقالات الأخيرة - نمرر آخر ثلاث مقالات فقط للمكون */}
 <section>
-        <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
-        <PostList posts={posts} />
-      </section>
+  <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
+  <PostList posts={posts.slice(0, 3)} />
+</section>
+
 
     </main>
   );
