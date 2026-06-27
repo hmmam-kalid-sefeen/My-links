@@ -49,7 +49,7 @@ export default async function Home() {
         <div className={styles.categoriesGrid}>
           <CategoryCard title="Top Gadgets" image="/Gadget.jpg" />
           <CategoryCard title="Essential Software" image="/Software.jpg" />
-                  <CategoryCard title="Technology News" image="/TechnologyNews.PNG" />
+                  <CategoryCard title="Technology News" image="/TechnologyNews.jpg" />
         
         </div>
       </section>
