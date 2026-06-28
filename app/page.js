@@ -3,28 +3,34 @@ import path from 'path';
 import Hero from '../comps/hero';
 import CategoryCard from '../comps/categorycard';
 import styles from './home.module.css';
-import PostList from '../comps/PostList'; // تأكد أن المكون موجود في هذا المسار
+import PostList from '../comps/PostList';
 
 export default async function Home() {
   const postsDirectory = path.join(process.cwd(), 'posts');
   let posts = [];
 
   try {
-    const filenames = fs.readdirSync(postsDirectory);
-    posts = filenames.map(filename => {
-      const filePath = path.join(postsDirectory, filename);
-      const fileContents = fs.readFileSync(filePath, 'utf8');
-      const data = JSON.parse(fileContents);
+    // التأكد من وجود المجلد وفلترة ملفات JSON فقط
+    if (fs.existsSync(postsDirectory)) {
+      const filenames = fs.readdirSync(postsDirectory).filter(f => f.endsWith('.json'));
       
-      // استخراج البيانات بمرونة (سواء من article_metadata أو المستوى الأول)
-      const meta = data.article_metadata || data;
-      
-      return {
-        title: meta.title || "عنوان المقالة",
-        image: meta.image || "/default-image.jpg", // صورة افتراضية
-        slug: meta.slug || filename.replace('.json', ''),
-      };
-    });
+      posts = filenames.map(filename => {
+        const filePath = path.join(postsDirectory, filename);
+        const fileContents = fs.readFileSync(filePath, 'utf8');
+        const data = JSON.parse(fileContents);
+        
+        // استخراج البيانات بمرونة
+        const meta = data.article_metadata || data;
+        
+        return {
+          title: meta.title || "عنوان المقالة",
+          image: meta.image || "/default-image.jpg",
+          slug: meta.slug || filename.replace('.json', ''),
+          // توفير تاريخ افتراضي قديم جداً إذا لم يوجد تاريخ، لضمان عمل دالة الترتيب
+          date: meta.date || "1970-01-01" 
+        };
+      });
+    }
   } catch (error) {
     console.error("Error reading posts:", error);
   }
@@ -49,26 +55,20 @@ export default async function Home() {
         <div className={styles.categoriesGrid}>
           <CategoryCard title="Top Gadgets" image="/Gadget.jpg" />
           <CategoryCard title="Essential Software" image="/Software.jpg" />
-                  <CategoryCard title="Technology News" image="/TechnologyNews.jpg" />
-        
+          <CategoryCard title="Technology News" image="/TechnologyNews.jpg" />
         </div>
       </section>
         
-<section>
-  <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
-  <PostList 
-    posts={posts
-      .sort((a, b) => new Date(b.date) - new Date(a.date)) // الترتيب حسب الأحدث
-      .slice(0, 3) // أخذ آخر 3 فقط
-    } 
-  />
-</section>
-
-
-
-
-
-
+      {/* قسم المقالات الأخيرة - تم الترتيب والقص هنا */}
+      <section>
+        <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
+        <PostList 
+          posts={posts
+            .sort((a, b) => new Date(b.date) - new Date(a.date)) // الترتيب من الأحدث للأقدم
+            .slice(0, 3) // أخذ أول 3 مقالات
+          } 
+        />
+      </section>
     </main>
   );
 }
