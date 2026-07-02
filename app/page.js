@@ -6,43 +6,68 @@ import styles from './home.module.css';
 import PostList from '../comps/PostList';
 
 export default async function Home() {
+  const postsDirectory = path.join(process.cwd(), 'posts');
   let posts = [];
+
   try {
-    const postsDirectory = path.join(process.cwd(), 'posts');
+    // التأكد من وجود المجلد وفلترة ملفات JSON فقط
     if (fs.existsSync(postsDirectory)) {
       const filenames = fs.readdirSync(postsDirectory).filter(f => f.endsWith('.json'));
+      
       posts = filenames.map(filename => {
-        const fileContents = fs.readFileSync(path.join(postsDirectory, filename), 'utf8');
+        const filePath = path.join(postsDirectory, filename);
+        const fileContents = fs.readFileSync(filePath, 'utf8');
         const data = JSON.parse(fileContents);
-        const meta = data?.article_metadata || data || {};
+        
+        // استخراج البيانات بمرونة
+        const meta = data.article_metadata || data;
+        
         return {
-          title: meta.title || "Untitled",
+          title: meta.title || "عنوان المقالة",
           image: meta.image || "/default-image.jpg",
           slug: meta.slug || filename.replace('.json', ''),
-          date: meta.date || "1970-01-01"
+          // توفير تاريخ افتراضي قديم جداً إذا لم يوجد تاريخ، لضمان عمل دالة الترتيب
+          date: meta.date || "1970-01-01" 
         };
-      }).sort((a, b) => new Date(b.date) - new Date(a.date));
+      });
     }
-  } catch (err) {
-    console.error("Critical error:", err);
+  } catch (error) {
+    console.error("Error reading posts:", error);
   }
 
   return (
     <main className={styles.container}>
-      <Hero />
+      {/* قسم الهيرو */}
+      <div style={{ 
+        background: 'linear-gradient(180deg, #1e3a8a 0%, #3b82f6 100%)',
+        borderRadius: '40px',
+        padding: '60px 20px',
+        textAlign: 'center',
+        color: 'white',
+        marginBottom: '40px'
+      }}>
+        <Hero />
+      </div>
+
+      {/* قسم التصنيفات */}
       <section>
+        <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Featured Categories</h2>
         <div className={styles.categoriesGrid}>
           <CategoryCard title="Top Gadgets" image="/Gadget.jpg" />
           <CategoryCard title="Essential Software" image="/Software.jpg" />
+          <CategoryCard title="Technology News" image="/TechnologyNews.jpg" />
         </div>
       </section>
+        
+      {/* قسم المقالات الأخيرة - تم الترتيب والقص هنا */}
       <section>
-        <h2>Latest Articles</h2>
-        {posts.length > 0 ? (
-          <PostList posts={posts.slice(0, 3)} />
-        ) : (
-          <p>Loading articles...</p>
-        )}
+        <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
+        <PostList 
+          posts={posts
+            .sort((a, b) => new Date(b.date) - new Date(a.date)) // الترتيب من الأحدث للأقدم
+            .slice(0, 3) // أخذ أول 3 مقالات
+          } 
+        />
       </section>
     </main>
   );
