@@ -4,6 +4,10 @@ import Hero from '../comps/hero';
 import CategoryCard from '../comps/categorycard';
 import styles from './home.module.css';
 import PostList from '../comps/PostList';
+import AdBanner from '../comps/AdBanner';
+// ...
+<AdBanner />
+
 
 export default async function Home() {
   const postsDirectory = path.join(process.cwd(), 'posts');
