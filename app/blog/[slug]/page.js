@@ -1,19 +1,29 @@
-import styles from './post.module.css'; // تأكد من وجود ملف الـ CSS الخاص بك
-
 export default function PostPage({ post }) {
-  // هذا الكود يفترض أنك تمرر بيانات المقال (post) للصفحة
+  // إذا لم يكن هناك مقال، نعرض رسالة بسيطة
+  if (!post) {
+    return <div>المقال غير موجود</div>;
+  }
+
   return (
-    <article className={styles.article}>
+    <article style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
       <h1>{post.title}</h1>
 
       {/* جدول المحتويات اليدوي */}
       {post.toc && post.toc.length > 0 && (
-        <nav className={styles.toc}>
-          <h3>Table of Contents</h3>
-          <ul>
+        <nav style={{ 
+          background: '#f9fafb', 
+          padding: '20px', 
+          borderRadius: '12px', 
+          border: '1px solid #e5e7eb', 
+          marginBottom: '20px' 
+        }}>
+          <h3 style={{ marginTop: '0' }}>Table of Contents</h3>
+          <ul style={{ listStyleType: 'decimal', paddingLeft: '20px' }}>
             {post.toc.map((item) => (
-              <li key={item.id}>
-                <a href={`#${item.id}`}>{item.title}</a>
+              <li key={item.id} style={{ marginBottom: '8px' }}>
+                <a href={`#${item.id}`} style={{ color: '#2563eb', textDecoration: 'none' }}>
+                  {item.title}
+                </a>
               </li>
             ))}
           </ul>
@@ -22,7 +32,6 @@ export default function PostPage({ post }) {
 
       {/* عرض المحتوى المحول لـ HTML */}
       <div 
-        className={styles.content}
         dangerouslySetInnerHTML={{ __html: post.content }} 
       />
     </article>
