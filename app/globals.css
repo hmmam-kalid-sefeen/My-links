@@ -28,3 +28,13 @@ html {
   scroll-behavior: smooth;
 }
 
+.toc {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  border: 1px solid #e5e7eb;
+}
+.toc ul { list-style-type: decimal; padding-left: 20px; }
+.toc a { color: #2563eb; text-decoration: none; }
+
