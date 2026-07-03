@@ -1,10 +1,11 @@
+بيج
+
 import fs from 'fs';
 import path from 'path';
 import Hero from '../comps/hero';
 import CategoryCard from '../comps/categorycard';
 import styles from './home.module.css';
 import PostList from '../comps/PostList';
-import AdBanner from '../comps/AdBanner';
 
 export default async function Home() {
   const postsDirectory = path.join(process.cwd(), 'posts');
@@ -59,13 +60,8 @@ export default async function Home() {
           <CategoryCard title="Technology News" image="/TechnologyNews.jpg" />
         </div>
       </section>
-
-      {/* إضافة الإعلان هنا بشكل منظم */}
-      <section style={{ margin: '30px 0', textAlign: 'center' }}>
-        <AdBanner />
-      </section>
         
-      {/* قسم المقالات الأخيرة */}
+      {/* قسم المقالات الأخيرة - تم الترتيب والقص هنا */}
       <section>
         <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Latest Articles</h2>
         <PostList 
