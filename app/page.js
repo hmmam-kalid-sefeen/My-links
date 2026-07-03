@@ -1,5 +1,3 @@
-بيج
-
 import fs from 'fs';
 import path from 'path';
 import Hero from '../comps/hero';
