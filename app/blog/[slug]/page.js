@@ -1,4 +1,5 @@
-import { posts } from '@/postsData';
+import { posts } from '../../../postsData';
+
 export default async function PostPage({ params }) {
   // الحصول على الـ slug من الرابط
   const resolvedParams = await params;
