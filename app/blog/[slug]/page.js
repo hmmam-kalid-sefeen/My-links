@@ -1,16 +1,22 @@
 import fs from 'fs';
 import path from 'path';
 
-// 1. هذه الدالة تجلب البيانات (أضفناها هنا لأنها كانت مفقودة)
+// هذه الدالة لجلب البيانات
 async function getPostData(slug) {
+  // نحدد المسار بدقة داخل مجلد الـ posts
   const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
+  
+  // نتحقق من وجود الملف أولاً لتجنب الانهيار
+  if (!fs.existsSync(filePath)) return null;
+
   const fileContent = fs.readFileSync(filePath, 'utf8');
   return JSON.parse(fileContent);
 }
 
-// 2. هذه الدالة هي الأساسية لعرض الصفحة
 export default async function PostPage({ params }) {
-  const post = await getPostData(params.slug);
+  // انتظار الـ params لأنها Promise في Next.js 15+
+  const { slug } = await params;
+  const post = await getPostData(slug);
 
   if (!post) {
     return <div>المقال غير موجود</div>;
@@ -26,9 +32,7 @@ export default async function PostPage({ params }) {
           <ul style={{ listStyleType: 'decimal', paddingLeft: '20px' }}>
             {post.toc.map((item) => (
               <li key={item.id} style={{ marginBottom: '8px' }}>
-                <a href={`#${item.id}`} style={{ color: '#2563eb', textDecoration: 'none' }}>
-                  {item.title}
-                </a>
+                <a href={`#${item.id}`} style={{ color: '#2563eb', textDecoration: 'none' }}>{item.title}</a>
               </li>
             ))}
           </ul>
