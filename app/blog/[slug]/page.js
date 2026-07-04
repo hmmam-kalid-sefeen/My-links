@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-// وظيفة مساعدة لجلب البيانات (تستخدم في العرض وفي Metadata)
+// وظيفة مساعدة لجلب البيانات
 async function getPostData(slug) {
   const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
   if (!fs.existsSync(filePath)) return null;
@@ -9,7 +9,7 @@ async function getPostData(slug) {
   return JSON.parse(fileContents);
 }
 
-// هذه الوظيفة هي التي ستصلح أخطاء SEO التي تراها في الفحص
+// إضافة Metadata لتحسين الـ SEO
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const data = await getPostData(slug);
@@ -35,11 +35,11 @@ export default async function BlogPost({ params }) {
 
   const content = data.content || data.description || "المحتوى غير متوفر.";
 
-  // التنسيق كما هو
+  // التنسيق المصحح: استخدام $1 فقط للعناوين
   const formattedContent = content
     .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/gim, '<a href="$2" style="color:#2563eb; text-decoration:underline; font-weight:bold;" target="_blank" rel="nofollow">$1</a>')
     .replace(/^### (.*$)/gim, '<h3 style="margin-top:20px; font-weight:bold;">$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2 style="margin-top:25px; font-weight:bold;">$2</h2>')
+    .replace(/^## (.*$)/gim, '<h2 style="margin-top:25px; font-weight:bold;">$1</h2>')
     .replace(/\*\*(.*)\*\*/gim, '<strong style="font-weight:bold;">$1</strong>')
     .replace(/\n/g, '<br />');
 
