@@ -1,16 +1,20 @@
 import fs from 'fs';
 import path from 'path';
 
-// وظيفة لجلب البيانات محلياً (أضمن وأسرع)
 async function getPostData(slug) {
+  // المسار الصحيح للمجلد في الجذر (Root/posts)
+  const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
+  
+  if (!fs.existsSync(filePath)) {
+    console.error(`File not found at: ${filePath}`); // هذا سيظهر في Vercel Logs
+    return null;
+  }
+  
   try {
-    // التأكد من المسار الصحيح للملفات
-    const filePath = path.join(process.cwd(), 'public', 'posts', `${slug}.json`);
-    if (!fs.existsSync(filePath)) return null;
-    
     const fileContents = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(fileContents);
   } catch (error) {
+    console.error("Error parsing JSON:", error);
     return null;
   }
 }
@@ -19,14 +23,12 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const data = await getPostData(slug);
   
-  if (!data) return { title: "Page Not Found" };
+  if (!data) return { title: "Article Not Found" };
 
   return {
     title: data.title,
     description: data.description,
-    alternates: {
-      canonical: data.canonical,
-    },
+    alternates: { canonical: data.canonical },
     openGraph: {
       title: data.title,
       description: data.description,
@@ -40,7 +42,12 @@ export default async function BlogPost({ params }) {
   const data = await getPostData(slug);
 
   if (!data) {
-    return <h1 style={{ textAlign: 'center', marginTop: '50px' }}>Article not found</h1>;
+    return (
+      <div style={{ textAlign: 'center', marginTop: '50px' }}>
+        <h1>Article not found</h1>
+        <p>الرجاء التأكد من أن ملف {slug}.json موجود في مجلد posts في جذر المشروع.</p>
+      </div>
+    );
   }
 
   const content = data.content || data.description || "";
