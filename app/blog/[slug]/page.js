@@ -1,19 +1,70 @@
-{
-  "title": "AI Home Design Tools 2026 | Best AI Interior Design Solutions",
-  "category": "Top Gadgets",
-  "date": "2026-07-03",
-  "slug": "ai-home-design-tools",
-  "image": "/design-tools.PNG",
-  "imageAlt": "AI-generated interior design visualization showing modern furniture arrangement",
-  "description": "Discover how AI home design tools in 2026 revolutionize interior planning with precision, photorealism, and real-time integration with global retailers.",
-  "canonical": "https://www.9smart.buzz/ai-home-design-tools",
-  "keywords": [
-    "AI design",
-    "home design tools",
-    "NeRF technology",
-    "interior design AI",
-    "AI furniture planning"
-  ],
-  "excerpt": "Explore how 2026 AI home design tools evolved from simple visualization into essential, high-precision instruments for construction-grade planning and spatial intelligence.",
-  "content": "The year 2026 marks a pivotal shift in the landscape of AI-driven home design. We have moved past the era of 'hallucinating' AI—those early days where furniture floated in mid-air or dimensions were nonsensical. Today, the industry is defined by spatial intelligence and a commitment to photorealistic accuracy.\n\n## 1. Why 2026 is the Year of Realism\nDesigners and homeowners are no longer just asking AI to 'make a room look pretty.' They are demanding exact spatial measurements, lighting consistency, and material physics. This realism is not just an aesthetic choice; it is a necessity for construction-grade planning.\n\n## 2. Top-Rated AI Home Design Tools of 2026\n* RoomCraft Pro: Offers unparalleled precision in structural mapping.\n* LumaSpace: The gold standard for real-time lighting simulations.\n* ModuDesign AI: Focuses on sustainable material sourcing and modular layout optimization.\n\n## 3. Technical Evolution: Neural Radiance Fields (NeRFs)\nThe core technology fueling this leap is the advancement of Neural Radiance Fields (NeRFs). NeRFs allow AI to represent 3D scenes from 2D images with incredible depth. By understanding how light interacts with surfaces, 2026 AI tools can generate interactive walkthroughs that feel like high-end video games rather than static renders.\n\n## 4. Current Trends in AI Design\nWe are seeing a move towards 'Biophilic Integration'—AI that suggests plant placements based on actual sunlight tracking data in your home. Furthermore, minimalism is evolving into 'Functional Minimalism,' where AI clears out unused space in layouts to maximize utility.\n\n## 5. How to Optimize Your AI Workflow\nTo get the best results from these tools, consistency is key. Always start by uploading a high-resolution, wide-angle scan of your space. Input specific lighting constraints (e.g., 'North-facing window, afternoon sun'). The more metadata you provide about your environment, the more accurate the 'digital twin' of your room becomes.\n\n## 6. Shop the Look Revolution\nThe 'Shop the Look' feature has been entirely revamped in 2026. AI now integrates with real-time inventory from global retailers. When an AI generates a perfect mid-century modern lamp, you can click on it and instantly see stock availability, shipping times, and real-world assembly requirements.\n\n## 7. Final Verdict\nThe convergence of NeRF technology and user-centric AI has made home design democratic. You no longer need thousands of dollars for an interior architect. With the right 2026 tools, you are the designer.\n\n## FAQ\nQ: Are these tools free? A: Most offer robust freemium versions, but construction-grade exports usually require a subscription.\n\nQ: Can I use them on a phone? A: Yes, cloud-based processing has made high-end design accessible from mobile devices."
+import fs from 'fs';
+import path from 'path';
+
+// وظيفة مساعدة لجلب البيانات
+async function getPostData(slug) {
+  const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
+  if (!fs.existsSync(filePath)) return null;
+  const fileContents = fs.readFileSync(filePath, 'utf8');
+  return JSON.parse(fileContents);
+}
+
+// إضافة Metadata لتحسين الـ SEO
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const data = await getPostData(slug);
+  
+  if (!data) return { title: "Not Found" };
+
+  return {
+    title: data.title,
+    description: data.description || data.excerpt,
+    alternates: {
+      canonical: data.canonical,
+    },
+  };
+}
+
+export default async function BlogPost({ params }) {
+  const { slug } = await params;
+  const data = await getPostData(slug);
+
+  if (!data) {
+    return <h1 style={{ textAlign: 'center', marginTop: '50px' }}>المقالة غير موجودة</h1>;
+  }
+
+  const content = data.content || data.description || "المحتوى غير متوفر.";
+
+  // التنسيق المصحح: استخدام $1 فقط للعناوين
+  const formattedContent = content
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/gim, '<a href="$2" style="color:#2563eb; text-decoration:underline; font-weight:bold;" target="_blank" rel="nofollow">$1</a>')
+    .replace(/^### (.*$)/gim, '<h3 style="margin-top:20px; font-weight:bold;">$1</h3>')
+    .replace(/^## (.*$)/gim, '<h2 style="margin-top:25px; font-weight:bold;">$1</h2>')
+    .replace(/\*\*(.*)\*\*/gim, '<strong style="font-weight:bold;">$1</strong>')
+    .replace(/\n/g, '<br />');
+
+  return (
+    <article style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', fontFamily: 'sans-serif', lineHeight: '1.8', color: '#333' }}>
+      <h1 style={{ fontSize: '2.2rem', marginBottom: '20px', color: '#000' }}>{data.title}</h1>
+      
+      {data.image && (
+        <img 
+          src={data.image} 
+          alt={data.imageAlt || data.title} 
+          style={{ width: '100%', borderRadius: '15px', marginBottom: '25px' }} 
+        />
+      )}
+      
+      <div 
+        style={{ fontSize: '1.2rem' }}
+        dangerouslySetInnerHTML={{ __html: formattedContent }} 
+      />
+
+      <hr style={{ margin: '40px 0', borderColor: '#eee' }} />
+      <p style={{ fontSize: '0.85rem', color: '#777', textAlign: 'center', fontStyle: 'italic' }}>
+        Disclosure: This article may contain affiliate links. We may earn a commission from qualifying purchases at no extra cost to you. 
+        Read our full <a href="/terms" style={{ color: '#2563eb', textDecoration: 'underline' }}>Terms of Service</a> for more details.
+      </p>
+    </article>
+  );
 }
