@@ -1,11 +1,15 @@
-// app/blog/[slug]/page.js
+import fs from 'fs';
+import path from 'path';
 
-// وظيفة لجلب البيانات من الرابط العام
+// وظيفة لجلب البيانات محلياً (أضمن وأسرع)
 async function getPostData(slug) {
   try {
-    const res = await fetch(`https://www.9smart.buzz/posts/${slug}.json`, { cache: 'no-store' });
-    if (!res.ok) return null;
-    return await res.json();
+    // التأكد من المسار الصحيح للملفات
+    const filePath = path.join(process.cwd(), 'public', 'posts', `${slug}.json`);
+    if (!fs.existsSync(filePath)) return null;
+    
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(fileContents);
   } catch (error) {
     return null;
   }
@@ -18,10 +22,10 @@ export async function generateMetadata({ params }) {
   if (!data) return { title: "Page Not Found" };
 
   return {
-    title: data.title, // عنوان فريد
-    description: data.description, // وصف دقيق
+    title: data.title,
+    description: data.description,
     alternates: {
-      canonical: data.canonical, // ربط الـ canonical لمنع تكرار المحتوى
+      canonical: data.canonical,
     },
     openGraph: {
       title: data.title,
@@ -39,8 +43,7 @@ export default async function BlogPost({ params }) {
     return <h1 style={{ textAlign: 'center', marginTop: '50px' }}>Article not found</h1>;
   }
 
-  // معالجة المحتوى لتحويله إلى HTML
-  const content = data.content || "";
+  const content = data.content || data.description || "";
   const formattedContent = content
     .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/gim, '<a href="$2" style="color:#2563eb; text-decoration:underline; font-weight:bold;" target="_blank" rel="nofollow">$1</a>')
     .replace(/^### (.*$)/gim, '<h3 style="margin-top:20px; font-weight:bold;">$1</h3>')
