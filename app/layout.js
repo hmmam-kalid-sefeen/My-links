@@ -1,19 +1,16 @@
-// app/layout.js
-import './globals.css'; // بما أن الملف داخل app، هذا المسار صحيح
+import './globals.css'; 
 import Navbar from '../comps/navbar'; 
 import Footer from '../comps/footer';
-import AdBanner from '../comps/AdBanner'; // استدعاء مكون الإعلان
+// اترك سطر الاستيراد معلقاً هكذا
+// import AdBanner from '../comps/AdBanner'; 
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
         <Navbar />
-        {/* مكون الإعلان هنا ليعمل في كل الصفحات */}
-     // بدلاً من حذف الكود، أضف هذا الشرط
-
-<AdBanner />
-
+        {/* تعليق المكون يضمن أنه لن يتم استدعاؤه في الصفحة */}
+        {/* <AdBanner /> */}
         <main>
           {children}
         </main>
