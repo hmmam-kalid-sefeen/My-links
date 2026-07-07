@@ -7,10 +7,7 @@ import AdBanner from '../comps/AdBanner';
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <Navbar />
-
-        //* <AdBanner /> */}
+      //  {/* <AdBanner /> */}
           <AdBanner /> 
         <main>
           {children}
