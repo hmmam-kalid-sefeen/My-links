@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         {/* مكون الإعلان هنا ليعمل في كل الصفحات */}
      // بدلاً من حذف الكود، أضف هذا الشرط
-//{false && <AdBanner />}
+
 <AdBanner />
 
         <main>
