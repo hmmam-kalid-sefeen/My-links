@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
       <body>
         <Navbar />
         {/* مكون الإعلان هنا ليعمل في كل الصفحات */}
-        <AdBanner /> 
+    //    <AdBanner /> 
         <main>
           {children}
         </main>
