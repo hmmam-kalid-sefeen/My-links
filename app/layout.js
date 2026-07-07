@@ -9,8 +9,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Navbar />
-        {/* تعليق المكون يضمن أنه لن يتم استدعاؤه في الصفحة */}
-    //   ddd {/* <AdBanner /> */}
+
+        //* <AdBanner /> */}
           <AdBanner /> 
         <main>
           {children}
