@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://www.9smart.buzz/sitemap.xml
