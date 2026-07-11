@@ -3,86 +3,51 @@ import path from 'path';
 
 async function getPostData(slug) {
   const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
-  
-  if (!fs.existsSync(filePath)) {
-    return null;
-  }
-  
-  try {
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    return JSON.parse(fileContents);
-  } catch (error) {
-    console.error("Error parsing JSON:", error);
-    return null;
-  }
+  if (!fs.existsSync(filePath)) return null;
+  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
 export async function generateMetadata({ params }) {
-  const { slug } = await params;
-  const data = await getPostData(slug);
-  
+  const data = await getPostData((await params).slug);
   if (!data) return { title: "Article Not Found" };
-
   return {
     title: data.title,
-    description: data.description,
-    alternates: { canonical: data.canonical },
-    openGraph: {
-      title: data.title,
-      description: data.description,
-      images: [data.image],
-    }
+    description: data.description?.substring(0, 160), // ضبط الطول ليكون مثالي
+    openGraph: { title: data.title, description: data.description, images: [data.image] }
   };
 }
 
 export default async function BlogPost({ params }) {
-  const { slug } = await params;
-  const data = await getPostData(slug);
+  const data = await getPostData((await params).slug);
 
-  if (!data) {
-    return (
-      <div style={{ textAlign: 'center', marginTop: '50px' }}>
-        <h1>Article not found</h1>
-      </div>
-    );
-  }
+  if (!data) return <div>Article not found</div>;
 
-  // تحويل المحتوى إلى HTML منظم باستخدام الفقرات <p>
   const content = data.content || "";
-  const htmlContent = content
-    .split('\n\n') // تقسيم النص إلى فقرات بناءً على السطر الفارغ
-    .map((para) => {
-      // معالجة العناوين والروابط والتنسيق داخل كل فقرة
-      let processed = para
-        .replace(/^## (.*$)/gim, '<h2 style="margin-top:25px; font-weight:bold;">$1</h2>')
-        .replace(/^### (.*$)/gim, '<h3 style="margin-top:20px; font-weight:bold;">$1</h3>')
-        .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/gim, '<a href="$2" style="color:#2563eb; text-decoration:underline;" target="_blank" rel="nofollow">$1</a>')
-        .replace(/\*\*(.*)\*\*/gim, '<strong style="font-weight:bold;">$1</strong>');
-
-      // إذا كانت الفقرة تبدأ بوسم H2 أو H3 لا نضعها داخل <p> لتجنب تداخل الوسوم
-      if (processed.startsWith('<h')) return processed;
-      return `<p style="margin-bottom: 20px; line-height: 1.8;">${processed}</p>`;
-    })
-    .join('');
+  const htmlContent = content.split('\n\n').map(para => {
+    let processed = para
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/gim, '<a href="$2" target="_blank" rel="nofollow">$1</a>')
+      .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>');
+    return `<p style="margin-bottom: 20px; line-height: 1.8;">${processed}</p>`;
+  }).join('');
 
   return (
-    <article style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', fontFamily: 'sans-serif' }}>
+    <article style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
       <h1>{data.title}</h1>
-      {data.image && (
-        <img 
-          src={data.image} 
-          alt={data.imageAlt || data.title} 
-          style={{ width: '100%', borderRadius: '15px', marginBottom: '20px' }} 
-        />
-      )}
       
-      {/* عرض المحتوى المعالج */}
+      {/* إضافة المصداقية (تاريخ النشر واسم المؤلف) */}
+      <div style={{ color: '#666', marginBottom: '20px', fontSize: '0.9rem' }}>
+        <span>Published: {data.date || 'July 2026'}</span> | <span>By: Hammam Kalid</span>
+      </div>
+
+      {data.image && <img src={data.image} alt={data.imageAlt} style={{ width: '100%', borderRadius: '15px' }} />}
+      
       <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
 
-      <hr style={{ margin: '40px 0' }} />
-      <p style={{ fontSize: '0.8rem', color: '#777', textAlign: 'center' }}>
-        Disclosure: This article contains affiliate links. Read our <a href="/terms">Terms of Service</a>.
-      </p>
+      {/* إضافة قسم المؤلف في نهاية المقالة */}
+      <div style={{ marginTop: '50px', padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '10px' }}>
+        <h3>About the Author</h3>
+        <p>Hammam Kalid - An AI specialist and tech analyst dedicated to exploring the future of innovation.</p>
+      </div>
     </article>
   );
 }
