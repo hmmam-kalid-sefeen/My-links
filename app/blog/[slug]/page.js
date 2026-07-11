@@ -2,11 +2,9 @@ import fs from 'fs';
 import path from 'path';
 
 async function getPostData(slug) {
-  // المسار الصحيح للمجلد في الجذر (Root/posts)
   const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
   
   if (!fs.existsSync(filePath)) {
-    console.error(`File not found at: ${filePath}`); // هذا سيظهر في Vercel Logs
     return null;
   }
   
@@ -45,25 +43,41 @@ export default async function BlogPost({ params }) {
     return (
       <div style={{ textAlign: 'center', marginTop: '50px' }}>
         <h1>Article not found</h1>
-        <p>الرجاء التأكد من أن ملف {slug}.json موجود في مجلد posts في جذر المشروع.</p>
       </div>
     );
   }
 
-  const content = data.content || data.description || "";
-  const formattedContent = content
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/gim, '<a href="$2" style="color:#2563eb; text-decoration:underline; font-weight:bold;" target="_blank" rel="nofollow">$1</a>')
-    .replace(/^### (.*$)/gim, '<h3 style="margin-top:20px; font-weight:bold;">$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2 style="margin-top:25px; font-weight:bold;">$1</h2>')
-    .replace(/\*\*(.*)\*\*/gim, '<strong style="font-weight:bold;">$1</strong>')
-    .replace(/\n/g, '<br />');
+  // تحويل المحتوى إلى HTML منظم باستخدام الفقرات <p>
+  const content = data.content || "";
+  const htmlContent = content
+    .split('\n\n') // تقسيم النص إلى فقرات بناءً على السطر الفارغ
+    .map((para) => {
+      // معالجة العناوين والروابط والتنسيق داخل كل فقرة
+      let processed = para
+        .replace(/^## (.*$)/gim, '<h2 style="margin-top:25px; font-weight:bold;">$1</h2>')
+        .replace(/^### (.*$)/gim, '<h3 style="margin-top:20px; font-weight:bold;">$1</h3>')
+        .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/gim, '<a href="$2" style="color:#2563eb; text-decoration:underline;" target="_blank" rel="nofollow">$1</a>')
+        .replace(/\*\*(.*)\*\*/gim, '<strong style="font-weight:bold;">$1</strong>');
+
+      // إذا كانت الفقرة تبدأ بوسم H2 أو H3 لا نضعها داخل <p> لتجنب تداخل الوسوم
+      if (processed.startsWith('<h')) return processed;
+      return `<p style="margin-bottom: 20px; line-height: 1.8;">${processed}</p>`;
+    })
+    .join('');
 
   return (
-    <article style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', fontFamily: 'sans-serif', lineHeight: '1.8' }}>
+    <article style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', fontFamily: 'sans-serif' }}>
       <h1>{data.title}</h1>
-      {data.image && <img src={data.image} alt={data.imageAlt || data.title} style={{ width: '100%', borderRadius: '15px' }} />}
+      {data.image && (
+        <img 
+          src={data.image} 
+          alt={data.imageAlt || data.title} 
+          style={{ width: '100%', borderRadius: '15px', marginBottom: '20px' }} 
+        />
+      )}
       
-      <div dangerouslySetInnerHTML={{ __html: formattedContent }} />
+      {/* عرض المحتوى المعالج */}
+      <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
 
       <hr style={{ margin: '40px 0' }} />
       <p style={{ fontSize: '0.8rem', color: '#777', textAlign: 'center' }}>
