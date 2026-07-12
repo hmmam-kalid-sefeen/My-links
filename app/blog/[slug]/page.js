@@ -1,92 +1,60 @@
 import fs from 'fs';
 import path from 'path';
 
-// 1. دالة جلب البيانات من ملفات الـ JSON
-async function getPostData(slug) {
-  try {
-    const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
-    if (!fs.existsSync(filePath)) return null;
-    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
-  } catch (error) {
-    return null;
-  }
-}
+// ... دالة getPostData و renderTextWithLinks كما هي ...
 
-// 2. دالة مساعدة لتحويل الروابط [text](url) إلى وسوم <a>
-const renderTextWithLinks = (text) => {
-  const parts = text.split(/(\[.*?\]\(.*?\))/g);
-  return parts.map((part, i) => {
-    const match = part.match(/\[(.*?)\]\((.*?)\)/);
-    if (match) {
-      return (
-        <a 
-          key={i} 
-          href={match[2]} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          style={{ color: '#2563eb', textDecoration: 'underline' }}
-        >
-          {match[1]}
-        </a>
-      );
-    }
-    return part;
-  });
-};
-
-// 3. المكون الرئيسي للصفحة
 export default async function BlogPost({ params }) {
   const { slug } = await params;
   const data = await getPostData(slug);
-
-  if (!data) return <div style={{ padding: '50px', textAlign: 'center' }}>Article not found</div>;
+  if (!data) return <div>Article not found</div>;
 
   const lines = (data.content || "").split('\n');
 
   return (
-    <article style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', lineHeight: '1.8' }}>
+    <article style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
       <h1>{data.title}</h1>
-      {data.image && (
-        <img 
-          src={data.image} 
-          alt={data.imageAlt || data.title} 
-          style={{ width: '100%', borderRadius: '15px', marginTop: '20px' }} 
-        />
-      )}
-      
-      <div style={{ marginTop: '30px' }}>
-        {lines.map((line, index) => {
-          const trimmedLine = line.trim();
-          
-          // - معالجة الجداول (أي سطر يبدأ بـ |)
-          if (trimmedLine.startsWith('|')) {
-            const cells = trimmedLine.split('|').filter(c => c.trim() !== '');
-            return (
-              <table key={index}>
-                <tbody>
-                  <tr>
-                    {cells.map((cell, i) => (
-                      <td key={i}>{renderTextWithLinks(cell.trim())}</td>
-                    ))}
-                  </tr>
-                </tbody>
-              </table>
-            );
-          }
+      <div style={{ marginTop: '20px' }}>
+        {(() => {
+          let elements = [];
+          let tableRows = [];
 
-          // - معالجة العناوين (H2, H3)
-          if (trimmedLine.startsWith('### ')) {
-            return <h3 key={index} style={{ marginTop: '25px' }}>{renderTextWithLinks(trimmedLine.replace('### ', ''))}</h3>;
-          }
-          if (trimmedLine.startsWith('## ')) {
-            return <h2 key={index} style={{ marginTop: '35px' }}>{renderTextWithLinks(trimmedLine.replace('## ', ''))}</h2>;
-          }
+          for (let i = 0; i < lines.length; i++) {
+            let line = lines[i].trim();
 
-          // - معالجة الفقرات العادية
-          return trimmedLine ? (
-            <p key={index} style={{ marginBottom: '15px' }}>{renderTextWithLinks(trimmedLine)}</p>
-          ) : null;
-        })}
+            // إذا كان السطر جزءاً من جدول
+            if (line.startsWith('|')) {
+              // تجاهل سطر التنسيق (---)
+              if (!line.includes('---')) {
+                tableRows.push(line.split('|').filter(c => c.trim() !== ''));
+              }
+              // إذا كان هذا آخر سطر في الملف أو السطر التالي ليس جدولاً، اغلق الجدول
+              if (i === lines.length - 1 || !lines[i + 1].trim().startsWith('|')) {
+                elements.push(
+                  <table key={i} style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px' }}>
+                    <tbody>
+                      {tableRows.map((row, rowIndex) => (
+                        <tr key={rowIndex}>
+                          {row.map((cell, cellIndex) => (
+                            <td key={cellIndex} style={{ border: '1px solid #ccc', padding: '10px' }}>
+                              {renderTextWithLinks(cell.trim())}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                );
+                tableRows = [];
+              }
+            } else {
+              // إذا لم يكن جدولاً، اعرض النص العادي
+              if (line.startsWith('### ')) elements.push(<h3 key={i}>{renderTextWithLinks(line.replace('### ', ''))}</h3>);
+              else if (line.startsWith('## ')) elements.push(<h2 key={i}>{renderTextWithLinks(line.replace('## ', ''))}</h2>);
+              else if (line) elements.push(<p key={i}>{renderTextWithLinks(line)}</p>);
+            }
+          }
+          return elements;
+        })()}
       </div>
     </article>
   );
