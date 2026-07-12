@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
+// دالة لجلب البيانات بشكل آمن
 async function getPostData(slug) {
   try {
     const filePath = path.join(process.cwd(), 'posts', `${slug}.json`);
@@ -8,7 +9,6 @@ async function getPostData(slug) {
     const fileContents = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(fileContents);
   } catch (error) {
-    console.error("Critical error in getPostData:", error);
     return null;
   }
 }
@@ -17,28 +17,25 @@ export default async function BlogPost({ params }) {
   const { slug } = await params;
   const data = await getPostData(slug);
 
-  // حماية 1: إذا لم يوجد ملف، لا تنهار الصفحة
-  if (!data) {
-    return <div style={{ padding: '40px', textAlign: 'center' }}><h1>Article not found</h1></div>;
-  }
+  if (!data) return <div style={{ padding: '20px' }}><h1>Article not found</h1></div>;
 
-  // حماية 2: تأكد أن المحتوى نصي
-  const content = typeof data.content === 'string' ? data.content : "";
-  const paragraphs = content.split('\n\n');
+  // تقسيم المحتوى إلى فقرات (تأكد أن ملفات JSON تحتوي على \n\n)
+  const content = data.content || "";
+  const lines = content.split('\n\n');
 
   return (
-    <article style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
-      <h1>{data.title || "Untitled"}</h1>
-      {data.image && <img src={data.image} alt={data.title} style={{ width: '100%' }} />}
+    <article style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', lineHeight: '1.8' }}>
+      <h1>{data.title}</h1>
+      {data.image && <img src={data.image} alt={data.title} style={{ width: '100%', borderRadius: '15px' }} />}
       
-      <div style={{ marginTop: '20px', lineHeight: '1.8' }}>
-        {paragraphs.map((para, index) => {
-          // عرض الفقرات كعناصر نصية آمنة (بدون dangerouslySetInnerHTML لمنع انهيار الصفحة)
-          return (
-            <p key={index} style={{ marginBottom: '20px' }}>
-              {para}
-            </p>
-          );
+      <div style={{ marginTop: '20px' }}>
+        {lines.map((line, index) => {
+          // تنسيق العناوين (يحل مشكلة ظهور ### كنص)
+          if (line.startsWith('### ')) return <h3 key={index}>{line.replace('### ', '')}</h3>;
+          if (line.startsWith('## ')) return <h2 key={index}>{line.replace('## ', '')}</h2>;
+          
+          // عرض الفقرة العادية
+          return <p key={index} style={{ marginBottom: '15px' }}>{line}</p>;
         })}
       </div>
     </article>
