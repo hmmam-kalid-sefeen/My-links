@@ -1,0 +1,34 @@
+{
+  "title": "Health Optimization Tiers",
+  "category": "biohacking",
+  "slug": "health-optimization-tiers",
+  "author": "BioTech Team",
+  "date": "2026-07-12",
+  "tags": ["health", "performance", "biohacking"],
+  "content": "<table dir='rtl' border='1' style='width:100%; text-align:center; border-collapse:collapse;'>\
+  <thead>\
+    <tr>\
+      <th>Tier</th>\
+      <th>Focus</th>\
+      <th>Key Components</th>\
+    </tr>\
+  </thead>\
+  <tbody>\
+    <tr>\
+      <td>The Starter</td>\
+      <td>Basics & Awareness</td>\
+      <td>Smart Ring + Sleep App</td>\
+    </tr>\
+    <tr>\
+      <td>The Optimizer</td>\
+      <td>Energy & Performance</td>\
+      <td>CGM + Red Light Therapy + HRV Training</td>\
+    </tr>\
+    <tr>\
+      <td>The Elite</td>\
+      <td>Longevity & Neuro</td>\
+      <td>tAVNS + PEMF + DNA Methylation Testing</td>\
+    </tr>\
+  </tbody>\
+</table>"
+}
