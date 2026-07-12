@@ -1,4 +1,6 @@
+/* --- أساسيات الموقع --- */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -6,20 +8,56 @@
 }
 
 body {
-  background-color: #ffffff; /* لون خلفية خفيف ليعطي تباين */
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background-color: #f8fafc;
+  color: #334155;
 }
 
-body { font-family: 'Poppins', sans-serif; margin: 0; background-color: #f8fafc; }
-h1, h2, h3 { color: #0f172a; }
+h1, h2, h3 {
+  color: #0f172a;
+}
 
+/* --- تنسيق الجداول (الذي طلبته) --- */
+article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 16px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden; /* ضروري لجعل الزوايا دائرية */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
 
+article table th, 
+article table td {
+  padding: 14px 16px;
+  border: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+article table th {
+  background-color: #f1f5f9;
+  color: #1e293b;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+article table tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+/* --- باقي عناصر الموقع --- */
 footer {
   background: #0f172a;
   color: #94a3b8;
   text-align: center;
   padding: 40px;
+  margin-top: 50px;
 }
-/* هذا يجعل أي بطاقة (card) في الموقع ذات زوايا دائرية ناعمة */
+
 .card, .hero {
   border-radius: 25px !important; 
 }
@@ -35,6 +73,13 @@ html {
   margin: 20px 0;
   border: 1px solid #e5e7eb;
 }
-.toc ul { list-style-type: decimal; padding-left: 20px; }
-.toc a { color: #2563eb; text-decoration: none; }
 
+.toc ul { 
+  list-style-type: decimal; 
+  padding-left: 20px; 
+}
+
+.toc a { 
+  color: #2563eb; 
+  text-decoration: none; 
+}
