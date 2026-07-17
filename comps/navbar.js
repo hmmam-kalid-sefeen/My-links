@@ -1,10 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Navbar() {
   const [showSearch, setShowSearch] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [allPosts, setAllPosts] = useState([]);
+
+  // جلب البيانات تلقائياً من الـ API عند تحميل الصفحة
+  useEffect(() => {
+    fetch('/api/posts')
+      .then((res) => res.json())
+      .then((data) => setAllPosts(data))
+      .catch((err) => console.error("Error fetching posts:", err));
+  }, []);
 
   return (
     <>
@@ -34,26 +44,53 @@ export default function Navbar() {
             style={{ background: 'transparent', border: 'none', color: '#ffffff', cursor: 'pointer', fontSize: '24px' }}
             aria-label="Search"
           >
-            {/* أيقونة البحث SVG مباشرة */}
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
+            🔍
           </button>
         </div>
       </nav>
 
+      {/* مربع البحث التلقائي */}
       {showSearch && (
         <div style={{ 
-          position: 'absolute', top: '70px', left: 0, width: '100%', padding: '15px', 
-          background: '#1e3a8a', display: 'flex', justifyContent: 'center', boxSizing: 'border-box' 
+          position: 'absolute', 
+          top: '70px', 
+          left: 0, 
+          width: '100%', 
+          padding: '15px', 
+          background: '#1e3a8a', 
+          display: 'flex', 
+          flexDirection: 'column',
+          alignItems: 'center',
+          boxSizing: 'border-box',
+          zIndex: 1000
         }}>
           <input 
             type="text" 
-            placeholder="البحث في الموقع..." 
+            placeholder="ابحث في المقالات..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             style={{ padding: '10px', width: '90%', maxWidth: '500px', borderRadius: '5px', border: 'none' }} 
             autoFocus
           />
+          
+          {/* عرض نتائج البحث */}
+          {searchTerm && (
+            <div style={{ marginTop: '10px', width: '90%', maxWidth: '500px' }}>
+              {allPosts
+                .filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase()))
+                .map((p, i) => (
+                  <Link 
+                    key={i} 
+                    href={p.url} 
+                    onClick={() => setShowSearch(false)}
+                    style={{ display: 'block', padding: '10px', color: '#fff', borderBottom: '1px solid #ffffff33', textDecoration: 'none' }}
+                  >
+                    {p.title}
+                  </Link>
+                ))
+              }
+            </div>
+          )}
         </div>
       )}
     </>
