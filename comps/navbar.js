@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FaSearch } from 'react-icons/fa'; // تأكد من تثبيت المكتبة عبر npm install react-icons
+import { FaSearch } from 'react-icons/fa';
 
 export default function Navbar() {
   return (
@@ -24,19 +24,18 @@ export default function Navbar() {
         />
       </Link>
 
-      {/* الروابط مع أيقونة البحث */}
+      {/* الروابط مع أيقونة البحث كـ Link */}
       <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
         <Link href="/" style={{ color: '#ffffff', textDecoration: 'none' }}>Home</Link>
         <Link href="/about" style={{ color: '#ffffff', textDecoration: 'none' }}>About</Link>
         <Link href="/contact" style={{ color: '#ffffff', textDecoration: 'none' }}>Contact</Link>
         
-        {/* زر البحث */}
-        <button 
+        {/* أيقونة البحث تربط بصفحة search */}
+        <Link 
+          href="/search" 
           style={{ 
-            background: 'transparent', 
-            border: 'none', 
             color: '#ffffff', 
-            cursor: 'pointer', 
+            textDecoration: 'none', 
             fontSize: '18px',
             display: 'flex',
             alignItems: 'center'
@@ -44,7 +43,7 @@ export default function Navbar() {
           aria-label="Search"
         >
           <FaSearch />
-        </button>
+        </Link>
       </div>
     </nav>
   );
