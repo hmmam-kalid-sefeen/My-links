@@ -10,7 +10,7 @@ export async function GET() {
     const filePath = path.join(postsDirectory, filename);
     const fileContent = fs.readFileSync(filePath, 'utf8');
     const data = JSON.parse(fileContent); // نفترض أن ملفاتك بصيغة JSON
-    return { title: data.title, url: `/posts/${filename.replace('.json', '')}` };
+    return { title: data.title, url: `/blog/${filename.replace('.json', '')}` };
   });
 
   return NextResponse.json(posts);
