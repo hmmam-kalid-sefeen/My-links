@@ -1,45 +1,50 @@
 export default function Hero() {
   return (
     <section style={{ 
-      textAlign: 'center', 
-      padding: '60px 20px', 
-      background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)', 
-      color: '#ffffff',
-      borderRadius: '20px',
-      margin: '20px',
-      boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
+      position: 'relative',
+      padding: '60px 20px',
+      background: '#f8f9fa', // خلفية فاتحة
+      overflow: 'hidden',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap'
     }}>
+      {/* الموجة الزرقاء في الأعلى */}
+      <div style={{
+        position: 'absolute', top: 0, left: 0, width: '100%', height: '150px',
+        background: '#3b82f6',
+        clipPath: 'ellipse(100% 100% at 50% 0%)'
+      }}></div>
+
+      {/* النص */}
       <h1 style={{ 
-        margin: '0 0 15px 0', 
-        fontSize: '2rem', 
-        fontWeight: 'bold', 
-        color: '#ffffff' // اللون الأبيض الذي طلبته
+        flex: '1', minWidth: '280px', fontSize: '2.5rem', 
+        color: '#1e3a8a', fontWeight: '800', zIndex: 1,
+        textTransform: 'uppercase', lineHeight: '1.2'
       }}>
-        Discover the Best Tech Tools & Software
+        DISCOVER THE BEST TECH TOOLS & SOFTWARE
       </h1>
-      
-      <p style={{ 
-        fontSize: '1.1rem', 
-        marginBottom: '30px', 
-        opacity: '0.9',
-        lineHeight: '1.5'
+
+      {/* الصورة الدائرية */}
+      <div style={{ 
+        flex: '1', minWidth: '280px', display: 'flex', 
+        justifyContent: 'center', zIndex: 1, marginTop: '20px'
       }}>
-        Stay ahead with our curated list of the latest tech tools and software solutions designed to boost your productivity.
-      </p>
-      
-      <a href="#categories" style={{ 
-        padding: '12px 35px', 
-        background: '#ffffff', 
-        color: '#1e3a8a', 
-        border: 'none', 
-        borderRadius: '30px', 
-        fontSize: '1rem', 
-        fontWeight: 'bold', 
-        cursor: 'pointer',
-        transition: 'transform 0.2s'
-      }}>
-        Explore Now
-      </a>
+        <div style={{ 
+          width: '250px', height: '250px', 
+          borderRadius: '50%', // جعلها دائرية
+          border: '5px solid #a3bffa', // إطار خفيف
+          overflow: 'hidden',
+          boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+        }}>
+          <img 
+            src="/hero.PNG" // ضع مسار صورتك هنا
+            alt="Tech Tool"
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        </div>
+      </div>
     </section>
   );
 }
