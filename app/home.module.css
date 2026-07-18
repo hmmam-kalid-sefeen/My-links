@@ -1,11 +1,11 @@
 /* الحاوية الرئيسية للموقع */
-
 .container {
-  max-width: 800px; /* اجعلها 100% بدلاً من 1200px */
-  margin: 0;
-  padding: 0 20px; /* احتفظ بـ padding بسيط فقط لكي لا يلتصق النص بحواف الشاشة */
+  width: 100%;       /* اجعل العرض 100% ليملأ الشاشة */
+  max-width: 100%;   /* إلغاء القيد بـ 800px */
+  margin: 0;         /* حذف أي هوامش جانبية */
+  padding: 0 20px;   /* هامش بسيط جداً من الجوانب لكي لا يلتصق المحتوى بالحواف */
+  box-sizing: border-box;
 }
-
 
 /* تنسيق الهيرو */
 .hero { 
@@ -13,16 +13,18 @@
   color: white; 
   padding: 80px 20px; 
   text-align: center; 
-  border-radius: 20px;
+  border-radius: 0; /* اجعلها 0 إذا كنت تريدها تمتد من الحافة للحافة */
   margin-bottom: 40px;
+  width: 100%;
 }
 
-/* تنسيق الشبكة (للأقسام مثل التصنيفات والمقالات) */
+/* تنسيق الشبكة */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 30px;
-  margin: 40px auto;
+  margin: 40px 0; /* حذف auto */
+  width: 100%;
 }
 
 /* خاص بـ Featured Categories */
@@ -31,6 +33,7 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 25px;
   margin-top: 20px;
+  width: 100%;
 }
 
 /* تنسيق البطاقات (Cards) */
@@ -49,14 +52,12 @@
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
 }
 
-
 .card img {
   display: block;
   width: 100%;
   height: 200px;
-  object-fit: contain; /* بدلاً من cover */
-  background-color: #f8f9fa; /* لون خلفية يملأ الفراغ إذا وجد */
+  object-fit: contain; 
+  background-color: #f8f9fa;
   margin: 0 auto 15px auto;
   border-radius: 12px;
 }
-
