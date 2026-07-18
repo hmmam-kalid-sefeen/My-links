@@ -27,7 +27,7 @@ export default function Hero() {
         Stay ahead with our curated list of the latest tech tools and software solutions designed to boost your productivity.
       </p>
       
-      <button style={{ 
+      <button href="#categories" style={{ 
         padding: '12px 35px', 
         background: '#ffffff', 
         color: '#1e3a8a', 
