@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-   
+
       {/* الموجة الزرقاء في الأعلى */}
       <div style={{
         position: 'absolute', top: 0, left: 0, width: '100%', height: '150px',
@@ -36,6 +36,6 @@ export default function Hero() {
           />
         </div>
       </div>
-    </section>
+    
   );
 }
