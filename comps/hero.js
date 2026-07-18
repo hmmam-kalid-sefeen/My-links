@@ -1,6 +1,15 @@
 export default function Hero() {
   return (
-
+    <section style={{ 
+      position: 'relative',
+      padding: '60px 20px',
+      background: '#f8f9fa', // خلفية فاتحة
+      overflow: 'hidden',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap'
+    }}>
       {/* الموجة الزرقاء في الأعلى */}
       <div style={{
         position: 'absolute', top: 0, left: 0, width: '100%', height: '150px',
@@ -36,6 +45,6 @@ export default function Hero() {
           />
         </div>
       </div>
-    
+          </section>
   );
 }
