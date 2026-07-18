@@ -1,9 +1,11 @@
 /* الحاوية الرئيسية للموقع */
+
 .container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 0 20px;
+  max-width: 100%; /* اجعلها 100% بدلاً من 1200px */
+  margin: 0;
+  padding: 0 20px; /* احتفظ بـ padding بسيط فقط لكي لا يلتصق النص بحواف الشاشة */
 }
+
 
 /* تنسيق الهيرو */
 .hero { 
