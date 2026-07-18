@@ -50,14 +50,17 @@ export default async function Home() {
       </div>
 
       {/* قسم التصنيفات */}
-<section id="categories">
-        <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Featured Categories</h2>
-        <div className={styles.categoriesGrid}>
-          <CategoryCard title="Top Gadgets" image="/Gadget.jpg" />
-          <CategoryCard title="Essential Software" image="/Software.jpg" />
-          <CategoryCard title="Technology News" image="/TechnologyNews.jpg" />
-        </div>
-      </section>
+{/* قسم التصنيفات المحدث */}
+<section id="categories" style={{ padding: '40px 20px', maxWidth: '1200px', margin: 'auto' }}>
+  <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>Featured Categories</h2>
+  
+  <div className={styles.categoriesGrid}>
+    <CategoryCard title="Top Gadgets" image="/Gadget.jpg" />
+    <CategoryCard title="Essential Software" image="/Software.jpg" />
+    <CategoryCard title="Technology News" image="/TechnologyNews.jpg" />
+  </div>
+</section>
+
         
       {/* قسم المقالات الأخيرة - تم الترتيب والقص هنا */}
       <section>
