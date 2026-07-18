@@ -50,7 +50,7 @@ export default async function Home() {
       </div>
 
       {/* قسم التصنيفات */}
-      <section>
+<section id="categories">
         <h2 style={{ textAlign: 'center', marginTop: '40px' }}>Featured Categories</h2>
         <div className={styles.categoriesGrid}>
           <CategoryCard title="Top Gadgets" image="/Gadget.jpg" />
