@@ -11,11 +11,7 @@ export default function Hero() {
       flexWrap: 'wrap'
     }}>
       {/* الموجة الزرقاء في الأعلى */}
-      <div style={{
-        position: 'absolute', top: 0, left: 0, width: '100%', height: '150px',
-        background: '#3b82f6',
-        clipPath: 'ellipse(100% 100% at 50% 0%)'
-      }}></div>
+      
 
       {/* النص */}
       <h1 style={{ 
@@ -39,7 +35,7 @@ export default function Hero() {
           boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
         }}>
           <img 
-            src="/hero.PNG" // ضع مسار صورتك هنا
+            src="/hero.jpg" // ضع مسار صورتك هنا
             alt="Tech Tool"
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
