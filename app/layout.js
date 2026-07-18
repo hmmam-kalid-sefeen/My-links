@@ -42,6 +42,9 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-W6T1YTG6Z1');
           `}
         </Script>
+                  {/* عرض سطح المكتب */}
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
       </head>
       <body>
         <Navbar />
