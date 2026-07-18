@@ -24,7 +24,8 @@ export default async function BlogPost({ params }) {
   if (!data) return <div style={{ padding: '40px', textAlign: 'center' }}>Article not found</div>;
 
   return (
-    <article style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', lineHeight: '1.8' }}>
+    // تم تعديل الستايل ليكون width: 100% ليملأ الشاشة بالكامل بدون فراغات
+    <article style={{ width: '100%', padding: '20px', lineHeight: '1.8' }}>
       <h1>{data.title}</h1>
       
       {data.image && (
