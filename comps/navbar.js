@@ -8,13 +8,16 @@ export default function Navbar() {
   const [searchTerm, setSearchTerm] = useState('');
   const [allPosts, setAllPosts] = useState([]);
 
-  // جلب البيانات تلقائياً من الـ API عند تحميل الصفحة
+  // جلب البيانات من الـ API
   useEffect(() => {
     fetch('/api/posts')
       .then((res) => res.json())
       .then((data) => setAllPosts(data))
       .catch((err) => console.error("Error fetching posts:", err));
   }, []);
+
+  // دالة لإغلاق البحث
+  const closeSearch = () => setShowSearch(false);
 
   return (
     <>
@@ -30,14 +33,16 @@ export default function Navbar() {
         boxSizing: 'border-box'
       }}>
         
-        <Link href="/">
+        {/* اللوجو مع إغلاق البحث */}
+        <Link href="/" onClick={closeSearch}>
           <img src="/Logo.png" alt="Logo" style={{ height: '75px', width: 'auto', display: 'block' }} />
         </Link>
 
+        {/* الروابط مع إغلاق البحث */}
         <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-          <Link href="/" style={{ color: '#ffffff', textDecoration: 'none' }}>Home</Link>
-          <Link href="/about" style={{ color: '#ffffff', textDecoration: 'none' }}>About</Link>
-          <Link href="/contact" style={{ color: '#ffffff', textDecoration: 'none' }}>Contact</Link>
+          <Link href="/" onClick={closeSearch} style={{ color: '#ffffff', textDecoration: 'none' }}>Home</Link>
+          <Link href="/about" onClick={closeSearch} style={{ color: '#ffffff', textDecoration: 'none' }}>About</Link>
+          <Link href="/contact" onClick={closeSearch} style={{ color: '#ffffff', textDecoration: 'none' }}>Contact</Link>
           
           <button 
             onClick={() => setShowSearch(!showSearch)}
@@ -49,31 +54,22 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* مربع البحث التلقائي */}
+      {/* مربع البحث */}
       {showSearch && (
         <div style={{ 
-          position: 'absolute', 
-          top: '70px', 
-          left: 0, 
-          width: '100%', 
-          padding: '15px', 
-          background: '#1e3a8a', 
-          display: 'flex', 
-          flexDirection: 'column',
-          alignItems: 'center',
-          boxSizing: 'border-box',
-          zIndex: 1000
+          position: 'absolute', top: '70px', left: 0, width: '100%', padding: '15px', 
+          background: '#1e3a8a', display: 'flex', flexDirection: 'column', alignItems: 'center', 
+          boxSizing: 'border-box', zIndex: 1000
         }}>
           <input 
             type="text" 
-            placeholder="ابحث في المقالات..." 
+            placeholder="search in our site..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{ padding: '10px', width: '90%', maxWidth: '500px', borderRadius: '5px', border: 'none' }} 
             autoFocus
           />
           
-          {/* عرض نتائج البحث */}
           {searchTerm && (
             <div style={{ marginTop: '10px', width: '90%', maxWidth: '500px' }}>
               {allPosts
@@ -82,7 +78,7 @@ export default function Navbar() {
                   <Link 
                     key={i} 
                     href={p.url} 
-                    onClick={() => setShowSearch(false)}
+                    onClick={closeSearch}
                     style={{ display: 'block', padding: '10px', color: '#fff', borderBottom: '1px solid #ffffff33', textDecoration: 'none' }}
                   >
                     {p.title}
