@@ -23,7 +23,7 @@ export default function Hero() {
         color: '#1e3a8a', fontWeight: '800', zIndex: 1,
         textTransform: 'uppercase', lineHeight: '1.2'
       }}>
-        DISCOVER THE BEST TECH TOOLS & SOFTWARE
+Stay ahead with our expert tech guides and reviews
       </h1>
 
       {/* الصورة الدائرية */}
