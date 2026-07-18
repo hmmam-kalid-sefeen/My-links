@@ -39,7 +39,7 @@ export default function Hero() {
             boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
           }}>
             <img 
-              src="/your-image.png" 
+              src="/hero.jpg" 
               alt="Tech"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
