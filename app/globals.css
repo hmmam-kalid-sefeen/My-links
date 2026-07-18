@@ -10,15 +10,18 @@
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
+  padding: 0;
   background-color: #f8fafc;
   color: #334155;
+  width: 100%;
+  overflow-x: hidden; /* هذا يمنع أي فراغ جانبي من الظهور */
 }
 
 h1, h2, h3 {
   color: #0f172a;
 }
 
-/* --- تنسيق الجداول (الذي طلبته) --- */
+/* --- تنسيق الجداول --- */
 article table {
   width: 100%;
   border-collapse: collapse;
@@ -27,7 +30,7 @@ article table {
   background-color: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  overflow: hidden; /* ضروري لجعل الزوايا دائرية */
+  overflow: hidden;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
@@ -64,6 +67,8 @@ footer {
 
 html {
   scroll-behavior: smooth;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .toc {
