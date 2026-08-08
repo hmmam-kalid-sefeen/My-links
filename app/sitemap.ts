@@ -6,21 +6,34 @@ import path from 'path'
 const baseUrl = 'https://www.9smart.buzz'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const staticPages: MetadataRoute.Sitemap = [
+    { url: baseUrl, lastModified: new Date(), priority: 1 },
+    { url: `${baseUrl}/blog`, lastModified: new Date(), priority: 0.8 },
+  ]
+
   const postsDirectory = path.join(process.cwd(), 'posts')
-  const filenames = fs.readdirSync(postsDirectory)
+  console.log('📂 محاولة قراءة المجلد:', postsDirectory)
+
+  let filenames: string[] = []
+  try {
+    filenames = fs.readdirSync(postsDirectory)
+    console.log('✅ عدد الملفات الموجودة:', filenames.length)
+  } catch (error) {
+    console.error('❌ فشل قراءة مجلد posts:', error)
+    return staticPages
+  }
 
   const postEntries: MetadataRoute.Sitemap = []
 
   for (const filename of filenames) {
     if (!filename.endsWith('.json')) continue
-
     try {
       const filePath = path.join(postsDirectory, filename)
       const fileContent = fs.readFileSync(filePath, 'utf-8')
       const post = JSON.parse(fileContent)
 
       if (!post.slug) {
-        console.warn(`⚠️ ${filename} لا يحتوي على حقل slug — تم تخطيه`)
+        console.warn(`⚠️ ${filename} بدون slug`)
         continue
       }
 
@@ -31,14 +44,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.7,
       })
     } catch (error) {
-      console.error(`❌ فشل تحليل الملف: ${filename}`, error)
+      console.error(`❌ فشل تحليل: ${filename}`, error)
     }
   }
-
-  const staticPages: MetadataRoute.Sitemap = [
-    { url: baseUrl, lastModified: new Date(), priority: 1 },
-    { url: `${baseUrl}/blog`, lastModified: new Date(), priority: 0.8 },
-  ]
 
   return [...staticPages, ...postEntries]
 }
