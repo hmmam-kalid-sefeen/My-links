@@ -9,20 +9,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const postsDirectory = path.join(process.cwd(), 'posts')
   const filenames = fs.readdirSync(postsDirectory)
 
-  const postEntries: MetadataRoute.Sitemap = filenames
-    .filter((filename) => filename.endsWith('.json'))
-    .map((filename) => {
+  const postEntries: MetadataRoute.Sitemap = []
+
+  for (const filename of filenames) {
+    if (!filename.endsWith('.json')) continue
+
+    try {
       const filePath = path.join(postsDirectory, filename)
       const fileContent = fs.readFileSync(filePath, 'utf-8')
       const post = JSON.parse(fileContent)
 
-      return {
+      if (!post.slug) {
+        console.warn(`⚠️ ${filename} لا يحتوي على حقل slug — تم تخطيه`)
+        continue
+      }
+
+      postEntries.push({
         url: `${baseUrl}/blog/${post.slug}`,
         lastModified: post.date ? new Date(post.date) : new Date(),
         changeFrequency: 'weekly',
         priority: 0.7,
-      }
-    })
+      })
+    } catch (error) {
+      console.error(`❌ فشل تحليل الملف: ${filename}`, error)
+    }
+  }
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: new Date(), priority: 1 },
