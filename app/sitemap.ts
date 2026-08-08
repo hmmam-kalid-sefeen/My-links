@@ -1,17 +1,28 @@
+// app/sitemap.ts
 import type { MetadataRoute } from 'next'
-import { getAllPosts } from '@/lib/posts' // دالتك لجلب المقالات
+import fs from 'fs'
+import path from 'path'
 
 const baseUrl = 'https://www.9smart.buzz'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await getAllPosts()
+  const postsDirectory = path.join(process.cwd(), 'posts')
+  const filenames = fs.readdirSync(postsDirectory)
 
-  const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: post.date ? new Date(post.date) : new Date(),
-    changeFrequency: 'weekly',
-    priority: 0.7,
-  }))
+  const postEntries: MetadataRoute.Sitemap = filenames
+    .filter((filename) => filename.endsWith('.json'))
+    .map((filename) => {
+      const filePath = path.join(postsDirectory, filename)
+      const fileContent = fs.readFileSync(filePath, 'utf-8')
+      const post = JSON.parse(fileContent)
+
+      return {
+        url: `${baseUrl}/blog/${post.slug}`,
+        lastModified: post.date ? new Date(post.date) : new Date(),
+        changeFrequency: 'weekly',
+        priority: 0.7,
+      }
+    })
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: new Date(), priority: 1 },
